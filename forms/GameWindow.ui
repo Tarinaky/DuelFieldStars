@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>742</width>
-    <height>555</height>
+    <width>741</width>
+    <height>543</height>
    </rect>
   </property>
   <property name="focusPolicy">
@@ -35,9 +35,6 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="0">
-     <widget class="QWidget" name="gameViewport" native="true"/>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -45,7 +42,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>742</width>
+     <width>741</width>
      <height>18</height>
     </rect>
    </property>
@@ -53,38 +50,5 @@
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>horizontalScrollBar</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>gameViewport</receiver>
-   <slot>update()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>371</x>
-     <y>521</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>355</x>
-     <y>384</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>verticalScrollBar</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>gameViewport</receiver>
-   <slot>update()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>721</x>
-     <y>377</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>610</x>
-     <y>372</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

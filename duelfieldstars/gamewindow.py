@@ -4,6 +4,12 @@ Contains a class describing how to load GameWindow.ui
 
 from PySide import QtGui, QtUiTools, QtCore
 
+class GameViewport(QtGui.QWidget):
+    def paintEvent(self,event):
+        painter = QtGui.QPainter(self)
+        painter.fillRect(self.rect(), QtCore.Qt.red)
+        return
+
 class GameWindow(QtGui.QWidget):
     def __init__(self):
         super(GameWindow, self).__init__()
@@ -12,15 +18,12 @@ class GameWindow(QtGui.QWidget):
         loader = QtUiTools.QUiLoader()
         file_ = QtCore.QFile("forms/GameWindow.ui")
         file_.open(QtCore.QFile.ReadOnly)
-        self.widget = loader.load(file_,self)
+        self = loader.load(file_,self)
     
-        # Overload repaint for viewport.
-        def paintEvent(self,event):
-            painter = QtGui.QPainter(self)
-            painter.fillRect(self.rect(), QtGui.QBrush(QtCore.Qt.red, QtCore.Qt.Dense2Pattern) )
-            return
-        self.widget.gameViewport.paintEvent = paintEvent
-    
+        # Add viewport.
+        self.gridLayout.addWidget(GameViewport(), 0, 0)
+        
+                    
         # Show and perform initial draw.    
-        self.widget.show()
+        self.show()
         
