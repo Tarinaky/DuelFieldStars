@@ -15,15 +15,21 @@ class GameViewport(QtGui.QWidget):
         
         self.galaxy = Galaxy()
         self.galaxy.planets[(1,1)] = Planet(1,1)
-    def paintEvent(self,event):        
+    def paintEvent(self,event):    
+        # Update coordinates for the viewport.
+        self.x = self.parent.horizontalScrollBar.value()
+        self.y = self.parent.verticalScrollBar.value()
+        
+        # Colour the background black.    
         painter = QtGui.QPainter(self)
         painter.fillRect(self.rect(), QtCore.Qt.black)
         
-        for y in range (50):
-            for x in range(50):
+        # Draw planets
+        for y in range (self.y,self.y+self.height() ):
+            for x in range(self.x,self.x+self.width() ):
                 if (x,y) in self.galaxy.planets:
                     planet = self.galaxy.planets[(x,y)]
-                    rectangle = QtCore.QRectF(x*33,y*33,15,15)
+                    rectangle = QtCore.QRectF( (x-self.x)*120,(y-self.y)*120,30,30)
                     painter.fillRect(rectangle, QtCore.Qt.red)
         
         return
