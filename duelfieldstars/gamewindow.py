@@ -16,7 +16,21 @@ class GameViewport(QtGui.QWidget):
         self.galaxy = Galaxy()
         
         self.scale = 60 # How many px represent 1 pc.
+    
+    def wheelEvent(self,event):
+        (x,y) = (event.pos().x()/self.scale+self.x,event.pos().y()/self.scale+self.y)
+        if event.delta() > 0 and self.scale < 300:
+            self.scale = self.scale *2
+        if event.delta() < 0 and self.scale > 15:
+            self.scale = self.scale /2
         
+        newX = x - self.width()/2 /self.scale
+        newY = y - self.height()/2 /self.scale
+        
+        self.parent.horizontalScrollBar.setValue(newX)
+        self.parent.verticalScrollBar.setValue(newY)
+        
+        self.update()
         
     def paintEvent(self,event):    
         # Update coordinates for the viewport.
@@ -29,10 +43,10 @@ class GameViewport(QtGui.QWidget):
         
         # Draw grid
         painter.setPen(QtCore.Qt.white)
-        for y in range (0, self.height(),self.scale ):
-            painter.drawLine(0, y, self.width(), y)
-        for x in range (0, self.width(), self.scale ):
-            painter.drawLine(x, 0, x, self.height() )
+        for y in range (0, self.galaxy.height,3 ):
+            painter.drawLine(0, (y-self.y)*self.scale, self.width(), (y-self.y)*self.scale)
+        for x in range (0, self.galaxy.width,3 ):
+            painter.drawLine((x-self.x)*self.scale, 0, (x-self.x)*self.scale, self.height() )
         
         # Draw planets
         for y in range (self.y,self.y+self.height() ):
