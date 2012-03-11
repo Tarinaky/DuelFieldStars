@@ -14,7 +14,6 @@ class GameViewport(QtGui.QWidget):
         self.parent = parent
         
         self.galaxy = Galaxy()
-        self.galaxy.planets[(1,1)] = Planet(1,1)
         
         self.scale = 180 # How many px represent 1 pc.
         
@@ -40,8 +39,16 @@ class GameViewport(QtGui.QWidget):
             for x in range(self.x,self.x+self.width() ):
                 if (x,y) in self.galaxy.planets:
                     planet = self.galaxy.planets[(x,y)]
+                    
+                    # Vary world colour according to value.
+                    color = QtCore.Qt.yellow
+                    if planet.baseValue < 75:
+                        color = QtCore.Qt.red
+                    if planet.baseValue > 125:
+                        color = QtCore.Qt.blue                    
+                        
                     rectangle = QtCore.QRectF( (x-self.x)*self.scale-30,(y-self.y)*self.scale-30,60,60)
-                    painter.fillRect(rectangle, QtCore.Qt.yellow)
+                    painter.fillRect(rectangle, color)
         
         
         # Set the correct scale for the scrollbars.
