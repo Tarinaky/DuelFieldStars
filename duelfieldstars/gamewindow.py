@@ -15,7 +15,7 @@ class GameViewport(QtGui.QWidget):
         
         self.galaxy = Galaxy()
         
-        self.scale = 180 # How many px represent 1 pc.
+        self.scale = 60 # How many px represent 1 pc.
         
         
     def paintEvent(self,event):    
@@ -47,7 +47,10 @@ class GameViewport(QtGui.QWidget):
                     if planet.baseValue > 125:
                         color = QtCore.Qt.blue                    
                         
-                    rectangle = QtCore.QRectF( (x-self.x)*self.scale-30,(y-self.y)*self.scale-30,60,60)
+                    rectangle = QtCore.QRectF(
+                                              (x-self.x)*self.scale - self.scale/6,
+                                              (y-self.y)*self.scale - self.scale/6,
+                                              self.scale/3,self.scale/3)
                     painter.fillRect(rectangle, color)
         
         
