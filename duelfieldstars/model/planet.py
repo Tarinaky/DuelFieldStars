@@ -6,7 +6,7 @@ import random
 import unittest
 
 class Planet(object):
-    def __init__(self, position):
+    def __init__(self, *position):
         self.baseValue = None # The planet's base value expressed as a percentile.
         self.realisedValue = None # The planet's presently realised value expressed as a percentile.
         
@@ -32,7 +32,7 @@ class Planet(object):
 
 class PlanetTest(unittest.TestCase):
     def setUp(self):
-        self.fixture = Planet((0,0) )
+        self.fixture = Planet(0,0)
         return
     
     def test_generation(self):

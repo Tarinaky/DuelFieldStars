@@ -5,6 +5,8 @@ Contains the Galaxy class, containing the data pertaining to a game map.
 import random
 import unittest
 
+import planet
+
 class Galaxy(object):
     def __init__(self, width=50, height=50, density=1.0/3, seed=None):
         self.width = None # This galaxies width in pc.
@@ -29,7 +31,9 @@ class Galaxy(object):
             x = prng.randint(1, self.width-1)
             y = prng.randint(1, self.height-1)
             if (x,y) not in self.planets:
-                self.planets[(x,y)] = "TODO: Implement planets."
+                newPlanet = planet.Planet(x,y)
+                newPlanet.generate(prng)
+                self.planets[(x,y)] = newPlanet
         return
     
 class GalaxyTest(unittest.TestCase):
