@@ -30,7 +30,7 @@ class GameViewport(QtGui.QWidget):
                 if (x,y) in self.galaxy.planets:
                     planet = self.galaxy.planets[(x,y)]
                     rectangle = QtCore.QRectF( (x-self.x)*120,(y-self.y)*120,30,30)
-                    painter.fillRect(rectangle, QtCore.Qt.red)
+                    painter.fillRect(rectangle, QtCore.Qt.yellow)
         
         return
 
