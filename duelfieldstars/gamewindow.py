@@ -8,13 +8,14 @@ from model.galaxy import Galaxy
 from model.planet import Planet
 
 class GameViewport(QtGui.QWidget):
-    def __init__(self):
+    def __init__(self,parent):
         super(GameViewport,self).__init__()
+        
+        self.parent = parent
         
         self.galaxy = Galaxy()
         self.galaxy.planets[(1,1)] = Planet(1,1)
-    def paintEvent(self,event):
-        print "draw"
+    def paintEvent(self,event):        
         painter = QtGui.QPainter(self)
         painter.fillRect(self.rect(), QtCore.Qt.black)
         
@@ -38,8 +39,10 @@ class GameWindow(QtGui.QWidget):
         self = loader.load(file_,self)
     
         # Add viewport.
-        self.gridLayout.addWidget(GameViewport(), 0, 0)
-        
+        self.viewport = GameViewport(self)
+        self.gridLayout.addWidget(self.viewport, 0, 0)
+        self.horizontalScrollBar.valueChanged.connect(self.viewport.update)
+        self.verticalScrollBar.valueChanged.connect(self.viewport.update)
                     
         # Show and perform initial draw.    
         self.show()
