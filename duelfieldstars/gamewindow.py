@@ -45,8 +45,10 @@ class GameViewport(QtGui.QWidget):
         painter.setPen(QtCore.Qt.white)
         for y in range (0, self.galaxy.height,3 ):
             painter.drawLine(0, (y-self.y)*self.scale, self.width(), (y-self.y)*self.scale)
+            painter.drawText(0, (y-self.y)*self.scale, "("+str(y)+")")
         for x in range (0, self.galaxy.width,3 ):
-            painter.drawLine((x-self.x)*self.scale, 0, (x-self.x)*self.scale, self.height() )
+            painter.drawLine((x-self.x)*self.scale, 15, (x-self.x)*self.scale, self.height() )
+            painter.drawText((x-self.x)*self.scale, 15, "("+str(x)+")")
         
         # Draw planets
         for y in range (self.y,self.y+self.height() ):
@@ -56,16 +58,22 @@ class GameViewport(QtGui.QWidget):
                     
                     # Vary world colour according to value.
                     color = QtCore.Qt.yellow
+                    painter.setPen(QtCore.Qt.black)
                     if planet.baseValue < 75:
                         color = QtCore.Qt.red
+                        painter.setPen(QtCore.Qt.white)
                     if planet.baseValue > 125:
-                        color = QtCore.Qt.blue                    
+                        color = QtCore.Qt.blue
+                        painter.setPen(QtCore.Qt.white)                    
                         
                     rectangle = QtCore.QRectF(
                                               (x-self.x)*self.scale - self.scale/6,
                                               (y-self.y)*self.scale - self.scale/6,
                                               self.scale/3,self.scale/3)
                     painter.fillRect(rectangle, color)
+                    
+                    #Print planet class.
+                    painter.drawText(rectangle, QtCore.Qt.AlignCenter, planet.type)
         
         
         # Set the correct scale for the scrollbars.
