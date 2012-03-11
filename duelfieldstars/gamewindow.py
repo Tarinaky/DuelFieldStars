@@ -7,7 +7,7 @@ from PySide import QtGui, QtUiTools, QtCore
 class GameViewport(QtGui.QWidget):
     def paintEvent(self,event):
         painter = QtGui.QPainter(self)
-        painter.fillRect(self.rect(), QtCore.Qt.red)
+        painter.fillRect(self.rect(), QtCore.Qt.black)
         return
 
 class GameWindow(QtGui.QWidget):
