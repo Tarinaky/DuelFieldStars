@@ -24,12 +24,19 @@ class GameViewport(QtGui.QWidget):
         painter = QtGui.QPainter(self)
         painter.fillRect(self.rect(), QtCore.Qt.black)
         
+        # Draw grid
+        painter.setPen(QtCore.Qt.white)
+        for y in range (0, self.height(),120 ):
+            painter.drawLine(0, y, self.width(), y)
+        for x in range (0, self.width(), 120 ):
+            painter.drawLine(x, 0, x, self.height() )
+        
         # Draw planets
         for y in range (self.y,self.y+self.height() ):
             for x in range(self.x,self.x+self.width() ):
                 if (x,y) in self.galaxy.planets:
                     planet = self.galaxy.planets[(x,y)]
-                    rectangle = QtCore.QRectF( (x-self.x)*120,(y-self.y)*120,30,30)
+                    rectangle = QtCore.QRectF( (x-self.x)*120-15,(y-self.y)*120-15,30,30)
                     painter.fillRect(rectangle, QtCore.Qt.yellow)
         
         return
