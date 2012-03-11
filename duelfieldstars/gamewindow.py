@@ -7,8 +7,6 @@ from PySide import QtGui, QtUiTools, QtCore
 from model.galaxy import Galaxy
 from model.planet import Planet
 
-from planetdetails import PlanetDetails
-
 class GameViewport(QtGui.QWidget):
     def __init__(self,parent):
         super(GameViewport,self).__init__()
@@ -19,7 +17,7 @@ class GameViewport(QtGui.QWidget):
         
         self.scale = 60 # How many px represent 1 pc.
         
-        self.planetDetails = None
+        
     
     def mousePressEvent(self,event):
         x = event.pos().x()/self.scale+self.x
@@ -30,14 +28,9 @@ class GameViewport(QtGui.QWidget):
         for scanY in [y-1,y+1,y]:
             for scanX in [x-1,x+1,x]:
                 if (scanX,scanY) in self.galaxy.planets:
-                    planet=self.galaxy.planets[(scanX,scanY)]
+                    planet = self.galaxy.planets[(scanX,scanY)]
         
-        if planet is not None:
-            if self.planetDetails is not None:
-                self.parent.gridLayout.removeWidget(self.planetDetails)
-            self.planetDetails = PlanetDetails(self.parent,planet)
-            self.parent.gridLayout.addWidget(self.planetDetails,0,2)
-            
+        print "Got planet at..."+str(planet.position)
         
     
     def wheelEvent(self,event):
@@ -122,6 +115,7 @@ class GameWindow(QtGui.QWidget):
         self.horizontalScrollBar.valueChanged.connect(self.viewport.update)
         self.verticalScrollBar.valueChanged.connect(self.viewport.update)
         
+        # Add planetDetails
                     
         # Show and perform initial draw.    
         self.show()
