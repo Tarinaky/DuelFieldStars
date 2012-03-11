@@ -15,6 +15,10 @@ class GameViewport(QtGui.QWidget):
         
         self.galaxy = Galaxy()
         self.galaxy.planets[(1,1)] = Planet(1,1)
+        
+        self.scale = 180 # How many px represent 1 pc.
+        
+        
     def paintEvent(self,event):    
         # Update coordinates for the viewport.
         self.x = self.parent.horizontalScrollBar.value()
@@ -26,9 +30,9 @@ class GameViewport(QtGui.QWidget):
         
         # Draw grid
         painter.setPen(QtCore.Qt.white)
-        for y in range (0, self.height(),180 ):
+        for y in range (0, self.height(),self.scale ):
             painter.drawLine(0, y, self.width(), y)
-        for x in range (0, self.width(), 180 ):
+        for x in range (0, self.width(), self.scale ):
             painter.drawLine(x, 0, x, self.height() )
         
         # Draw planets
@@ -36,8 +40,14 @@ class GameViewport(QtGui.QWidget):
             for x in range(self.x,self.x+self.width() ):
                 if (x,y) in self.galaxy.planets:
                     planet = self.galaxy.planets[(x,y)]
-                    rectangle = QtCore.QRectF( (x-self.x)*180-30,(y-self.y)*180-30,60,60)
+                    rectangle = QtCore.QRectF( (x-self.x)*self.scale-30,(y-self.y)*self.scale-30,60,60)
                     painter.fillRect(rectangle, QtCore.Qt.yellow)
+        
+        
+        # Set the correct scale for the scrollbars.
+        self.parent.horizontalScrollBar.setMaximum(self.galaxy.width)
+        self.parent.verticalScrollBar.setMaximum(self.galaxy.height)
+        
         
         return
 
@@ -56,6 +66,7 @@ class GameWindow(QtGui.QWidget):
         self.gridLayout.addWidget(self.viewport, 0, 0)
         self.horizontalScrollBar.valueChanged.connect(self.viewport.update)
         self.verticalScrollBar.valueChanged.connect(self.viewport.update)
+        
                     
         # Show and perform initial draw.    
         self.show()
