@@ -55,8 +55,8 @@ class GameViewport(QtGui.QWidget):
         
         
         # Set the correct scale for the scrollbars.
-        self.parent.horizontalScrollBar.setMaximum(self.galaxy.width)
-        self.parent.verticalScrollBar.setMaximum(self.galaxy.height)
+        self.parent.horizontalScrollBar.setMaximum(self.galaxy.width - self.width() / self.scale)
+        self.parent.verticalScrollBar.setMaximum(self.galaxy.height - self.height() / self.scale)
         
         
         return

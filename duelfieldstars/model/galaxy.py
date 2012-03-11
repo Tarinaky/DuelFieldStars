@@ -8,7 +8,7 @@ import unittest
 from planet import Planet
 
 class Galaxy(object):
-    def __init__(self, width=50, height=50, density=1.0/3, seed=None):
+    def __init__(self, width=50, height=50, density=1.0/9, seed=None):
         self.width = None # This galaxies width in pc.
         self.height = None # This galaxies height in pc.
         
@@ -18,7 +18,7 @@ class Galaxy(object):
         self.generate(width, height, density, seed)
         return
         
-    def generate(self, width=50, height=50, density=1.0/3, seed=None):
+    def generate(self, width, height, density, seed=None):
         """
         Setup this galaxy with the correct width, height and generate the new planets.
         """
