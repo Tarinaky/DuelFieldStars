@@ -8,7 +8,7 @@ if __name__ == '__main__':
     loader = QtUiTools.QUiLoader()
     file_ = QtCore.QFile("forms/GameWindow.ui")
     file_.open(QtCore.QFile.ReadOnly)
-    myWidget = loader.load(file)
+    myWidget = loader.load(file_)
     
     myWidget.show()
     
