@@ -8,8 +8,11 @@ from model.galaxy import Galaxy
 from model.planet import Planet
 
 class PlanetDetails(QtGui.QWidget):
-    def __init__(self,planet):
+    def __init__(self,parent,planet):
         super(PlanetDetails,self).__init__()
+        
+        self.parent = parent
+        self.planet = planet
         
         # Load the ui file.
         loader = QtUiTools.QUiLoader()

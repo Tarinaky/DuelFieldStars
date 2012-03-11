@@ -7,6 +7,8 @@ from PySide import QtGui, QtUiTools, QtCore
 from model.galaxy import Galaxy
 from model.planet import Planet
 
+from planetdetails import PlanetDetails
+
 class GameViewport(QtGui.QWidget):
     def __init__(self,parent):
         super(GameViewport,self).__init__()
@@ -16,6 +18,26 @@ class GameViewport(QtGui.QWidget):
         self.galaxy = Galaxy()
         
         self.scale = 60 # How many px represent 1 pc.
+        
+        self.planetDetails = None
+    
+    def mousePressEvent(self,event):
+        x = event.pos().x()/self.scale+self.x
+        y = event.pos().y()/self.scale+self.y
+        
+        
+        planet = None
+        for scanY in [y-1,y+1,y]:
+            for scanX in [x-1,x+1,x]:
+                if (scanX,scanY) in self.galaxy.planets:
+                    planet=self.galaxy.planets[(scanX,scanY)]
+        
+        if planet is not None:
+            if self.planetDetails is not None:
+                self.parent.gridLayout.removeWidget(self.planetDetails)
+            self.planetDetails = PlanetDetails(self.parent,planet)
+            self.parent.gridLayout.addWidget(self.planetDetails,0,2)
+        
     
     def wheelEvent(self,event):
         (x,y) = (event.pos().x()/self.scale+self.x,event.pos().y()/self.scale+self.y)
