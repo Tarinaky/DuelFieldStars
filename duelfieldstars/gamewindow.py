@@ -37,6 +37,7 @@ class GameViewport(QtGui.QWidget):
                 self.parent.gridLayout.removeWidget(self.planetDetails)
             self.planetDetails = PlanetDetails(self.parent,planet)
             self.parent.gridLayout.addWidget(self.planetDetails,0,2)
+            
         
     
     def wheelEvent(self,event):

@@ -24,3 +24,8 @@ class PlanetDetails(QtGui.QWidget):
         self.setTitle("Planet at "+str(planet.position) )
         self.type.setText(planet.type) # Colony Type
         
+        self.hideButton.clicked.connect(self.hide)
+        
+    def hide(self):
+        self.parent.gameViewport.planetDetails = None
+        self.parent.layou().removeWidget(self)
