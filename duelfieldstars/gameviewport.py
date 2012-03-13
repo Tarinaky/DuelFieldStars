@@ -27,7 +27,6 @@ class GameViewport(QtGui.QWidget):
                     planet = self.galaxy.planets[(scanX,scanY)]
         
         print "Got planet at..."+str(planet.position)
-        self.parent.planetDetails.set_planet(None)
         
     
     def wheelEvent(self,event):
