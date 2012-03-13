@@ -2,7 +2,8 @@ import pygame
 
 class Window(object):
     """
-    A window with internal widget manager to control the pygame display in an OO way.
+    Abstract class defining a window with internal widget manager to control the pygame display in an OO way.
+    Your specialisations must define on_draw.
     """
     def __init__(self):
         super(Window,self).__init__()
@@ -17,28 +18,30 @@ class Window(object):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     runControl = False
-            self.tick()
+            self._tick()
     
-    def tick(self):
+    def _tick(self):
         """Executes a single 'tick' or frame."""
         "TODO: Events"
         "TODO: game rules"
-        self.draw()
+        self._draw()
         
-    def draw(self):
+    def _draw(self):
         """Draw a frame."""
-        self.screen.fill((0,0,0))
+        self.on_draw()
         
         for widget in self.widgets:
-            widget.draw()
+            widget._draw()
         
         self.flip()
         
+    def on_draw(self):
+        self.surface.fill((0,0,0))
     
     def flip(self):
         pygame.display.flip()            
     @property
-    def screen(self):
+    def surface(self):
         return pygame.display.get_surface()    
     @property
     def width(self):
