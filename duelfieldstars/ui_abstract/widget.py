@@ -1,4 +1,7 @@
 import pygame
+import logging
+
+log = logging.getLogger(__name__)
 
 class Widget(object):
     """Abstract class defining a region of the UI. 
@@ -14,6 +17,15 @@ class Widget(object):
             self.on_draw()
             self.changed = False
         return
+    
+    def _mouse(self,event):
+        if self.on_mouse(event):
+            return True
+        log.debug("Unknown event "+str(event) )
+    
+    def on_mouse(self,event):
+        """Handles mouse events for this widget. Overload if you want to respond to mouse events."""
+        return False
     
     def update(self):
         """Mark this widget as 'dirty' and in need of redrawing."""

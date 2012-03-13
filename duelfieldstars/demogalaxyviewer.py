@@ -1,4 +1,5 @@
 import pygame
+import logging
 
 from ui_abstract.window import Window
 from ui_abstract.widget import Widget
@@ -45,6 +46,7 @@ class ViewportWidget(Widget):
         return
     
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG)
     pygame.init()
     pygame.display.set_mode(screenResolution)
     window = GalaxyViewerWindow()
