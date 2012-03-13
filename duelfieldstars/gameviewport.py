@@ -9,11 +9,11 @@ class GameViewport(QtGui.QWidget):
         
         self.parent = parent
         
-        self.galaxy = Galaxy()
-        
         self.scale = 60 # How many px represent 1 pc.
-        
-        
+    
+    @property
+    def galaxy(self):
+        return self.parent.galaxy    
     
     def mousePressEvent(self,event):
         x = event.pos().x()/self.scale+self.x
@@ -27,6 +27,7 @@ class GameViewport(QtGui.QWidget):
                     planet = self.galaxy.planets[(scanX,scanY)]
         
         print "Got planet at..."+str(planet.position)
+        self.parent.open_planet(planet)
         
     
     def wheelEvent(self,event):
