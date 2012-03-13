@@ -28,9 +28,12 @@ class Window(object):
     def draw(self):
         """Draw a frame."""
         self.screen.fill((0,0,0))
-        "TODO: Implement"
+        
+        for widget in self.widgets:
+            widget.draw()
         
         self.flip()
+        
     
     def flip(self):
         pygame.display.flip()            
