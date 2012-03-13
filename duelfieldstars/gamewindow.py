@@ -10,7 +10,7 @@ from model.planet import Planet
 from gameviewport import GameViewport
 from planetdetails import PlanetDetails
 
-class GameWindow(QtGui.QWidget):
+class GameWindow(QtGui.QMainWindow):
     def __init__(self):
         super(GameWindow, self).__init__()
         
@@ -27,6 +27,7 @@ class GameWindow(QtGui.QWidget):
         self.verticalScrollBar.valueChanged.connect(self.viewport.update)
         
         # Add planetDetails
+        self.planetDetails = PlanetDetails(self)
                     
         # Show and perform initial draw.    
         self.show()

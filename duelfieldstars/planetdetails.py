@@ -16,6 +16,9 @@ class PlanetDetails(QtGui.QWidget):
         file_ = QtCore.QFile("forms/PlanetDetails.ui")
         file_.open(QtCore.QFile.ReadOnly)
         self = loader.load(file_,self)
+        
+        self.pushButton.clicked.connect(self.hide)
+        
     
     def set_planet(self, planet):
         self.planet = planet
