@@ -36,6 +36,12 @@ class Galaxy(object):
                 self.planets[(x,y)] = newPlanet
         return
     
+    def at(self,x,y):
+        if (x,y) in self.planets:
+            return self.planets[(x,y)]
+        else:
+            return None
+    
 class GalaxyTest(unittest.TestCase):
     def setUp(self):
         self.fixture = Galaxy()

@@ -32,6 +32,7 @@ class Window(object):
         
         for widget in self.widgets:
             widget._draw()
+            self.surface.blit(widget.surface,(widget.x0,widget.y0))
         
         self.flip()
         

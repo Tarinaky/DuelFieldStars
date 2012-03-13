@@ -15,4 +15,16 @@ class Widget(object):
             self.changed = False
         return
         
+    @property
+    def width(self):
+        return self.rect.width
+    @property
+    def height(self):
+        return self.rect.height
+    @property
+    def x0(self):
+        return self.rect.left
+    @property
+    def y0(self):
+        return self.rect.top
 
