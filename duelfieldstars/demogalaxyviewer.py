@@ -1,7 +1,7 @@
 import pygame
 
-from window import Window
-from widget import Widget
+from ui_abstract.window import Window
+from ui_abstract.widget import Widget
 
 from model.galaxy import Galaxy
 
