@@ -13,5 +13,5 @@ if __name__ == '__main__':
     screen = pygame.display.set_mode(resolution)
     pygame.display.set_caption("Duelfield Stars")
     
-    myWindow = Window(resolution)
+    myWindow = Window()
     myWindow.run()
