@@ -14,7 +14,12 @@ class Widget(object):
             self.on_draw()
             self.changed = False
         return
-        
+    
+    def update(self):
+        """Mark this widget as 'dirty' and in need of redrawing."""
+        self.changed = True
+        return
+    
     @property
     def width(self):
         return self.rect.width
