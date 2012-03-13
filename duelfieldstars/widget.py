@@ -1,10 +1,11 @@
 import pygame
 
 class Widget(object):
-    """Abstract class defining a region of the UI. You must define on_draw in your specialisations."""
+    """Abstract class defining a region of the UI. 
+    You must define on_draw in your specialisations."""
     def __init__(self,rect):
         self.rect = rect
-        self.surface = pygame.surface(rect.width,rect.height)
+        self.surface = pygame.Surface((rect.width,rect.height))
         self.changed = True
         
     def _draw(self):
