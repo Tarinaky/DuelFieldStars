@@ -21,10 +21,19 @@ class Widget(object):
     def _mouse(self,event):
         if self.on_mouse(event):
             return True
-        log.debug("Unknown event "+str(event) )
+        return False
+        
+    def _keyboard(self, event):
+        if self.on_keyboard(event):
+            return True
+        return False
     
     def on_mouse(self,event):
         """Handles mouse events for this widget. Overload if you want to respond to mouse events."""
+        return False
+    
+    def on_keyboard(self, event):
+        """Handles keyboard events for this widget. Overload if you want to respond to key events."""
         return False
     
     def update(self):

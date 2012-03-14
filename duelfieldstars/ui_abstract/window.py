@@ -13,6 +13,7 @@ class Window(object):
         
         # List of widgets currently open in this window, sorted from bg to fg.
         self.widgets = []
+        self.focusedWidget = None
         
     def run(self):
         """Entry point into the class. Executes the window's main loop."""
@@ -39,7 +40,18 @@ class Window(object):
         if (event.type == pygame.MOUSEMOTION or event.type == pygame.MOUSEBUTTONDOWN 
             or event.type == pygame.MOUSEBUTTONUP):
             return self._mouse(event)
-        "TODO: Keyboard events"
+        if (event.type == pygame.KEYDOWN or event.type == pygame.KEYUP):
+            return self._keyboard(event)
+        log.debug("Unknown event "+str(event) )
+        return False
+    
+    def _keyboard(self,event):
+        """Dispatches keyboard events to widgets.
+        Returns True if the event is handled, else false."""
+        if self.on_keyboard(event):
+            return True
+        if self.focusedWidget is not None:
+            return self.focusedWidget._keyboard(event)
         return False
     
     def _mouse(self,event):
@@ -75,7 +87,15 @@ class Window(object):
     def on_mouse(self, event):
         """Override this with custom mouse-event handler.
         Must return True if the event is handled, else False."""
-    
+        
+    def on_keyboard(self, event):
+        """Override this with custom key-event handler.
+        Must return True if the event is handled, else false."""
+        
+    def add_widget(self, widget):
+        """Add a widget to the window, and automatically focus on it."""
+        self.widgets.append(widget)
+        self.focusedWidget = widget
     def flip(self):
         pygame.display.flip()            
     @property
