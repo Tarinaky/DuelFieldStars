@@ -23,7 +23,9 @@ class ViewportWidget(Widget):
         self.add_keyboard_handler(self.change_scroll_speed, pygame.KEYUP, pygame.K_a, 0, 1, 0) # Release.
         self.add_keyboard_handler(self.change_scroll_speed, pygame.KEYDOWN, pygame.K_d, 0, 1, 0) # Right.
         self.add_keyboard_handler(self.change_scroll_speed, pygame.KEYUP, pygame.K_d, 0, -1, 0) # Release.
-        
+        # Mouse button handlers
+        self.add_mouse_handler(self.zoom, pygame.MOUSEBUTTONDOWN, 4, "in") # Zoom in
+        self.add_mouse_handler(self.zoom, pygame.MOUSEBUTTONDOWN, 5, "out") # Zoom out
         return
     
     def on_draw(self):
@@ -60,7 +62,12 @@ class ViewportWidget(Widget):
             
         self.velocity = (dx,dy)
          
-         
+    def zoom(self, string):
+        if string == "in":
+            self.scale = self.scale * 2
+        if string == "out":
+            self.scale = self.scale /2
+        self.update()     
                 
             
         

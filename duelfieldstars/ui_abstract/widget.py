@@ -21,6 +21,11 @@ class Widget(object):
         return
     
     def _mouse(self,event):
+        if (event.type == pygame.MOUSEBUTTONUP or event.type == pygame.MOUSEBUTTONDOWN):
+            if (event.type, event.button) in self._event_junction:
+                (function,args) = self._event_junction[(event.type, event.button)]
+                function(*args)
+                return True
         if self.on_mouse(event):
             return True
         return False
@@ -52,6 +57,9 @@ class Widget(object):
     def add_keyboard_handler(self, function, type_, key, modifier, *args):
         """Use this method to register a function to be called when a particular keyboard event is received."""
         self._event_junction[(type_, key, modifier)] = (function,args) 
+    def add_mouse_handler(self, function, type_, button, *args):
+        """Use this method to register a function to be called when a particular mouse button event is received."""
+        self._event_junction[(type_, button)] = (function,args)
     def update(self):
         """Mark this widget as 'dirty' and in need of redrawing."""
         self.changed = True
