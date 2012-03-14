@@ -12,8 +12,7 @@ class HorizontalScrollBar(Bar):
         super(HorizontalScrollBar,self).__init__(rect)
         
         self.viewport = viewport
-        self.set_max(self.viewport.galaxy.width*self.viewport.scale)
-        
+                
         self.add_mouse_handler(self.jump, pygame.MOUSEBUTTONDOWN, 1)
         
     def jump(self):
@@ -21,13 +20,14 @@ class HorizontalScrollBar(Bar):
         (x,_) = pygame.mouse.get_pos()
         # Set this x as the middle of the screen.
         y = self.viewport.y0
-        self.viewport.position = (x - self.viewport.width, y)
+        self.viewport.position = (x/self.width*self.max, y)
 
     def on_tick(self, deltaTime):
-        (x,_) = self.viewport.position
+        self.set_max(self.viewport.galaxy.width * self.viewport.scale / self.viewport.width)
         
-        if x is not self.value:
-            self.set_value(x)
+        (x,_) = self.viewport.position 
+        x = float(x) / self.viewport.width
+        self.set_value(x)
 
     def on_draw(self):
         bgColor = (64,64,64)
@@ -37,5 +37,7 @@ class HorizontalScrollBar(Bar):
         blockWidth = self.width / self.max
         blockHeight = self.height
         
-        self.surface.fill(fgColor, pygame.Rect(self.value, 0, blockWidth, blockHeight) )
+        x = self.value * blockWidth
+                
+        self.surface.fill(fgColor, pygame.Rect(x, 0, blockWidth/2, blockHeight) )
         
