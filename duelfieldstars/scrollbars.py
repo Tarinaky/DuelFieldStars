@@ -32,8 +32,13 @@ class HorizontalScrollBar(Bar):
     def on_draw(self):
         bgColor = (64,64,64)
         fgColor = (0,0,255)
-        self.surface.fill(bgColor)
         
+        if self.max == 0:
+            self.surface.fill(fgColor)
+            return
+        
+        self.surface.fill(bgColor)
+                        
         blockWidth = self.width / self.max
         blockHeight = self.height
         
