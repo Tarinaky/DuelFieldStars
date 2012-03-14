@@ -15,6 +15,8 @@ class Window(object):
         self.widgets = []
         self.focusedWidget = None
         
+        self.clock = pygame.time.Clock()
+        
     def run(self):
         """Entry point into the class. Executes the window's main loop."""
         self.runControl = True
@@ -26,7 +28,7 @@ class Window(object):
         for event in pygame.event.get(): # Run event handler
             if self._event(event) == False:
                 log.debug("Unknown event "+str(event) )
-        deltaTime = "TODO: Implement deltaTime."
+        deltaTime = self.clock.tick()
         self.on_tick(deltaTime)
         for widget in self.widgets:
             widget._tick(deltaTime)
