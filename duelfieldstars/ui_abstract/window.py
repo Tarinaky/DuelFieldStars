@@ -92,12 +92,13 @@ class Window(object):
         """Override this with custom key-event handler.
         Must return True if the event is handled, else false."""
         
-    def add_widget(self, widget):
+    def add_widget(self, widget, getFocus=True):
         """Add a widget to the window, and automatically focus on it."""
         self.widgets.append(widget)
-        self.focusedWidget = widget
+        if getFocus == True:
+            self.focusedWidget = widget
     def flip(self):
-        pygame.display.flip()            
+        pygame.display.flip()           
     @property
     def surface(self):
         return pygame.display.get_surface()    

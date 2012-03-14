@@ -15,7 +15,7 @@ class GalaxyViewerWindow(Window):
         self.galaxy = Galaxy()
         
         self.viewport = ViewportWidget(pygame.Rect(0,0,*screenResolution), self.galaxy)
-        self.widgets.append(self.viewport)
+        self.add_widget(self.viewport)
         
         return
 
