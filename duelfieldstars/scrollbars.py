@@ -26,7 +26,7 @@ class HorizontalScrollBar(Bar):
 
     def on_tick(self, deltaTime):
         self.set_max(self.viewport.galaxy.width * self.viewport.scale)
-        self.blockWidth = blockWidth = self.width - (self.max-self.width) * self.width / self.max
+        self.blockWidth = self.width**2/self.max
         (x,_) = self.viewport.position
         self.set_value(x)
 
