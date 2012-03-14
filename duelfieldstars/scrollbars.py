@@ -20,28 +20,16 @@ class HorizontalScrollBar(Bar):
         
 
     def on_tick(self, deltaTime):
-        self.set_max(self.viewport.galaxy.width)
+        self.set_max(self.viewport.galaxy.width * self.viewport.scale)
         
         (x,_) = self.viewport.position
-        x = x / self.viewport.scale
         self.set_value(x)
 
     def on_draw(self):
         bgColor = (64,64,64)
         fgColor = (0,0,255)
         
-        if self.max == 0:
-            self.surface.fill(fgColor)
-            return
-        
         self.surface.fill(bgColor)
         
-        blockWidth = self.width / self.max
-        blockHeight = self.height
-        
-        x = self.value * blockWidth
-        print (x, self.width, self.max, blockWidth)
-        
-        self.surface.fill(fgColor, pygame.Rect(x, 0, blockWidth, blockHeight))
         
         
