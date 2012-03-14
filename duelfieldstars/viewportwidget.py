@@ -10,6 +10,8 @@ class ViewportWidget(Widget):
         super(ViewportWidget,self).__init__(rect)
         self.galaxy = galaxy
         
+        self.font = pygame.font.Font(pygame.font.get_default_font(),10)
+        
         self.position = (0,0) # position in px
         self.velocity = (0,0) # position in px/ms
         self.scale = 32 # Px width of 1 pc
@@ -52,6 +54,18 @@ class ViewportWidget(Widget):
         
         width = self.width/self.scale
         height = self.height/self.scale
+        
+        # Draw coordinate grid
+        for y in range (1, self.galaxy.height, 3):
+            pygame.draw.line(self.surface, (255,255,255), (0, (y-y0)*self.scale), (self.galaxy.width*self.scale, (y-y0)*self.scale) )
+            label = self.font.render("("+str(y)+")", True, (255,255,255) )
+            self.surface.blit(label, (0,(y-y0)*self.scale+2) )
+        for x in range (1, self.galaxy.width, 3):
+            pygame.draw.line(self.surface, (255,255,255), ((x-x0)*self.scale, 0), ((x-x0)*self.scale, self.galaxy.height*self.scale) )
+            label = self.font.render("("+str(x)+")", True, (255,255,255) )
+            self.surface.blit(label, ((x-x0)*self.scale,0) )
+        
+        # Draw planets
         for y in range (y0,height+y0):
             for x in range (x0,width+x0):
                 planet = self.galaxy.at(x,y)
