@@ -56,9 +56,9 @@ class ViewportWidget(Widget):
             for x in range (x0,width+x0):
                 planet = self.galaxy.at(x,y)
                 if planet is not None:
-                    (drawX, drawY) = (x - x0 - 0.5, y - y0 - 0.5)
+                    (drawX, drawY) = (x - x0 - 0.25, y - y0 - 0.25)
                     (drawX, drawY) = (drawX*self.scale, drawY*self.scale)
-                    rect = pygame.Rect(drawX, drawY, self.scale, self.scale)
+                    rect = pygame.Rect(drawX, drawY, self.scale/2, self.scale/2)
                     self.surface.fill((255,255,255),rect)
             
         
