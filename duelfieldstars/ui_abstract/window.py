@@ -114,8 +114,8 @@ class Window(object):
     @property
     def width(self):
         """Return the width of the drawable area."""
-        return self.screen.get_width()
+        return self.surface.get_width()
     @property
     def height(self):
         """Return the height of the drawable area"""
-        return self.screen.get_height()
+        return self.surface.get_height()

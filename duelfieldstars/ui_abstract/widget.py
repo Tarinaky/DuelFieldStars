@@ -10,12 +10,13 @@ class Widget(object):
         self.rect = rect
         self.surface = pygame.Surface((rect.width,rect.height))
         self.changed = True
+        self.alwaysDirty = False
         
         self._event_junction = {}
         
     def _draw(self):
         """Calls on_draw if this widget needs redrawing."""
-        if self.changed:
+        if self.changed or self.alwaysDirty:
             self.on_draw()
             self.changed = False
         return
