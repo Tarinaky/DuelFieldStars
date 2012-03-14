@@ -10,8 +10,8 @@ class ViewportWidget(Widget):
         super(ViewportWidget,self).__init__(rect)
         self.galaxy = galaxy
         
-        self.position = (0,0)
-        self.velocity = (0,0)
+        self.position = (0,0) # position in px
+        self.velocity = (0,0) # position in px/ms
         self.scale = 32 # Px width of 1 pc
         
         # Register key handlers.
@@ -30,6 +30,8 @@ class ViewportWidget(Widget):
         self.surface.fill((0,0,0))
         
         (x0,y0) = self.position
+        (x0,y0) = (int(x0//self.scale), int(y0//self.scale) )
+        
         width = self.width/self.scale
         height = self.height/self.scale
         for y in range (y0,height+y0):
@@ -44,6 +46,12 @@ class ViewportWidget(Widget):
         
         return
     
+    def on_tick(self, deltaTime):
+        (x,y) = self.position
+        (dx,dy) = self.velocity
+        (x,y) = (x + dx * deltaTime, y + dy * deltaTime)
+        self.position = (x,y)
+        self.update()
             
             
     def change_scroll_speed(self, d2X, d2Y):
