@@ -11,7 +11,18 @@ class ViewportWidget(Widget):
         self.galaxy = galaxy
         
         self.position = (0,0)
+        self.velocity = (0,0)
         self.scale = 32 # Px width of 1 pc
+        
+        # Register key handlers.
+        self.add_keyboard_handler(self.change_scroll_speed, pygame.KEYDOWN, pygame.K_w, 0, 0, -1) # Up.
+        self.add_keyboard_handler(self.change_scroll_speed, pygame.KEYUP, pygame.K_w, 0, 0, 1) # Release.
+        self.add_keyboard_handler(self.change_scroll_speed, pygame.KEYDOWN, pygame.K_s, 0, 0, 1) # Down.
+        self.add_keyboard_handler(self.change_scroll_speed, pygame.KEYUP, pygame.K_s, 0, 0, -1) # Release.
+        self.add_keyboard_handler(self.change_scroll_speed, pygame.KEYDOWN, pygame.K_a, 0, -1, 0) # Left.
+        self.add_keyboard_handler(self.change_scroll_speed, pygame.KEYUP, pygame.K_a, 0, 1, 0) # Release.
+        self.add_keyboard_handler(self.change_scroll_speed, pygame.KEYDOWN, pygame.K_d, 0, 1, 0) # Right.
+        self.add_keyboard_handler(self.change_scroll_speed, pygame.KEYUP, pygame.K_d, 0, -1, 0) # Release.
         
         return
     
@@ -33,34 +44,13 @@ class ViewportWidget(Widget):
         
         return
     
-    def on_keyboard(self, event):
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_w:
-                self.move(0, -1)
-                return True
-            if event.key == pygame.K_s:
-                self.move(0, 1)
-                return True
-            if event.key == pygame.K_a:
-                self.move(-1, 0)
-                return True
-            if event.key == pygame.K_d:
-                self.move(1, 0)
-                return True
-        return False
             
             
-    def move(self, deltaX, deltaY):
-        (x,y) = self.position
-        (x,y) = (x+deltaX, y+deltaY)
-        
-        if x < 0:
-            x = 0
-        if y < 0:
-            y = 0
-        
-        self.position = (x,y)
-        self.update()
+    def change_scroll_speed(self, d2X, d2Y):
+        (dx,dy) = self.velocity
+        (dx,dy) = (dx+d2X, dy+d2Y)
+            
+        self.velocity = (dx,dy)
          
          
                 

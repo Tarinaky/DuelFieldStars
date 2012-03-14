@@ -11,6 +11,8 @@ class Widget(object):
         self.surface = pygame.Surface((rect.width,rect.height))
         self.changed = True
         
+        self._event_junction = {}
+        
     def _draw(self):
         """Calls on_draw if this widget needs redrawing."""
         if self.changed:
@@ -24,6 +26,10 @@ class Widget(object):
         return False
         
     def _keyboard(self, event):
+        if (event.type, event.key, event.mod) in self._event_junction:
+            (handler,args) = self._event_junction[(event.type,event.key,event.mod)]
+            handler(*args)
+            return True 
         if self.on_keyboard(event):
             return True
         return False
@@ -43,6 +49,9 @@ class Widget(object):
         """Handles keyboard events for this widget. Overload if you want to respond to key events."""
         return False
     
+    def add_keyboard_handler(self, function, type_, key, modifier, *args):
+        """Use this method to register a function to be called when a particular keyboard event is received."""
+        self._event_junction[(type_, key, modifier)] = (function,args) 
     def update(self):
         """Mark this widget as 'dirty' and in need of redrawing."""
         self.changed = True
