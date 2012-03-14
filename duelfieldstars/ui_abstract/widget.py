@@ -28,6 +28,13 @@ class Widget(object):
             return True
         return False
     
+    def _tick(self,deltaTime):
+        self.on_tick(deltaTime)
+        
+    def on_tick(self, deltaTime):
+        """Is called for each frame. deltaTime contains the time taken since the last frame, allowing
+        for integration."""
+    
     def on_mouse(self,event):
         """Handles mouse events for this widget. Overload if you want to respond to mouse events."""
         return False
@@ -40,7 +47,6 @@ class Widget(object):
         """Mark this widget as 'dirty' and in need of redrawing."""
         self.changed = True
         return
-    
     @property
     def width(self):
         return self.rect.width

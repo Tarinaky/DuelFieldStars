@@ -26,7 +26,10 @@ class Window(object):
         for event in pygame.event.get(): # Run event handler
             if self._event(event) == False:
                 log.debug("Unknown event "+str(event) )
-        "TODO: game rules"
+        deltaTime = "TODO: Implement deltaTime."
+        self.on_tick(deltaTime)
+        for widget in self.widgets:
+            widget._tick(deltaTime)
         self._draw() # Draw a frame.
         
     def _event(self,event):
@@ -76,6 +79,10 @@ class Window(object):
         
         self.flip()
         
+    def on_tick(self,deltaTime):
+        """Override this with custom behavior to be performed each tick.
+        deltaTime contains the amount of time since the last frame - allowing integrator behavior."""
+    
     def on_draw(self):
         self.surface.fill((0,0,0))
         
