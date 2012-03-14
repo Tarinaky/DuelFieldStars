@@ -17,16 +17,13 @@ class HorizontalScrollBar(Bar):
         
     def jump(self):
         """Called when the scrollbar is clicked on, changes the value of the scrollbar."""
-        (x,_) = pygame.mouse.get_pos()
-        # Set this x as the middle of the screen.
-        y = self.viewport.y0
-        self.viewport.position = (x/self.width*self.max, y)
+        
 
     def on_tick(self, deltaTime):
-        self.set_max(self.viewport.galaxy.width * self.viewport.scale / self.viewport.width)
+        self.set_max(self.viewport.galaxy.width)
         
-        (x,_) = self.viewport.position 
-        x = float(x) / self.viewport.width
+        (x,_) = self.viewport.position
+        x = x / self.viewport.scale
         self.set_value(x)
 
     def on_draw(self):
@@ -38,11 +35,13 @@ class HorizontalScrollBar(Bar):
             return
         
         self.surface.fill(bgColor)
-                        
+        
         blockWidth = self.width / self.max
         blockHeight = self.height
         
         x = self.value * blockWidth
-                
-        self.surface.fill(fgColor, pygame.Rect(x, 0, blockWidth/2, blockHeight) )
+        print (x, self.width, self.max, blockWidth)
+        
+        self.surface.fill(fgColor, pygame.Rect(x, 0, blockWidth, blockHeight))
+        
         
