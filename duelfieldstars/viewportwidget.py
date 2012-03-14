@@ -76,6 +76,7 @@ class ViewportWidget(Widget):
                     
                     #Choose colour based on value
                     color = (255,255,0)
+                    textColor = (0,0,0)
                     if planet.baseValue < 75:
                         color = (255,69,0)
                     if planet.baseValue > 125:
@@ -83,6 +84,9 @@ class ViewportWidget(Widget):
                         
                     
                     self.surface.fill(color,rect)
+                    font = pygame.font.Font(pygame.font.get_default_font(), self.scale/2)
+                    label = font.render(planet.type, True, textColor)
+                    self.surface.blit(label, (drawX, drawY))
             
         
         return
