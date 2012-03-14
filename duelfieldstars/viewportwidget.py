@@ -73,7 +73,16 @@ class ViewportWidget(Widget):
                     (drawX, drawY) = (x - x0 - 0.25, y - y0 - 0.25)
                     (drawX, drawY) = (drawX*self.scale, drawY*self.scale)
                     rect = pygame.Rect(drawX, drawY, self.scale/2, self.scale/2)
-                    self.surface.fill((255,255,255),rect)
+                    
+                    #Choose colour based on value
+                    color = (255,255,0)
+                    if planet.baseValue < 75:
+                        color = (255,69,0)
+                    if planet.baseValue > 125:
+                        color = (64,64,255)
+                        
+                    
+                    self.surface.fill(color,rect)
             
         
         return
