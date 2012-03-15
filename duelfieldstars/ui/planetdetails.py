@@ -24,7 +24,7 @@ class PlanetDetails(Widget):
         self.text.append(Text(pygame.Rect(0,y,0,0), font, black, 
                               "Planet at "+str(self.planet.position)+":"))
         y += 14
-        self.text.append(Text(pygame.Rect(0,y,0,0), font, black,
+        self.text.append(Text(pygame.Rect(0,y,0,0), font, blue,
                               self.planet.name))
         y += 14
         
