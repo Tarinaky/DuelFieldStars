@@ -31,7 +31,6 @@ class ViewportWidget(Widget):
         return
             
     def on_draw(self):
-        
         self.surface.fill((0,0,0))
         
         (x0,y0) = self.position
@@ -67,7 +66,6 @@ class ViewportWidget(Widget):
                     if planet.baseValue > 125:
                         color = (64,64,255)
                         
-                    
                     self.surface.fill(color,rect)
                     font = pygame.font.Font(pygame.font.get_default_font(), self.scale/2)
                     label = font.render(planet.type, True, textColor)
@@ -86,9 +84,7 @@ class ViewportWidget(Widget):
             x = self.galaxy.width*self.scale - self.width
         if (y + self.height) > self.galaxy.height*self.scale:
             y = self.galaxy.height*self.scale - self.height
- 
         # Snap to edge if outside topleft boundary
-        
         if x < 0:
             x = 0
         if y < 0:
