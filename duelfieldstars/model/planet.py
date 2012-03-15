@@ -7,6 +7,8 @@ import unittest
 
 class Planet(object):
     def __init__(self, *position):
+        self.name = str(position)
+        
         self.baseValue = None # The planet's base value expressed as a percentile.
         self.realisedValue = None # The planet's presently realised value expressed as a percentile.
         

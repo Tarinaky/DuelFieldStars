@@ -24,11 +24,15 @@ class PlanetDetails(Widget):
         
         """
         
-        text = """Planet at """+str(self.planet.position)+"""
-        Type, """+str(self.planet.type)+"""
-        Value, """+str(self.planet.baseValue)+"""%
-        Realisation, """+str(self.planet.realisedValue)+"""%
-        """
+        text = "Planet at "+str(self.planet.position)+":\n"
+        text += self.planet.name+"\n"        
+        text += "    Type, "+str(self.planet.type)+"\n"
+        text += "    Value, "+str(self.planet.baseValue)+"%\n"
+        text += "    Realisation, "+str(self.planet.realisedValue)+"%\n"
+        text += "\n"
+        text += "Mining Improvement Levels\n"
+        for level in self.planet.improvementLevels:
+            text += "    "+str(level)+"\n"
         
         
         font = pygame.font.Font(pygame.font.get_default_font(),12)
