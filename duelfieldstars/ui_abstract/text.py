@@ -23,5 +23,5 @@ class Text(Widget):
         self.color = color
         
     def on_draw(self):
-        write(self.surface, 0,0, self.font, self.color, self.string)
+        self.surface = self.font.render(self.string, True, self.color)
     

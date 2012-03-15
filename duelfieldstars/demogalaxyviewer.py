@@ -18,13 +18,14 @@ class GalaxyViewerWindow(Window):
         
         self.galaxy = Galaxy()
         
-        self.viewport = ViewportWidget(pygame.Rect(0,0,*screenResolution), self.galaxy)
+        (width,height) = screenResolution
+        self.viewport = ViewportWidget(pygame.Rect(0,0,width-174,height), self.galaxy)
         self.add_widget(self.viewport)
         
-        self.hzScrollbar = HorizontalScrollBar(pygame.Rect(0,self.height-8,self.width,self.height), self.viewport)
+        self.hzScrollbar = HorizontalScrollBar(pygame.Rect(0,self.height-8,width-174,8), self.viewport)
         self.add_widget(self.hzScrollbar, False)
         
-        self.vrScrollbar = VerticalScrollBar(pygame.Rect(self.width-8,0,self.width,self.height), self.viewport)
+        self.vrScrollbar = VerticalScrollBar(pygame.Rect(width-8-174,0,8,height), self.viewport)
         self.add_widget(self.vrScrollbar, False)
         
         self.detailsPanel = None
@@ -35,13 +36,10 @@ class GalaxyViewerWindow(Window):
         if event.type == pygame.USEREVENT and event.action == "Open planet":
             if self.detailsPanel is not None:
                 self.remove_widget(self.detailsPanel)
-            self.detailsPanel = PlanetDetails(pygame.Rect(self.width-190, 20, 174, 240), event.planet )
+            self.detailsPanel = PlanetDetails(pygame.Rect(self.width-174, 0, 174, self.height), event.planet )
             self.add_widget(self.detailsPanel, False)
             return True
-        if event.type == pygame.USEREVENT and event.action == "Close planet":
-            if self.detailsPanel is not None:
-                self.remove_widget(self.detailsPanel)
-            return True
+        
   
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)

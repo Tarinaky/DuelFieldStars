@@ -111,9 +111,6 @@ class ViewportWidget(Widget):
             pygame.event.post(event)
         else:
             log.debug("No planet to open at "+str((mouseX,mouseY) ) )
-            event = pygame.event.Event(pygame.USEREVENT, action="Close planet")
-            pygame.event.post(event)
-        
             
     def change_scroll_speed(self, d2X, d2Y):
         (dx,dy) = self.velocity
@@ -124,7 +121,7 @@ class ViewportWidget(Widget):
     def zoom(self, string):
         (mouseX, mouseY) = pygame.mouse.get_pos()
         (x,y) = self.position
-        (mouseX, mouseY) = (mouseX + x, mouseY + y)
+        (mouseX, mouseY) = (mouseX + x - self.x0, mouseY + y - self.y0)
         (mouseX, mouseY) = (mouseX/self.scale, mouseY/self.scale)
         
         if string == "in":
