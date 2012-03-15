@@ -1,12 +1,11 @@
 import pygame
 import logging
 
-from ui_abstract.window import Window
-from ui_abstract.widget import Widget
+from ui.ui_abstract.window import Window
 
-from viewportwidget import ViewportWidget
-from scrollbars import HorizontalScrollBar, VerticalScrollBar
-from planetdetails import PlanetDetails
+from ui.viewportwidget import ViewportWidget
+from ui.scrollbars import HorizontalScrollBar, VerticalScrollBar
+from ui.planetdetails import PlanetDetails
 
 from model.galaxy import Galaxy
 
