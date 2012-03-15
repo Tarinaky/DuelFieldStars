@@ -1,0 +1,27 @@
+
+from widget import Widget
+
+def write(surface, x, y , font,color,string):
+    """Utility function that draws multiple lines of text."""
+    accumulator = y
+    
+    while len(string):
+        (line,_,string) = string.partition('\n')
+        text = font.render(line, True, color)
+        accumulator += font.get_height()
+        surface.blit(text, (x,accumulator) )
+    
+class Text(Widget):
+    """
+    A simple text widget.
+    """
+    def __init__(self, rect, font, color, string):
+        super(Text, self).__init__(rect)
+        
+        self.string = string
+        self.font = font
+        self.color = color
+        
+    def on_draw(self):
+        write(self.surface, 0,0, self.font, self.color, self.string)
+    
