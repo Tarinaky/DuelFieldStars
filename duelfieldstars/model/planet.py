@@ -4,6 +4,7 @@ Contains the planet class, containing all data defining a world in the game's Ga
 
 import random
 import unittest
+import math
 
 import name
 
@@ -38,6 +39,14 @@ class Planet(object):
         
         self.type = prng.choice(['A','B','C','D','E'])
         return
+    
+    @property
+    def income(self):
+        income = self.realisedValue / float(100)
+        for level in self.improvementLevels:
+            if level <= self.realisedImprovement:
+                income += 1
+        return income
 
 class PlanetTest(unittest.TestCase):
     def setUp(self):

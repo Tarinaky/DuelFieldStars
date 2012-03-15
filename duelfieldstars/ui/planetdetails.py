@@ -64,6 +64,15 @@ class PlanetDetails(Widget):
                               "+"+str(self.planet.growth)+"%"))
                 
         y += 14
+        
+        # Income
+        self.text.append(Text(pygame.Rect(20,y,0,0), font, black, 
+                              "Income, "))
+        self.text.append(Text(pygame.Rect(self.width-75,y,0,0), font, black,
+                              str(self.planet.income)+" rez/turn"))
+        y += 14
+        
+        # Space
         y += 14
         
         # Improvement Levels
@@ -83,19 +92,6 @@ class PlanetDetails(Widget):
         
     def on_draw(self):
         self.surface.fill((205,205,193))
-        
-        """text = "Planet at "+str(self.planet.position)+":\n"
-        text += self.planet.name+"\n"        
-        text += "    Type, "+str(self.planet.type)+"\n"
-        text += "    Value, "+str(self.planet.baseValue)+"%\n"
-        text += "    Realisation, "+str(self.planet.realisedValue)+"%\n"
-        text += "\n"
-        text += "Mining Improvement Levels\n"
-        for level in self.planet.improvementLevels:
-            text += "    "+str(level)+"\n"
-            
-        font = pygame.font.Font(pygame.font.get_default_font(),12)
-        write(self.surface, 0,0, font, (0,0,0), text)"""
         
         for text in self.text:
             text._draw()
