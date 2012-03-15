@@ -98,13 +98,14 @@ class ViewportWidget(Widget):
         (mouseX, mouseY) = pygame.mouse.get_pos()
         (viewX, viewY) = self.position
         (mouseX, mouseY) = (mouseX - self.x0 + viewX, mouseY - self.y0 + viewY)
-        (mouseX, mouseY) = (mouseX / self.scale, mouseY/self.scale) # Where in the map the click occured.
+        def rounddiv(a,b):
+            return a // b + (1 if a%b >= b // 2 else 0)
+        (x, y) = (rounddiv(mouseX,self.scale), rounddiv(mouseY,self.scale) ) # Where in the map the click occured.
+        
         
         planet = None
-        for y in [mouseY+1, mouseY-1, mouseY]:
-            for x in [mouseX+1, mouseX-1, mouseX]:
-                if (x,y) in self.galaxy.planets:
-                    planet = self.galaxy.planets[(x,y)]
+        if (x,y) in self.galaxy.planets:
+            planet = self.galaxy.planets[(x,y)]
         if planet is not None:
             event = pygame.event.Event(pygame.USEREVENT, action="Open planet", planet=planet)
             pygame.event.post(event)

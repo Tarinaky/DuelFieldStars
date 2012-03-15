@@ -12,7 +12,7 @@ class PlanetDetails(Widget):
         self.planet = planet
         
     def on_draw(self):
-        self.surface.fill((255,255,255))
+        self.surface.fill((205,205,193))
         
         accumulator = 0
         font = pygame.font.Font(pygame.font.get_default_font(),12)
