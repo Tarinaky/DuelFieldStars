@@ -110,7 +110,7 @@ class ViewportWidget(Widget):
             event = pygame.event.Event(pygame.USEREVENT, action="Open planet", planet=planet)
             pygame.event.post(event)
         else:
-            log.debug("No planet to open at "+str((mouseX,mouseY) ) )
+            log.debug("No planet to open at "+str((x,y) ) )
             
     def change_scroll_speed(self, d2X, d2Y):
         (dx,dy) = self.velocity

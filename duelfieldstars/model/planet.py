@@ -5,9 +5,11 @@ Contains the planet class, containing all data defining a world in the game's Ga
 import random
 import unittest
 
+import name
+
 class Planet(object):
     def __init__(self, *position):
-        self.name = str(position)
+        self.name = name.name()
         
         self.baseValue = None # The planet's base value expressed as a percentile.
         self.currentValue = None # The planet's value after terraforming.
