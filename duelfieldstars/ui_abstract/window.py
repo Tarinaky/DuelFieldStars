@@ -106,6 +106,9 @@ class Window(object):
         self.widgets.append(widget)
         if getFocus == True:
             self.focusedWidget = widget
+    def remove_widget(self, widget):
+        if widget in self.widgets:
+            self.widgets.remove(widget)
     def flip(self):
         pygame.display.flip()           
     @property

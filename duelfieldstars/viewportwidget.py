@@ -26,6 +26,7 @@ class ViewportWidget(Widget):
         self.add_keyboard_handler(self.change_scroll_speed, pygame.KEYDOWN, pygame.K_d, 0, 1, 0) # Right.
         self.add_keyboard_handler(self.change_scroll_speed, pygame.KEYUP, pygame.K_d, 0, -1, 0) # Release.
         # Mouse button handlers
+        self.add_mouse_handler(self.click_left_mouse_button, pygame.MOUSEBUTTONDOWN, 1)
         self.add_mouse_handler(self.zoom, pygame.MOUSEBUTTONDOWN, 4, "in") # Zoom in
         self.add_mouse_handler(self.zoom, pygame.MOUSEBUTTONDOWN, 5, "out") # Zoom out
         return
@@ -93,6 +94,25 @@ class ViewportWidget(Widget):
         self.position = (x,y)
         self.update()
             
+    def click_left_mouse_button(self):
+        (mouseX, mouseY) = pygame.mouse.get_pos()
+        (viewX, viewY) = self.position
+        (mouseX, mouseY) = (mouseX - self.x0 + viewX, mouseY - self.y0 + viewY)
+        (mouseX, mouseY) = (mouseX / self.scale, mouseY/self.scale) # Where in the map the click occured.
+        
+        planet = None
+        for y in [mouseY+1, mouseY-1, mouseY]:
+            for x in [mouseX+1, mouseX-1, mouseX]:
+                if (x,y) in self.galaxy.planets:
+                    planet = self.galaxy.planets[(x,y)]
+        if planet is not None:
+            event = pygame.event.Event(pygame.USEREVENT, action="Open planet", planet=planet)
+            pygame.event.post(event)
+        else:
+            log.debug("No planet to open at "+str((mouseX,mouseY) ) )
+            event = pygame.event.Event(pygame.USEREVENT, action="Close planet")
+            pygame.event.post(event)
+        
             
     def change_scroll_speed(self, d2X, d2Y):
         (dx,dy) = self.velocity
