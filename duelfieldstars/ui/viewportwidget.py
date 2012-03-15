@@ -93,6 +93,12 @@ class ViewportWidget(Widget):
         
         self.position = (x,y)
         self.update()
+    
+    def on_mouse(self,event):
+        if event.type == pygame.MOUSEMOTION and event.buttons == (1,0,0):
+            (x,y) = self.position
+            (dx,dy) = event.rel
+            self.position = (x-dx,y-dy)
             
     def click_left_mouse_button(self):
         (mouseX, mouseY) = pygame.mouse.get_pos()

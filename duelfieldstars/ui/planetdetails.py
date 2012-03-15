@@ -28,6 +28,13 @@ class PlanetDetails(Widget):
                               self.planet.name))
         y += 14
         
+        # Type
+        self.text.append(Text(pygame.Rect(20,y,0,0), font, black,
+                              "Type, "))
+        self.text.append(Text(pygame.Rect(self.width-100,y,0,0), font, black,
+                              self.planet.type))
+        y += 14
+        
         # Value
         self.text.append(Text(pygame.Rect(20,y,0,0), font, black,
                               "Value, "))
