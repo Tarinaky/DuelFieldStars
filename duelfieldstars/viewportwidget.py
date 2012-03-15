@@ -29,23 +29,8 @@ class ViewportWidget(Widget):
         self.add_mouse_handler(self.zoom, pygame.MOUSEBUTTONDOWN, 4, "in") # Zoom in
         self.add_mouse_handler(self.zoom, pygame.MOUSEBUTTONDOWN, 5, "out") # Zoom out
         return
-    
+            
     def on_draw(self):
-        (x,y) = self.position
-        # Snap to edge if outside bottom right boundary
-        if (x + self.width) > self.galaxy.width*self.scale:
-            x = self.galaxy.width*self.scale - self.width
-        if (y + self.height) > self.galaxy.height*self.scale:
-            y = self.galaxy.height*self.scale - self.height
- 
-        # Snap to edge if outside topleft boundary
-        
-        if x < 0:
-            x = 0
-        if y < 0:
-            y = 0
-        
-        self.position = (x,y)
         
         self.surface.fill((0,0,0))
         
@@ -95,6 +80,20 @@ class ViewportWidget(Widget):
         (x,y) = self.position
         (dx,dy) = self.velocity
         (x,y) = (x + dx * deltaTime, y + dy * deltaTime)
+                
+        # Snap to edge if outside bottom right boundary
+        if (x + self.width) > self.galaxy.width*self.scale:
+            x = self.galaxy.width*self.scale - self.width
+        if (y + self.height) > self.galaxy.height*self.scale:
+            y = self.galaxy.height*self.scale - self.height
+ 
+        # Snap to edge if outside topleft boundary
+        
+        if x < 0:
+            x = 0
+        if y < 0:
+            y = 0
+        
         self.position = (x,y)
         self.update()
             
