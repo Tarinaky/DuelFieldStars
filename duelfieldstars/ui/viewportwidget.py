@@ -25,6 +25,8 @@ class ViewportWidget(Widget):
         self.add_keyboard_handler(self.change_scroll_speed, pygame.KEYUP, pygame.K_a, 0, 1, 0) # Release.
         self.add_keyboard_handler(self.change_scroll_speed, pygame.KEYDOWN, pygame.K_d, 0, 1, 0) # Right.
         self.add_keyboard_handler(self.change_scroll_speed, pygame.KEYUP, pygame.K_d, 0, -1, 0) # Release.
+        self.add_keyboard_handler(self.zoom, pygame.KEYDOWN, pygame.K_PAGEUP, 0, "in")
+        self.add_keyboard_handler(self.zoom, pygame.KEYDOWN, pygame.K_PAGEDOWN, 0, "out")
         # Mouse button handlers
         self.add_mouse_handler(self.click_left_mouse_button, pygame.MOUSEBUTTONDOWN, 1)
         self.add_mouse_handler(self.zoom, pygame.MOUSEBUTTONDOWN, 4, "in") # Zoom in
@@ -95,6 +97,11 @@ class ViewportWidget(Widget):
         (x,y) = self.position
         (dx,dy) = self.velocity
         (x,y) = (x + dx * deltaTime, y + dy * deltaTime)
+
+        # Generate event (and thus bypass niceness) if velocity != 0
+        if dx != 0 or dy != 0:
+            event = pygame.event.Event(pygame.USEREVENT, action="Viewport moving")
+            pygame.event.post(event)
                 
         # Snap to edge if outside bottom right boundary
         if (x + self.width) > self.galaxy.width*self.scale:
