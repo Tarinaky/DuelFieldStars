@@ -61,7 +61,7 @@ class ViewportWidget(Widget):
                     #(drawX, drawY) = (drawX*self.scale, drawY*self.scale)
                     #rect = pygame.Rect(drawX, drawY, self.scale/2, self.scale/2)
                     (drawX, drawY) = (x-x0, y-y0)
-                    rect = pygame.Rect(drawX, drawY, self.scale/2, self.scale/2)
+                    rect = pygame.Rect(drawX-self.scale/4, drawY-self.scale/4, self.scale/2, self.scale/2)
                     
                     #Choose colour based on value
                     color = (255,255,0)
@@ -72,9 +72,10 @@ class ViewportWidget(Widget):
                         color = (64,64,255)
                         
                     self.surface.fill(color,rect)
+
                     font = pygame.font.Font(pygame.font.get_default_font(), self.scale/2)
                     label = font.render(planet.type, True, textColor)
-                    self.surface.blit(label, (drawX, drawY))
+                    self.surface.blit(label, (drawX-self.scale/4, drawY-self.scale/4))
 
         """(x0,y0) = self.position
         for y in range ( (y0/self.scale)*self.scale, self.height+y0, self.scale):
