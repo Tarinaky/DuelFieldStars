@@ -49,7 +49,7 @@ class GalaxyViewerWindow(Window):
         
   
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG)
+    #logging.basicConfig(level=logging.DEBUG)
     pygame.init()
     pygame.display.set_mode(screenResolution)
     window = GalaxyViewerWindow()
