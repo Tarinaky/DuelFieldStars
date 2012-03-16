@@ -14,6 +14,7 @@ screenResolution = (640,480)
 class GalaxyViewerWindow(Window):
     def __init__(self):
         super(GalaxyViewerWindow,self).__init__()
+        self.nice = True
         
         self.galaxy = Galaxy()
         

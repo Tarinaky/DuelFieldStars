@@ -16,6 +16,7 @@ class Window(object):
         self.focusedWidget = None
         
         self.clock = pygame.time.Clock()
+        self.nice = False
         
     def run(self):
         """Entry point into the class. Executes the window's main loop."""
@@ -25,6 +26,10 @@ class Window(object):
     
     def _tick(self):
         """Executes a single 'tick' or frame."""
+        if self.nice == True:
+            event = pygame.event.wait() # Wait for events.
+            if self._event(event) == False:
+                log.debug("Unknown event "+str(event) )
         for event in pygame.event.get(): # Run event handler
             if self._event(event) == False:
                 log.debug("Unknown event "+str(event) )
