@@ -23,7 +23,7 @@ class GalaxyViewerWindow(Window):
         self.galaxy = Galaxy()
         
         (width,height) = screenResolution
-        self.viewport = ViewportWidget(pygame.Rect(0,0,width-174,height), self.galaxy)
+        self.viewport = ViewportWidget(pygame.Rect(0,14,width-174,height), self.galaxy)
         self.add_widget(self.viewport)
         
         self.hzScrollbar = HorizontalScrollBar(pygame.Rect(0,self.height-8,width-174,8), self.viewport)
