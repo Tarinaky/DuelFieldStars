@@ -3,6 +3,8 @@ import pygame
 from ui_abstract.widget import Widget
 from ui_abstract.text import Text
 
+from model.faction import NOFACTION
+
 class PlanetDetails(Widget):
     """
     Simple panel containing details about a selected planet.
@@ -26,6 +28,14 @@ class PlanetDetails(Widget):
         y += 14
         self.text.append(Text(pygame.Rect(0,y,0,0), font, blue,
                               self.planet.name))
+        y += 14
+
+        # Owner
+        if self.planet.owner != NOFACTION:
+            self.text.append(Text(pygame.Rect(0,y,0,0), font, black,
+                                  "Faction: "))
+            self.text.append(Text(pygame.Rect(50,y,0,0),font,blue,
+                                  self.planet.owner.name))
         y += 14
         
         # Type
@@ -54,29 +64,33 @@ class PlanetDetails(Widget):
                               "("+str(self.planet.baseValue)+"%)"))
         y += 14
         # Realisation
-        self.text.append(Text(pygame.Rect(20,y,0,0), font, black,
-                              "Realisation, "))
-        color = black
-        if self.planet.realisedValue < 75:
-            color = red
-        if self.planet.realisedValue > 125:
-            color = blue
-        self.text.append(Text(pygame.Rect(self.width-75,y,0,0), font, color,
-                              str(self.planet.realisedValue)+"%" ) )
+        if self.planet.owner != NOFACTION:
+            
+            self.text.append(Text(pygame.Rect(20,y,0,0), font, black,
+                                  "Realisation, "))
+            color = black
+            if self.planet.realisedValue < 75:
+                color = red
+            if self.planet.realisedValue > 125:
+                color = blue
+            self.text.append(Text(pygame.Rect(self.width-75,y,0,0), font, color,
+                                  str(self.planet.realisedValue)+"%" ) )
         y += 14
         # Growth
-        self.text.append(Text(pygame.Rect(20,y,0,0), font, black,
-                              "Growth, "))
-        self.text.append(Text(pygame.Rect(self.width-100,y,0,0), font, black,
-                              "+"+str(self.planet.growth)+"%"))
+        if self.planet.owner != NOFACTION:
+            self.text.append(Text(pygame.Rect(20,y,0,0), font, black,
+                                  "Growth, "))
+            self.text.append(Text(pygame.Rect(self.width-100,y,0,0), font, black,
+                                  "+"+str(self.planet.growth)+"%"))
                 
         y += 14
         
         # Income
-        self.text.append(Text(pygame.Rect(20,y,0,0), font, black, 
-                              "Income, "))
-        self.text.append(Text(pygame.Rect(self.width-75,y,0,0), font, black,
-                              str(self.planet.income)+" rez/turn"))
+        if self.planet.owner != NOFACTION:
+            self.text.append(Text(pygame.Rect(20,y,0,0), font, black, 
+                                  "Income, "))
+            self.text.append(Text(pygame.Rect(self.width-75,y,0,0), font, black,
+                                  str(self.planet.income)+" rez/turn"))
         y += 14
         
         # Space

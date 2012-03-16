@@ -8,9 +8,12 @@ import math
 
 import name
 
+from faction import Faction, NOFACTION
+
 class Planet(object):
     def __init__(self, *position):
         self.name = name.name()
+        self.owner = NOFACTION
         
         self.baseValue = 0 # The planet's base value expressed as a percentile.
         self.currentValue = 0 # The planet's value after terraforming.
