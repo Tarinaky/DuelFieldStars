@@ -12,7 +12,7 @@ from faction import Faction, NOFACTION
 
 class Planet(object):
     def __init__(self, *position):
-        self.name = name.name()
+        self.name = name.planet_name()
         self.owner = NOFACTION
         
         self.baseValue = 0 # The planet's base value expressed as a percentile.

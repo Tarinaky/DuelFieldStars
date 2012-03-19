@@ -13,6 +13,24 @@ def circle(radius,color):
         return cache[key]
     else:
         surface = pygame.Surface((radius*2,radius*2))
+        surface.set_colorkey((0,0,0))
         pygame.draw.circle(surface, color, (radius,radius), radius)
+        cache[key] = surface
+        return surface
+    
+def flag(size, forgroundColor, backgroundColor):
+    key = ("flag", size, forgroundColor, backgroundColor)
+    if key in cache:
+        return cache[key]
+    else:
+        surface = pygame.Surface(size)
+        surface.set_colorkey((0,0,0))
+        (width,height) = size
+        bgRect = pygame.Rect(0,0, width,height)
+        fgRect = pygame.Rect(0,height/3, width, 2*height/3)
+        
+        surface.fill(backgroundColor, bgRect)
+        surface.fill(forgroundColor, fgRect)
+        
         cache[key] = surface
         return surface

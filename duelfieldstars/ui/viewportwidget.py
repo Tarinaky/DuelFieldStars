@@ -3,6 +3,8 @@ import logging
 
 from ui_abstract.widget import Widget
 
+from model.faction import NOFACTION
+
 import texture_cache
 
 log = logging.getLogger(__name__)
@@ -74,11 +76,16 @@ class ViewportWidget(Widget):
                         color = (64,64,255)
                         
                     # self.surface.fill(color,rect)
+                    
+                    "Draw the owner's flair"
+                    if planet.owner is not NOFACTION:
+                        texture = texture_cache.flag((self.scale,self.scale),(255,255,255),(255,255,255))
+                        self.surface.blit(texture, (drawX-self.scale/2, drawY-self.scale/2))
+                    
+                    "Draw circle for the world"
                     texture = texture_cache.circle(self.scale/4,color)
                     self.surface.blit(texture, (drawX-self.scale/4, drawY-self.scale/4))
                     
-                    
-
                     font = pygame.font.Font(pygame.font.get_default_font(), self.scale/2-2)
                     label = font.render(planet.type, True, textColor)
                     (labelWidth,labelHeight) = font.size(planet.type)

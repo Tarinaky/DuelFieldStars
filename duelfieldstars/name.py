@@ -27,10 +27,10 @@ def root(syllables):
         string += syllable()
     return string"""
 
-def name():
+def planet_name():
     string_ = random.choice(PHONECIAN) + random.choice(PHONECIAN) + " " + random.choice(GREEK) + " " + str(random.randint(1,9) )
     string_ = string.capwords(string_)
     return string_
 
 if __name__ == '__main__':
-    print name()
+    print planet_name()
