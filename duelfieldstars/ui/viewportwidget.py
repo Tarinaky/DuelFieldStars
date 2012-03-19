@@ -3,6 +3,8 @@ import logging
 
 from ui_abstract.widget import Widget
 
+import texture_cache
+
 log = logging.getLogger(__name__)
 
 class ViewportWidget(Widget):
@@ -71,25 +73,18 @@ class ViewportWidget(Widget):
                     if planet.baseValue > 125:
                         color = (64,64,255)
                         
-                    self.surface.fill(color,rect)
+                    # self.surface.fill(color,rect)
+                    "TODO: Draw a circle."
+                    texture = texture_cache.circle(self.scale/4,color)
+                    self.surface.blit(texture, (drawX-self.scale/4, drawY-self.scale/4))
+                    
+                    
 
-                    font = pygame.font.Font(pygame.font.get_default_font(), self.scale/2)
+                    font = pygame.font.Font(pygame.font.get_default_font(), self.scale/2-2)
                     label = font.render(planet.type, True, textColor)
-                    self.surface.blit(label, (drawX-self.scale/4, drawY-self.scale/4))
+                    (labelWidth,labelHeight) = font.size(planet.type)
+                    self.surface.blit(label, (drawX-labelWidth/2, drawY-labelHeight/2))
 
-        """(x0,y0) = self.position
-        for y in range ( (y0/self.scale)*self.scale, self.height+y0, self.scale):
-            for x in range ((x0/self.scale)*self.scale, self.width+x0, self.scale):
-                planet = self.galaxy.at(x/self.scale,y/self.scale)
-                if planet is not None:
-                    orange = (255,69,0)
-                    yellow = (255,255,0)
-                    blue = (64,64,255)
-
-                    (drawX, drawY) = (x - x0, y - y0)
-                    rect = pygame.Rect(drawX, drawY, self.scale/2, self.scale/2)
-
-                    self.surface.fill(yellow, rect)"""
 
 
         return
