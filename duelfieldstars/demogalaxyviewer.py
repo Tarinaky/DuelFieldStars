@@ -34,7 +34,7 @@ class GalaxyViewerWindow(Window):
         
         self.detailsPanel = None
 
-        self.ticker = Ticker(pygame.Rect(0,0,self.width-174,14) )
+        self.ticker = Ticker(pygame.Rect(0,0,self.width-174,14), self.galaxy.factions[0] )
         self.add_widget(self.ticker,False)
         
         return

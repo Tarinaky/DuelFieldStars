@@ -1,4 +1,4 @@
-
+import name
 
 class Faction(object):
     """
@@ -8,6 +8,7 @@ class Faction(object):
     def __init__(self):
 
         self.name = "Foo Imperium"
+        self.flag = ()
 
         self.rez = 0 # Resources
         self.planets = [] # List of planets owned
@@ -30,7 +31,8 @@ class Faction(object):
             planet.tick
             
     def generate(self):
-        pass
+        self.name = name.faction_name()
+        self.rez = 2
     
     def add_planet(self, planet):
         self.planets.append(planet)

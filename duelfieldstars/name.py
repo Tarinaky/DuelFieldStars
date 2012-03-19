@@ -12,6 +12,14 @@ GREEK = ["alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "
 PHONECIAN = ["aleph", "beth", "gimel", "daleth", "he", "zayin", "heth", "teth", "yodh", "kaph", "lamedh",
              "mem", "nun", "samekh", "ayin", "pe", "resh", "sin", "taw", "waw"]
 
+PHONEME_VOWEL = ['ea', 'i', 'oo', 'ere', 'ay', 'e', 'a', 'or', 'our', 'oy', 'o', 'u', 'ar', 'ear', 'y', 'ow']
+PHONEME_CONSONENT = ['p', 'b', 't', 'd', 'ch', 'dj', 'k', 'g', 'f', 'v', 'th', 's', 'z', 'sh', 'm', 'n',
+                      'ng', 'h', 'l', 'r', 'w', 'j']
+
+GOVERNMENTS = ['aristocracy', 'kingdom', 'principality', 'oligarchy', 'technocracy',
+               'fiefdom', 'democracy', 'republic', 'union', 'theocracy',
+               'council', 'regieme', 'junta', 'hive', 'colonies']
+
 """def syllable():
     string = ""
     for i in range (0,random.choice([0,1]) ):
@@ -32,5 +40,11 @@ def planet_name():
     string_ = string.capwords(string_)
     return string_
 
+def faction_name():
+    string_ = random.choice(PHONEME_CONSONENT) + random.choice(PHONEME_VOWEL) + random.choice(PHONEME_CONSONENT) +' '+random.choice(GOVERNMENTS)
+    string_ = string.capwords(string_)
+    return string_
+
 if __name__ == '__main__':
-    print planet_name()
+    print [planet_name() for i in range (10)]
+    print [faction_name() for i in range(10)]
