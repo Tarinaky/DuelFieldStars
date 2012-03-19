@@ -74,7 +74,6 @@ class ViewportWidget(Widget):
                         color = (64,64,255)
                         
                     # self.surface.fill(color,rect)
-                    "TODO: Draw a circle."
                     texture = texture_cache.circle(self.scale/4,color)
                     self.surface.blit(texture, (drawX-self.scale/4, drawY-self.scale/4))
                     
