@@ -26,6 +26,10 @@ class Faction(object):
         for planet in self.planets:
             income += planet.income
         return income
+    
+    @property 
+    def upkeep(self):
+        return 0 
 
     def tick(self):
         """Update the faction by 1 turn."""

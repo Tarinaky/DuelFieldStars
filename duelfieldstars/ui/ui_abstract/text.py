@@ -22,6 +22,14 @@ class Text(Widget):
         self.font = font
         self.color = color
         
+        self.on_draw()
+        
     def on_draw(self):
         self.surface = self.font.render(self.string, True, self.color)
     
+    @property
+    def width(self):
+        return self.surface.get_width()
+    @property
+    def height(self):
+        return self.surface.get_height()
