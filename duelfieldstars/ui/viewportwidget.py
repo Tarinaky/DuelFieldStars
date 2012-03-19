@@ -7,6 +7,8 @@ from model.faction import NOFACTION
 
 import texture_cache
 
+from color import COLORS
+
 log = logging.getLogger(__name__)
 
 class ViewportWidget(Widget):
@@ -19,6 +21,8 @@ class ViewportWidget(Widget):
         self.position = (0,0) # position in px
         self.velocity = (0,0) # position in px/ms
         self.scale = 32 # Px width of 1 pc
+        
+        self.selected = None # What is the user currently selecting?
         
         # Register key handlers.
         self.add_keyboard_handler(self.change_scroll_speed, pygame.KEYDOWN, pygame.K_w, 0, 0, -1) # Up.
@@ -57,8 +61,8 @@ class ViewportWidget(Widget):
             self.surface.blit(label, (x-x0,0) )
         
         # Draw planets
-        for y in range ( (y0/self.scale)*self.scale, self.height+y0, self.scale):
-            for x in range ( (x0/self.scale)*self.scale, self.width+x0, self.scale):
+        for y in range ( (y0/self.scale)*self.scale, self.height+y0+self.scale, self.scale):
+            for x in range ( (x0/self.scale)*self.scale, self.width+x0+self.scale, self.scale):
                 planet = self.galaxy.at(x/self.scale, y/self.scale)
                 if planet is not None:
                     #(drawX, drawY) = (x - x0 - 0.25, y - y0 - 0.25)
@@ -92,7 +96,15 @@ class ViewportWidget(Widget):
                     label = font.render(planet.type, True, textColor)
                     (labelWidth,labelHeight) = font.size(planet.type)
                     self.surface.blit(label, (drawX-labelWidth/2, drawY-labelHeight/2))
-
+                    
+        "Draw selection box"
+        if self.selected is not None:
+            texture = texture_cache.rect((self.scale, self.scale), COLORS["white"], 3)
+            (translateX, translateY) = self.position
+            (drawX, drawY) = self.selected
+            (drawX, drawY) = (drawX*self.scale, drawY*self.scale)
+            (drawX, drawY) = (drawX - translateX - self.scale/2, drawY - translateY - self.scale/2) 
+            self.surface.blit(texture, (drawX, drawY) )
 
 
         return
@@ -136,6 +148,7 @@ class ViewportWidget(Widget):
             return a // b + (1 if a%b >= b // 2 else 0)
         (x, y) = (rounddiv(mouseX,self.scale), rounddiv(mouseY,self.scale) ) # Where in the map the click occured.
         
+        self.selected = (x, y)
         
         planet = None
         if (x,y) in self.galaxy.planets:

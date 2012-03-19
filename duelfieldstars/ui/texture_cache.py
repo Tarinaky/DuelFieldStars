@@ -34,3 +34,18 @@ def flag(size, forgroundColor, backgroundColor):
         
         cache[key] = surface
         return surface
+    
+def rect(size, color, thickness):
+    key = ("rect", size, color, thickness)
+    if key in cache:
+        return cache[key]
+    else:
+        surface = pygame.Surface(size)
+        surface.set_colorkey((0,0,0))
+        (width,height) = size
+        rect = (pygame.Rect(0,0, width, height))
+        pygame.draw.rect(surface, color, rect, thickness)
+        
+        cache[key] = surface
+        return surface
+        
