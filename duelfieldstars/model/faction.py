@@ -28,6 +28,15 @@ class Faction(object):
 
         for planet in self.planets:
             planet.tick
+            
+    def generate(self):
+        pass
+    
+    def add_planet(self, planet):
+        self.planets.append(planet)
+        
+    def remove_planet(self, planet):
+        self.planets.remove(planet)
 
 
 NOFACTION = Faction()
