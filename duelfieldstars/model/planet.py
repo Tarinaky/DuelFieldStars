@@ -51,8 +51,7 @@ class Planet(object):
         for _ in range(4):
             accumulator = accumulator + prng.randint(5,20)
             self.improvementLevels.append(accumulator)
-        self.realisedImprovement = self.improvementLevels[0]
-        
+                
         self.type = prng.choice(['A','B','C','D','E'])
         return
     

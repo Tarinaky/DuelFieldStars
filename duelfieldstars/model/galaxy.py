@@ -45,7 +45,7 @@ class Galaxy(object):
         self.factions.append(faction)
         
         homeworld = random.choice(self.planets.values() )
-        homeworld.set(150,150,150,[1,5,10,15,20],1,'A')
+        homeworld.set(150,150,150,[1,5,10,15,20],1,faction.type)
         homeworld.set_owner(faction)
     
     def at(self,x,y):

@@ -12,6 +12,7 @@ class Faction(object):
 
         self.name = "Foo Imperium"
         self.flag = (color.COLORS["white"],color.COLORS["white"])
+        self.type = 'X'
 
         self.rez = 0 # Resources
         self.planets = [] # List of planets owned
@@ -44,6 +45,8 @@ class Faction(object):
         while forgroundColor == backgroundColor:
             forgroundColor = color.random()
         self.flag = (forgroundColor,backgroundColor)
+        "Set type"
+        self.type = random.choice(['A','B','C','D','E'])
          
     
     def add_planet(self, planet):
