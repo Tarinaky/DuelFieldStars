@@ -27,7 +27,7 @@ def flag(size, forgroundColor, backgroundColor):
         surface.set_colorkey((0,0,0))
         (width,height) = size
         bgRect = pygame.Rect(0,0, width,height)
-        fgRect = pygame.Rect(0,height/4, width, height/2)
+        fgRect = pygame.Rect(0,height/4, width, height/2+1)
         
         surface.fill(backgroundColor, bgRect)
         surface.fill(forgroundColor, fgRect)
