@@ -18,7 +18,7 @@ PHONEME_CONSONENT = ['p', 'b', 't', 'd', 'ch', 'dj', 'k', 'g', 'f', 'v', 'th', '
 
 GOVERNMENTS = ['aristocracy', 'kingdom', 'principality', 'oligarchy', 'technocracy',
                'fiefdom', 'democracy', 'republic', 'union', 'theocracy',
-               'council', 'regieme', 'junta', 'hive', 'colonies']
+               'council', 'regime', 'junta', 'hive', 'colonies']
 
 """def syllable():
     string = ""
