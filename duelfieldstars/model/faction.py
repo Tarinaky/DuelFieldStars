@@ -1,3 +1,6 @@
+import random
+import color
+
 import name
 
 class Faction(object):
@@ -8,7 +11,7 @@ class Faction(object):
     def __init__(self):
 
         self.name = "Foo Imperium"
-        self.flag = ()
+        self.flag = (color.COLORS["white"],color.COLORS["white"])
 
         self.rez = 0 # Resources
         self.planets = [] # List of planets owned
@@ -33,6 +36,15 @@ class Faction(object):
     def generate(self):
         self.name = name.faction_name()
         self.rez = 2
+        "Set flag"
+        backgroundColor = color.random()
+        while backgroundColor == color.COLORS["black"]:
+            backgroundColor = color.random()
+        forgroundColor = color.random()
+        while forgroundColor == backgroundColor:
+            forgroundColor = color.random()
+        self.flag = (forgroundColor,backgroundColor)
+         
     
     def add_planet(self, planet):
         self.planets.append(planet)

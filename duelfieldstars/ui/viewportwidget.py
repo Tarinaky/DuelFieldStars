@@ -79,7 +79,9 @@ class ViewportWidget(Widget):
                     
                     "Draw the owner's flair"
                     if planet.owner is not NOFACTION:
-                        texture = texture_cache.flag((self.scale,self.scale),(255,255,255),(255,255,255))
+                        (forgroundColor,backgroundColor) = planet.owner.flag
+                        
+                        texture = texture_cache.flag((self.scale,self.scale),forgroundColor,backgroundColor)
                         self.surface.blit(texture, (drawX-self.scale/2, drawY-self.scale/2))
                     
                     "Draw circle for the world"
