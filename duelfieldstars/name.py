@@ -1,6 +1,6 @@
 """Functions for the generation of pseudo-random names."""
 
-import random
+from random import choice, randint
 import string
 
 VOWELS = ['a','e','i','o','u']
@@ -14,7 +14,7 @@ PHONECIAN = ["aleph", "beth", "gimel", "daleth", "he", "zayin", "heth", "teth", 
 
 PHONEME_VOWEL = ['ea', 'i', 'oo', 'ere', 'ay', 'e', 'a', 'or', 'our', 'oy', 'o', 'u', 'ar', 'ear', 'y', 'ow']
 PHONEME_CONSONENT = ['p', 'b', 't', 'd', 'ch', 'dj', 'k', 'g', 'f', 'v', 'th', 's', 'z', 'sh', 'm', 'n',
-                      'ng', 'h', 'l', 'r', 'w', 'j']
+                      'h', 'l', 'r', 'w', 'j', 'st']
 
 GOVERNMENTS = ['aristocracy', 'kingdom', 'principality', 'oligarchy', 'technocracy',
                'fiefdom', 'democracy', 'republic', 'union', 'theocracy',
@@ -36,12 +36,15 @@ def root(syllables):
     return string"""
 
 def planet_name():
-    string_ = random.choice(PHONECIAN) + random.choice(PHONECIAN) + " " + random.choice(GREEK) + " " + str(random.randint(1,9) )
+    string_ = choice(PHONECIAN) + choice(PHONECIAN) + " " + choice(GREEK) + " " + str(randint(1,9) )
     string_ = string.capwords(string_)
     return string_
 
 def faction_name():
-    string_ = random.choice(PHONEME_CONSONENT) + random.choice(PHONEME_VOWEL) + random.choice(PHONEME_CONSONENT) +' '+random.choice(GOVERNMENTS)
+    string_ = choice(PHONEME_CONSONENT) + choice(PHONEME_VOWEL) + choice(PHONEME_CONSONENT)
+    for i in range(randint(0,2) ):
+        string_ += choice(PHONEME_VOWEL) + choice(PHONEME_CONSONENT) 
+    string_ += ' '+choice(GOVERNMENTS)
     string_ = string.capwords(string_)
     return string_
 
