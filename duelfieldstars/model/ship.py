@@ -1,3 +1,5 @@
+import name
+
 from faction import Faction, NOFACTION
 
 class Ship(object):
@@ -11,6 +13,7 @@ class Ship(object):
     def __init__(self,faction,position):
         self.faction = faction
         self.position = position # Position in pc
+        self.name = name.ship_name()
         
         self.destination = self.position # Target destination.
                 

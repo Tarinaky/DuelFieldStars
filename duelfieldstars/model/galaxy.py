@@ -5,6 +5,8 @@ Contains the Galaxy class, containing the data pertaining to a game map.
 import random
 import unittest
 
+import name
+
 from planet import Planet
 from faction import Faction, NOFACTION
 
@@ -47,6 +49,7 @@ class Galaxy(object):
         homeworld = random.choice(self.planets.values() )
         homeworld.set(150,150,150,[1,5,10,15,20],1,faction.type)
         homeworld.set_owner(faction)
+        homeworld.name = name.name()
     
     def at(self,x,y):
         if (x,y) in self.planets:
