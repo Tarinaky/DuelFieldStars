@@ -33,4 +33,5 @@ class Menu (Widget):
         super(Menu,self)._draw()
         
         for (widget, _, _) in self.options:
-            self.surface.blit(widget.surface, widget.x0, widget.y0)
+            widget._draw()
+            self.surface.blit(widget.surface, (widget.x0, widget.y0) )
