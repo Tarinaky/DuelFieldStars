@@ -37,6 +37,7 @@ class ViewportWidget(Widget):
         self.add_keyboard_handler(self.zoom, pygame.KEYDOWN, pygame.K_PAGEDOWN, 0, "out")
         # Mouse button handlers
         self.add_mouse_handler(self.click_left_mouse_button, pygame.MOUSEBUTTONDOWN, 1)
+        self.add_mouse_handler(self.click_right_mouse_button, pygame.MOUSEBUTTONDOWN, 3)
         self.add_mouse_handler(self.zoom, pygame.MOUSEBUTTONDOWN, 4, "in") # Zoom in
         self.add_mouse_handler(self.zoom, pygame.MOUSEBUTTONDOWN, 5, "out") # Zoom out
         return
@@ -160,6 +161,16 @@ class ViewportWidget(Widget):
             log.debug("No planet to open at "+str((x,y) ) )"""
         event = pygame.event.Event(pygame.USEREVENT, action="selection", selection=self.selected)
         pygame.event.post(event)
+        
+    def click_right_mouse_button(self):
+        (mouseX, mouseY) = pygame.mouse.get_pos()
+        (viewX, viewY) = self.position
+        (mouseX, mouseY) = (mouseX - self.x0 + viewX, mouseY - self.y0 + viewY)
+        x = mouseX / self.scale + (1 if mouseX % self.scale >= self.scale/2 else 0)
+        y = mouseY / self.scale + (1 if mouseY % self.scale >= self.scale/2 else 0)
+        
+        event = pygame.event.Event(pygame.USEREVENT, action="open menu", selection=(x,y) )
+        pygame.event.post(event) 
             
     def change_scroll_speed(self, d2X, d2Y):
         (dx,dy) = self.velocity
