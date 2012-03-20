@@ -14,7 +14,7 @@ PHONECIAN = ["aleph", "beth", "gimel", "daleth", "he", "zayin", "heth", "teth", 
 
 PHONEME_VOWEL = ['ea', 'i', 'oo', 'ere', 'ay', 'e', 'a', 'or', 'our', 'oy', 'o', 'u', 'ar', 'ear', 'y']
 PHONEME_CONSONANT = ['p', 'b', 't', 'd', 'ch', 'dj', 'k', 'g', 'f', 'v', 'th', 's', 'z', 'sh', 'm', 'n',
-                      'h', 'l', 'r', 'w', 'j', 'st', 'w']
+                      'h', 'l', 'r', 'w', 'j', 'st', 'w', 'ng']
 
 GOVERNMENTS = ['aristocracy', 'kingdom', 'principality', 'oligarchy', 'technocracy',
                'fiefdom', 'democracy', 'republic', 'union', 'theocracy',
@@ -42,7 +42,7 @@ def planet_name():
 
 def faction_name():
     string_ = choice(PHONEME_CONSONANT) + choice(PHONEME_VOWEL) + choice(PHONEME_CONSONANT)
-    for i in range(randint(0,2) ):
+    for i in range(randint(0,1) ):
         string_ += choice(PHONEME_VOWEL) + choice(PHONEME_CONSONANT) 
     string_ += ' '+choice(GOVERNMENTS)
     string_ = string.capwords(string_)
