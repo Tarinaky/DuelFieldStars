@@ -40,12 +40,27 @@ class GalaxyViewerWindow(Window):
         return
     
     def on_event(self, event):
-        if event.type == pygame.USEREVENT and event.action == "Open planet":
+        """if event.type == pygame.USEREVENT and event.action == "Open planet":
             if self.detailsPanel is not None:
                 self.remove_widget(self.detailsPanel)
             self.detailsPanel = PlanetDetails(pygame.Rect(self.width-174, 0, 174, self.height), event.planet )
             self.add_widget(self.detailsPanel, False)
-            return True
+            return True"""
+        if event.type == pygame.USEREVENT and event.action == "selection":
+            if self.detailsPanel is not None:
+                self.remove_widget(self.detailsPanel)
+            "Get planet"
+            planet = None
+            (x,y) = event.selection
+            if (x,y) in self.galaxy.planets:
+                planet = self.galaxy.planets[(x,y)]
+            if planet is None:  
+                log.debug("No planet at "+str((x,y)))
+            else:
+                self.detailsPanel = PlanetDetails(pygame.Rect(self.width-174, 0, 174, self.height), planet )
+                self.add_widget(self.detailsPanel, False)
+                
+        
         
   
 if __name__ == '__main__':

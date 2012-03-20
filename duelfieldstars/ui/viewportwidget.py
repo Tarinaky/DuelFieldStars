@@ -150,14 +150,16 @@ class ViewportWidget(Widget):
         
         self.selected = (x, y)
         
-        planet = None
+        """planet = None
         if (x,y) in self.galaxy.planets:
             planet = self.galaxy.planets[(x,y)]
         if planet is not None:
             event = pygame.event.Event(pygame.USEREVENT, action="Open planet", planet=planet)
             pygame.event.post(event)
         else:
-            log.debug("No planet to open at "+str((x,y) ) )
+            log.debug("No planet to open at "+str((x,y) ) )"""
+        event = pygame.event.Event(pygame.USEREVENT, action="selection", selection=self.selected)
+        pygame.event.post(event)
             
     def change_scroll_speed(self, d2X, d2Y):
         (dx,dy) = self.velocity
