@@ -10,6 +10,7 @@ def random():
 
 COLORS ["black"] = (0,0,0),
 COLORS ["white"] = (0xFF,0xFF,0xFF)
+COLORS ["gray"] = (205,205,193)
 
 COLORS ["orange"] = (0xFF,0x45,0)
 COLORS ["yellow"] = (0xff,0xff,0)
