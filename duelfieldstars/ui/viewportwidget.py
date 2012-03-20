@@ -169,7 +169,7 @@ class ViewportWidget(Widget):
         x = mouseX / self.scale + (1 if mouseX % self.scale >= self.scale/2 else 0)
         y = mouseY / self.scale + (1 if mouseY % self.scale >= self.scale/2 else 0)
         
-        event = pygame.event.Event(pygame.USEREVENT, action="open menu", selection=(x,y) )
+        event = pygame.event.Event(pygame.USEREVENT, action="open menu", selection=(x,y))
         pygame.event.post(event) 
             
     def change_scroll_speed(self, d2X, d2Y):

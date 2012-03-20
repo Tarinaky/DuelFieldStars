@@ -7,8 +7,10 @@ from ui_abstract.text import Text
 
 class ActionMenu (Menu):
     
-    def __init__(self,rect):
+    def __init__(self,rect, selection):
         super(ActionMenu,self).__init__(rect)
+        
+        self.selection = selection
         
         font = pygame.font.Font(pygame.font.get_default_font(), 12)
         dx = dy = 0
