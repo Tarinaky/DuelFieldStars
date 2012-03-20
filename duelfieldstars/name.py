@@ -12,9 +12,9 @@ GREEK = ["alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "
 PHONECIAN = ["aleph", "beth", "gimel", "daleth", "he", "zayin", "heth", "teth", "yodh", "kaph", "lamedh",
              "mem", "nun", "samekh", "ayin", "pe", "resh", "sin", "taw", "waw"]
 
-PHONEME_VOWEL = ['ea', 'i', 'oo', 'ere', 'ay', 'e', 'a', 'or', 'our', 'oy', 'o', 'u', 'ar', 'ear', 'y', 'ow']
+PHONEME_VOWEL = ['ea', 'i', 'oo', 'ere', 'ay', 'e', 'a', 'or', 'our', 'oy', 'o', 'u', 'ar', 'ear', 'y']
 PHONEME_CONSONENT = ['p', 'b', 't', 'd', 'ch', 'dj', 'k', 'g', 'f', 'v', 'th', 's', 'z', 'sh', 'm', 'n',
-                      'h', 'l', 'r', 'w', 'j', 'st']
+                      'h', 'l', 'r', 'w', 'j', 'st', 'w']
 
 GOVERNMENTS = ['aristocracy', 'kingdom', 'principality', 'oligarchy', 'technocracy',
                'fiefdom', 'democracy', 'republic', 'union', 'theocracy',
