@@ -24,7 +24,7 @@ def flag(size, forgroundColor, backgroundColor):
         return cache[key]
     else:
         surface = pygame.Surface(size)
-        surface.set_colorkey((0,0,0))
+        # surface.set_colorkey((0,0,0))
         (width,height) = size
         bgRect = pygame.Rect(0,0, width,height)
         fgRect = pygame.Rect(0,height/4, width, height/2+1)
