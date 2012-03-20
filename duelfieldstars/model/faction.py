@@ -16,6 +16,7 @@ class Faction(object):
 
         self.rez = 0 # Resources
         self.planets = [] # List of planets owned
+        self.ships = [] # List of ships owned
 
         self.tech = {} # Table of tech levels by key
 
@@ -58,6 +59,12 @@ class Faction(object):
         
     def remove_planet(self, planet):
         self.planets.remove(planet)
+        
+    def add_ship(self, ship):
+        self.ships.append(ship)
+        
+    def remove_ship(self, ship):
+        self.ships.remove(ship)
 
 
 NOFACTION = Faction()
