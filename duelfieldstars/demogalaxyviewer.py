@@ -8,6 +8,7 @@ from ui.viewportwidget import ViewportWidget
 from ui.scrollbars import HorizontalScrollBar, VerticalScrollBar
 from ui.planetdetails import PlanetDetails
 from ui.ticker import Ticker
+from ui.action_menu import ActionMenu
 
 from model.galaxy import Galaxy
 
@@ -33,6 +34,7 @@ class GalaxyViewerWindow(Window):
         self.add_widget(self.vrScrollbar, False)
         
         self.detailsPanel = None
+        self.menu = None
 
         self.ticker = Ticker(pygame.Rect(0,0,self.width-174,14), self.galaxy.factions[0] )
         self.add_widget(self.ticker,False)
@@ -46,6 +48,17 @@ class GalaxyViewerWindow(Window):
             self.detailsPanel = PlanetDetails(pygame.Rect(self.width-174, 0, 174, self.height), event.planet )
             self.add_widget(self.detailsPanel, False)
             return True"""
+        if self.menu != None:
+            if event.type == pygame.KEYDOWN:
+                return self.menu._keyboard(event)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if self.menu.rect.collidepoint(event.pos):
+                    return self.menu._mouse(event)
+                else:
+                    self.remove_widget(self.menu)
+                    self.menu = None
+                    self.focusedWidget = self.viewport
+            
         if event.type == pygame.USEREVENT and event.action == "selection":
             if self.detailsPanel is not None:
                 self.remove_widget(self.detailsPanel)
@@ -59,7 +72,13 @@ class GalaxyViewerWindow(Window):
             else:
                 self.detailsPanel = PlanetDetails(pygame.Rect(self.width-174, 0, 174, self.height), planet )
                 self.add_widget(self.detailsPanel, False)
-                
+        
+        if event.type == pygame.USEREVENT and event.action == "open menu":
+            if self.menu is not None:
+                self.remove_widget(self.menu)
+            (mouseX, mouseY) = pygame.mouse.get_pos()
+            self.menu = ActionMenu(pygame.Rect(mouseX-1,mouseY-1,20,20))
+            self.add_widget(self.menu, True)        
         
         
   
