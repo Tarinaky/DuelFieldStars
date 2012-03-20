@@ -11,8 +11,8 @@ class Menu (Widget):
         
         self.options = [] # A list of (widget,method,*arg) tuples.
         
-        self.add_mouse_handler(self.click, pygame.MOUSEBUTTONDOWN, 1)
-        self.add_mouse_handler(self.click, pygame.MOUSEBUTTONDOWN, 3)
+        self.add_mouse_handler(self.click, pygame.MOUSEBUTTONDOWN, 1, 1)
+        self.add_mouse_handler(self.click, pygame.MOUSEBUTTONDOWN, 3, 3)
         
     def add_option(self, widget, method, *arguments):
         self.options.append((widget,method,arguments))
@@ -21,6 +21,7 @@ class Menu (Widget):
         super(Menu,self)._tick(deltaTime)
         for (widget,_,_) in self.options:
             widget._tick(deltaTime)
+        self.update()
         
     def click(self,button):
         (mouseX, mouseY) = pygame.mouse.get_pos()
