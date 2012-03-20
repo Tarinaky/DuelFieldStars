@@ -4,7 +4,7 @@ from random import choice, randint
 import string
 
 VOWELS = ['a','e','i','o','u']
-CONSONENTS = ['b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','y','z']
+CONSONANTS = ['b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','y','z']
 
 GREEK = ["alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "iota", "kappa", "lambda",
          "mu", "nu", "xi", "omicron", "pi", "rho", "sigma", "tau", "upsilon", "phi", "chi", "psi", "omega"  ]
@@ -13,7 +13,7 @@ PHONECIAN = ["aleph", "beth", "gimel", "daleth", "he", "zayin", "heth", "teth", 
              "mem", "nun", "samekh", "ayin", "pe", "resh", "sin", "taw", "waw"]
 
 PHONEME_VOWEL = ['ea', 'i', 'oo', 'ere', 'ay', 'e', 'a', 'or', 'our', 'oy', 'o', 'u', 'ar', 'ear', 'y']
-PHONEME_CONSONENT = ['p', 'b', 't', 'd', 'ch', 'dj', 'k', 'g', 'f', 'v', 'th', 's', 'z', 'sh', 'm', 'n',
+PHONEME_CONSONANT = ['p', 'b', 't', 'd', 'ch', 'dj', 'k', 'g', 'f', 'v', 'th', 's', 'z', 'sh', 'm', 'n',
                       'h', 'l', 'r', 'w', 'j', 'st', 'w']
 
 GOVERNMENTS = ['aristocracy', 'kingdom', 'principality', 'oligarchy', 'technocracy',
@@ -41,9 +41,9 @@ def planet_name():
     return string_
 
 def faction_name():
-    string_ = choice(PHONEME_CONSONENT) + choice(PHONEME_VOWEL) + choice(PHONEME_CONSONENT)
+    string_ = choice(PHONEME_CONSONANT) + choice(PHONEME_VOWEL) + choice(PHONEME_CONSONANT)
     for i in range(randint(0,2) ):
-        string_ += choice(PHONEME_VOWEL) + choice(PHONEME_CONSONENT) 
+        string_ += choice(PHONEME_VOWEL) + choice(PHONEME_CONSONANT) 
     string_ += ' '+choice(GOVERNMENTS)
     string_ = string.capwords(string_)
     return string_
