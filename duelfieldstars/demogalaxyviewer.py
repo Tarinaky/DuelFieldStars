@@ -78,7 +78,7 @@ class GalaxyViewerWindow(Window):
             if self.menu is not None:
                 self.remove_widget(self.menu)
             (mouseX, mouseY) = pygame.mouse.get_pos()
-            self.menu = ActionMenu(pygame.Rect(mouseX-1,mouseY-1,20,20),event.selection)
+            self.menu = ActionMenu(pygame.Rect(mouseX-1,mouseY-1,20,20),self.viewport.selected, event.selection)
             self.add_widget(self.menu, True)        
         
         

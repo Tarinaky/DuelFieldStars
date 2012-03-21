@@ -9,17 +9,18 @@ from model import game
 
 class ActionMenu (Menu):
     
-    def __init__(self,rect, selection):
+    def __init__(self,rect, source, destination):
         super(ActionMenu,self).__init__(rect)
         
-        self.selection = selection
+        self.source = source
+        self.destination = destination
         
         font = pygame.font.Font(pygame.font.get_default_font(), 12)
         dx = dy = 0
         "Name"
-        name = str("at "+str(selection) )
-        if selection in game.galaxy.planets:
-            name = game.galaxy.planets[selection].name
+        name = str("Deep space at "+str(destination) )
+        if destination in game.galaxy.planets:
+            name = game.galaxy.planets[destination].name
         
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["white"], name)
         self.options.append((widget,None,None))
