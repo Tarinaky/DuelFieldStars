@@ -48,4 +48,14 @@ def rect(size, color, thickness):
         
         cache[key] = surface
         return surface
+    
+def text(fontname, size, color, string):
+    key = ("text", fontname, size, color, string)
+    if key in cache:
+        return cache[key]
+    else:
+        font = pygame.font.Font(fontname, size)
+        surface = font.render(string, True, color)
+        cache[key] = surface
+        return surface
         
