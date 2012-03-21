@@ -1,9 +1,13 @@
 import pygame
 
 from ui_abstract.widget import Widget
-from ui_abstract.text import Text
+
+import texture_cache
+from color import COLORS
 
 from model.faction import NOFACTION
+
+fontSize = 16
 
 class PlanetDetails(Widget):
     """
@@ -14,107 +18,133 @@ class PlanetDetails(Widget):
         
         self.planet = planet
         
-        black = (0,0,0)
-        red = (255,0,0)
-        blue = (0,0,255)
         
-        font = pygame.font.Font(pygame.font.get_default_font(),12)
-        self.text = []
+        
+        
+    def on_draw(self):
+        self.surface.fill((205,205,193))
         
         y = 0
+        
         # Header
-        self.text.append(Text(pygame.Rect(0,y,0,0), font, black, 
-                              "Planet at "+str(self.planet.position)+":"))
+        texture = texture_cache.text(None, fontSize, COLORS["black"], 
+                                     "Planet at "+str(self.planet.position)+":")
+        self.surface.blit(texture,(0,y))
         y += 14
-        self.text.append(Text(pygame.Rect(0,y,0,0), font, blue,
-                              self.planet.name))
+        
+        texture = texture_cache.text(None, fontSize, COLORS["blue"], 
+                                     self.planet.name)
+        self.surface.blit(texture, (0,y))
         y += 14
 
         # Owner
         if self.planet.owner != NOFACTION:
-            self.text.append(Text(pygame.Rect(0,y,0,0), font, black,
-                                  "Faction: "))
-            self.text.append(Text(pygame.Rect(50,y,0,0),font,blue,
-                                  self.planet.owner.name))
+            texture = texture_cache.text(None, fontSize, COLORS["black"],
+                                         "Faction: ")
+            self.surface.blit(texture, (0,y))
+            
+            texture = texture_cache.text(None, fontSize, COLORS["blue"],
+                                         self.planet.owner.name)
+            self.surface.blit(texture, (50,y))
         y += 14
         
         # Type
-        self.text.append(Text(pygame.Rect(20,y,0,0), font, black,
-                              "Type, "))
-        self.text.append(Text(pygame.Rect(self.width-100,y,0,0), font, black,
-                              self.planet.type))
+        texture = texture_cache.text(None, fontSize, COLORS["black"],
+                                     "Type, ")
+        self.surface.blit(texture, (20,y))
+        
+        texture = texture_cache.text(None, fontSize, COLORS["black"],
+                                     self.planet.type)
+        self.surface.blit(texture, (self.width-100,y))
         y += 14
         
         # Value
-        self.text.append(Text(pygame.Rect(20,y,0,0), font, black,
-                              "Value, "))
-        color = black
+        texture = texture_cache.text(None, fontSize, COLORS["black"],
+                                     "Value, ")
+        self.surface.blit(texture, (20,y))
+        
+        color = COLORS["black"]
         if self.planet.currentValue < 75:
-            color = red
+            color = COLORS["red"]
         if self.planet.currentValue > 125:
-            color = blue
-        self.text.append(Text(pygame.Rect(self.width-100,y,0,0), font, color,
-                              str(self.planet.currentValue)+"%"))
-        color = black
+            color = COLORS["blue"]
+        
+        texture = texture_cache.text(None, fontSize, color,
+                                     str(self.planet.currentValue)+"%")
+        self.surface.blit(texture, (self.width-100,y,0,0))
+        
+        color = COLORS["black"]
         if self.planet.baseValue < 75:
-            color = red
+            color = COLORS["red"]
         if self.planet.baseValue > 125:
-            color = blue
-        self.text.append(Text(pygame.Rect(self.width-50,y,0,0), font, color,
-                              "("+str(self.planet.baseValue)+"%)"))
+            color = COLORS["blue"]
+            
+        texture = texture_cache.text(None, fontSize, color,
+                                     "("+str(self.planet.baseValue)+"%)")
+        self.surface.blit(texture, (self.width-50,y))
         y += 14
+        
         # Realisation
         if self.planet.owner != NOFACTION:
             
-            self.text.append(Text(pygame.Rect(20,y,0,0), font, black,
-                                  "Realisation, "))
-            color = black
+            texture = texture_cache.text(None, fontSize, COLORS["black"],
+                                         "Realisation, ")
+            self.surface.blit(texture, (20,y))
+            color = COLORS["black"]
             if self.planet.realisedValue < 75:
-                color = red
+                color = COLORS["red"]
             if self.planet.realisedValue > 125:
-                color = blue
-            self.text.append(Text(pygame.Rect(self.width-75,y,0,0), font, color,
-                                  str(self.planet.realisedValue)+"%" ) )
+                color = COLORS["blue"]
+                
+            texture = texture_cache.text(None, fontSize, color,
+                                         str(self.planet.realisedValue)+"%")
+            self.surface.blit(texture, (self.width-75,y))
         y += 14
+        
         # Growth
+        
+        
+        
         if self.planet.owner != NOFACTION:
-            self.text.append(Text(pygame.Rect(20,y,0,0), font, black,
-                                  "Growth, "))
-            self.text.append(Text(pygame.Rect(self.width-100,y,0,0), font, black,
-                                  "+"+str(self.planet.growth)+"%"))
+            
+            texture = texture_cache.text(None, fontSize, COLORS["black"],
+                                     "Growth, ")
+            self.surface.blit(texture, (20,y))
+            
+            texture = texture_cache.text(None, fontSize, COLORS["black"],
+                                         "+"+str(self.planet.growth)+"%")
+            self.surface.blit(texture, (self.width-100,y))
                 
         y += 14
         
         # Income
         if self.planet.owner != NOFACTION:
-            self.text.append(Text(pygame.Rect(20,y,0,0), font, black, 
-                                  "Income, "))
-            self.text.append(Text(pygame.Rect(self.width-75,y,0,0), font, black,
-                                  str(self.planet.income)+" rez/turn"))
+            
+            texture = texture_cache.text(None, fontSize, COLORS["black"],
+                                         "Income, ")
+            self.surface.blit(texture, (20,y))
+            
+            texture = texture_cache.text(None, fontSize, COLORS["black"],
+                                         str(self.planet.income)+" rez/turn")
+            self.surface.blit(texture, (self.width-75,y))
         y += 14
         
         # Space
         y += 14
         
         # Improvement Levels
-        self.text.append(Text(pygame.Rect(0,y,0,0), font, black,
-                              "Mining Improvement Levels"))
+        texture = texture_cache.text(None, fontSize, COLORS["black"],
+                                     "Mining Improvement Levels")
+        self.surface.blit(texture, (0,y))
         y += 14
         x = 14
         for level in self.planet.improvementLevels:
             if level <= self.planet.realisedImprovement:
-                color = blue
+                color = COLORS["blue"]
             else:
-                color = red
-            self.text.append(Text(pygame.Rect(x,y,0,0), font, color,
-                                  str(level)))
+                color = COLORS["red"]
+                
+            texture = texture_cache.text(None, fontSize, color,
+                                         str(level) )
+            self.surface.blit(texture, (x,y))
             x += 28
-        
-        
-    def on_draw(self):
-        self.surface.fill((205,205,193))
-        
-        for text in self.text:
-            text._draw()
-            self.surface.blit(text.surface, (text.x0, text.y0) )
-        
