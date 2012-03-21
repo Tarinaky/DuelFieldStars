@@ -5,6 +5,8 @@ from color import COLORS
 from ui_abstract.menu import Menu
 from ui_abstract.text import Text
 
+from model import game
+
 class ActionMenu (Menu):
     
     def __init__(self,rect, selection):
@@ -15,7 +17,11 @@ class ActionMenu (Menu):
         font = pygame.font.Font(pygame.font.get_default_font(), 12)
         dx = dy = 0
         "Name"
-        widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["white"], "at "+str(selection) )
+        name = str("at "+str(selection) )
+        if selection in game.galaxy.planets:
+            name = game.galaxy.planets[selection].name
+        
+        widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["white"], name)
         self.options.append((widget,None,None))
         dy += 14
         
