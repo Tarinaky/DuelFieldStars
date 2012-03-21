@@ -26,6 +26,12 @@ class Window(object):
     
     def _tick(self):
         """Executes a single 'tick' or frame."""
+        "Dispatch to widget's tick methods"
+        deltaTime = self.clock.tick()
+        self.on_tick(deltaTime)
+        for widget in self.widgets:
+            widget._tick(deltaTime)
+        "Event dispatcher."
         if self.nice == True:
             event = pygame.event.wait() # Wait for events.
             if self._event(event) == False:
@@ -33,10 +39,7 @@ class Window(object):
         for event in pygame.event.get(): # Run event handler
             if self._event(event) == False:
                 log.debug("Unknown event "+str(event) )
-        deltaTime = self.clock.tick()
-        self.on_tick(deltaTime)
-        for widget in self.widgets:
-            widget._tick(deltaTime)
+        "Frame renderer"
         self._draw() # Draw a frame.
         
     def _event(self,event):
