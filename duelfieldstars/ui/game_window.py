@@ -15,16 +15,14 @@ from model import game
 
 log = logging.getLogger(__name__)
 
-screenResolution = (640,480)
-
-class GalaxyViewerWindow(Window):
+class GameWindow(Window):
     def __init__(self):
-        super(GalaxyViewerWindow,self).__init__()
+        super(GameWindow,self).__init__()
         self.nice = True
         
         game.galaxy = Galaxy()
         
-        (width,height) = screenResolution
+        (width,height) = pygame.display.get_surface().get_size()
         self.viewport = ViewportWidget(pygame.Rect(0,14,width-174,height), game.galaxy)
         self.add_widget(self.viewport)
         
@@ -83,15 +81,4 @@ class GalaxyViewerWindow(Window):
         
         
   
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG)
-    pygame.init()
-    pygame.display.set_mode(screenResolution)
-    window = GalaxyViewerWindow()
-    window.run()
-    
-    log.debug("Quitting...")
-    
-        
-        
         
