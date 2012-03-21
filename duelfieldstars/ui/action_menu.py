@@ -20,7 +20,7 @@ class ActionMenu (Menu):
         dx = dy = 0
         "Name"
         name = str("Deep space at "+str(destination) )
-        if destination in game.galaxy.planets:
+        if destination in game.galaxy.planets: #@UndefinedVariable
             name = game.galaxy.planets[destination].name
             self.showBuildMenu = True
 
