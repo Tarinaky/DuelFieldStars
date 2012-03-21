@@ -14,8 +14,8 @@ class ActionMenu (Menu):
         
         font = pygame.font.Font(pygame.font.get_default_font(), 12)
         dx = dy = 0
-        "Close menu"
-        widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["white"], "Foobar")
+        "Name"
+        widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["white"], "at "+str(selection) )
         self.options.append((widget,None,None))
         dy += 14
         

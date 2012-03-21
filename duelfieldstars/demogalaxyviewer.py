@@ -11,6 +11,7 @@ from ui.ticker import Ticker
 from ui.action_menu import ActionMenu
 
 from model.galaxy import Galaxy
+from model import game
 
 log = logging.getLogger(__name__)
 
@@ -21,10 +22,10 @@ class GalaxyViewerWindow(Window):
         super(GalaxyViewerWindow,self).__init__()
         self.nice = True
         
-        self.galaxy = Galaxy()
+        game.galaxy = Galaxy()
         
         (width,height) = screenResolution
-        self.viewport = ViewportWidget(pygame.Rect(0,14,width-174,height), self.galaxy)
+        self.viewport = ViewportWidget(pygame.Rect(0,14,width-174,height), game.galaxy)
         self.add_widget(self.viewport)
         
         self.hzScrollbar = HorizontalScrollBar(pygame.Rect(0,self.height-8,width-174,8), self.viewport)
@@ -36,7 +37,7 @@ class GalaxyViewerWindow(Window):
         self.detailsPanel = None
         self.menu = None
 
-        self.ticker = Ticker(pygame.Rect(0,0,self.width-174,14), self.galaxy.factions[0] )
+        self.ticker = Ticker(pygame.Rect(0,0,self.width-174,14), game.factions[0] )
         self.add_widget(self.ticker,False)
         
         return
@@ -65,8 +66,8 @@ class GalaxyViewerWindow(Window):
             "Get planet"
             planet = None
             (x,y) = event.selection
-            if (x,y) in self.galaxy.planets:
-                planet = self.galaxy.planets[(x,y)]
+            if (x,y) in game.galaxy.planets:
+                planet = game.galaxy.planets[(x,y)]
             if planet is None:  
                 log.debug("No planet at "+str((x,y)))
             else:

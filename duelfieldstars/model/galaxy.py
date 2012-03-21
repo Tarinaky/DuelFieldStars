@@ -9,6 +9,7 @@ import name
 
 from planet import Planet
 from faction import Faction, NOFACTION
+import game
 
 class Galaxy(object):
     def __init__(self, width=50, height=50, density=1.0/25, seed=None):
@@ -16,7 +17,7 @@ class Galaxy(object):
         self.height = None # This galaxies height in pc.
         
         self.planets = {} # A dictionary of planets in the Galaxy, 
-        self.factions = [] # A list of factions in the Galaxy.
+        game.factions = []
         # sorted according to an (x,y) tuple of their coordinates in pc.
         
         self.generate(width, height, density, seed)
@@ -44,7 +45,7 @@ class Galaxy(object):
     def add_player(self):
         faction = Faction()
         faction.generate()
-        self.factions.append(faction)
+        game.factions.append(faction)
         
         homeworld = random.choice(self.planets.values() )
         homeworld.set(150,150,150,[1,5,10,15,20],1,faction.type)
