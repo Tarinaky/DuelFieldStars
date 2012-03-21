@@ -14,6 +14,8 @@ class Planet(object):
     def __init__(self, *position):
         self.name = name.planet_name()
         self.owner = NOFACTION
+
+        self.construction = None
         
         self.baseValue = 0 # The planet's base value expressed as a percentile.
         self.currentValue = 0 # The planet's value after terraforming.
@@ -72,6 +74,8 @@ class Planet(object):
     def tick(self):
         """Update the planet by 1 turn."""
         self.realisedValue += self.growth
+        "Build construction item."
+        self.construction = None
 
 class PlanetTest(unittest.TestCase):
     def setUp(self):

@@ -17,8 +17,15 @@ class Galaxy(object):
         self.height = None # This galaxies height in pc.
         
         self.planets = {} # A dictionary of planets in the Galaxy, 
-        game.factions = []
         # sorted according to an (x,y) tuple of their coordinates in pc.
+
+        game.factions = []
+        
+        game.ships = {} # A dictionary of lists of ships according to their position.
+        for y in range (height):
+            for x in range (width):
+                game.ships[(x,y)] = [] # Add a list to each coordinate position.
+
         
         self.generate(width, height, density, seed)
         self.add_player()

@@ -1,5 +1,7 @@
 import name
 
+import game
+
 from faction import Faction, NOFACTION
 
 class Ship(object):
