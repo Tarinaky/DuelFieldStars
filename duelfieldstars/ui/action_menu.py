@@ -14,6 +14,7 @@ class ActionMenu (Menu):
         
         self.source = source
         self.destination = destination
+        self.showBuildMenu = True
         
         font = pygame.font.Font(pygame.font.get_default_font(), 12)
         dx = dy = 0
@@ -21,6 +22,8 @@ class ActionMenu (Menu):
         name = str("Deep space at "+str(destination) )
         if destination in game.galaxy.planets:
             name = game.galaxy.planets[destination].name
+            self.showBuildMenu = True
+
         
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["white"], name)
         self.options.append((widget,None,None))
