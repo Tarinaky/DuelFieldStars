@@ -1,0 +1,4 @@
+To do list...
+ * Add 'End Turn' button
+ * Make game process a turn
+ * Add ships
