@@ -82,7 +82,7 @@ class GameWindow(Window):
             if planet is None:  
                 log.debug("No planet at "+str((x,y)))
             else:
-                self.detailsPanel = PlanetDetails(pygame.Rect(self.width-174, 0, 174, self.height), planet )
+                self.detailsPanel = PlanetDetails(pygame.Rect(self.width-174, 0, 174, self.height-32), planet )
                 self.add_widget(self.detailsPanel, False)
         
         if event.type == pygame.USEREVENT and event.action == "open menu":
