@@ -24,6 +24,7 @@ class GameWindow(Window):
         self.nice = True
         
         game.galaxy = Galaxy()
+        self.player = game.factions[0]
         
         (width,height) = pygame.display.get_surface().get_size()
         self.viewport = ViewportWidget(pygame.Rect(0,14,width-174,height), game.galaxy)
@@ -38,7 +39,7 @@ class GameWindow(Window):
         self.detailsPanel = None
         self.menu = None
 
-        self.ticker = Ticker(pygame.Rect(0,0,self.width-174,14), game.factions[0] )
+        self.ticker = Ticker(pygame.Rect(0,0,self.width-174,14), self.player )
         self.add_widget(self.ticker,False)
         
         self.add_widget(Button(pygame.Rect(self.width-174,self.height-32,self.width,self.height),
@@ -96,7 +97,7 @@ class GameWindow(Window):
             """
             Called to signify the end of a player's turn. Any processing is performed.
             """
-            log.debug("End of turn called.")
+            game.end_of_turn(self.player)
             return
   
         

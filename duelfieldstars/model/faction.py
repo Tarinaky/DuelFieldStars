@@ -17,6 +17,8 @@ class Faction(object):
         self.rez = 0 # Resources
         self.planets = [] # List of planets owned
         self.ships = [] # List of ships owned
+        
+        self.ready = False
 
         self.tech = {} # Table of tech levels by key
 
