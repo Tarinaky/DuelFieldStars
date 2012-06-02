@@ -48,7 +48,7 @@ class GameWindow(Window):
                                                     COLORS["black"], COLORS["aqua"], "End Turn"),
                                texture_cache.button(None, 32, (174,64), 
                                                     COLORS["black"], COLORS["blue"], "End Turn"),
-                               None))
+                               self.end_turn))
         
         
         return
@@ -92,6 +92,11 @@ class GameWindow(Window):
             self.menu = ActionMenu(pygame.Rect(mouseX-1,mouseY-1,20,20),self.viewport.selected, event.selection)
             self.add_widget(self.menu, True)        
         
-        
+    def end_turn(self):
+            """
+            Called to signify the end of a player's turn. Any processing is performed.
+            """
+            log.debug("End of turn called.")
+            return
   
         
