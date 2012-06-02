@@ -9,9 +9,12 @@ from ui.scrollbars import HorizontalScrollBar, VerticalScrollBar
 from ui.planetdetails import PlanetDetails
 from ui.ticker import Ticker
 from ui.action_menu import ActionMenu
+from ui.ui_abstract.button import Button
 
 from model.galaxy import Galaxy
 from model import game
+from ui import texture_cache
+from color import COLORS
 
 log = logging.getLogger(__name__)
 
@@ -37,6 +40,16 @@ class GameWindow(Window):
 
         self.ticker = Ticker(pygame.Rect(0,0,self.width-174,14), game.factions[0] )
         self.add_widget(self.ticker,False)
+        
+        self.add_widget(Button(pygame.Rect(self.width-174,self.height-32,self.width,self.height),
+                               texture_cache.button(None,
+                                                     32,
+                                                      (174,64), 
+                                                    COLORS["black"], COLORS["aqua"], "End Turn"),
+                               texture_cache.button(None, 32, (174,64), 
+                                                    COLORS["black"], COLORS["blue"], "End Turn"),
+                               None))
+        
         
         return
     

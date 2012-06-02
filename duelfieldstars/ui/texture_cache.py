@@ -58,4 +58,22 @@ def text(fontname, size, color, string):
         surface = font.render(string, True, color)
         cache[key] = surface
         return surface
+    
+def button(fontname, fontSize, boxSize, colorFG, colorBG, string):
+    key = ("button", fontname, fontSize, boxSize, colorFG, colorBG, string)
+    if key in cache:
+        return cache[key]
+    else:
+        
+        textSur = text(fontname, fontSize, colorFG, string)
+        surface = pygame.Surface(boxSize)
+        surface.fill(colorBG)
+        surface.blit(textSur,(0,0))
+        
+        cache[key] = surface
+        return surface
+        
+        
+        
+    
         
