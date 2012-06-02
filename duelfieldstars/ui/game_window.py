@@ -64,8 +64,8 @@ class GameWindow(Window):
             "Get planet"
             planet = None
             (x,y) = event.selection
-            if (x,y) in game.galaxy.planets:
-                planet = game.galaxy.planets[(x,y)]
+            if (x,y) in game.galaxy.planets: #@UndefinedVariable
+                planet = game.galaxy.planets[(x,y)] #@UndefinedVariable
             if planet is None:  
                 log.debug("No planet at "+str((x,y)))
             else:
