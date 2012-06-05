@@ -36,9 +36,7 @@ class Ship(object):
         """Process a turn."""
         return
     
-class ShipTurnProcessor(object):
-    """Utility class that processes a single turn of ship movement."""
-    def __init__(self,ships):
+def process_ship_turn(ships):
         """Takes a list of ships and iterates over them to produce the new ship state."""
         return
     
