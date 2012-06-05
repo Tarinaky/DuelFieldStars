@@ -4,15 +4,30 @@ Since only one game can be played at once a singleton seems appropriate.
 """
 import logging
 
-galaxy = None
-factions = None
-ships = None
+from galaxy import Galaxy
+
+factions = []
+ships = {}
+galaxy = Galaxy()
+
+def init():
+    global galaxy, factions, ships
+    factions = []
+    ships = {}
+    galaxy = Galaxy()
 
 log = logging.getLogger(__name__)
 
-def do_end_of_turn():
+def _do_end_of_turn():
     """End of turn processing."""
     log.debug("End of turn.")
+    
+    for planet in galaxy.planets.values():
+        planet.tick()
+    for faction in factions:
+        faction.tick()
+    for ship in sum(ships.values(),[]):
+        ship.tick()
 
 
 def end_of_turn(faction):
@@ -31,7 +46,7 @@ def end_of_turn(faction):
                 return True
             
     if check():
-        do_end_of_turn()
+        _do_end_of_turn()
         for faction in factions:
             faction.ready = False
     return

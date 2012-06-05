@@ -19,9 +19,6 @@ class Galaxy(object):
         self.planets = {} # A dictionary of planets in the Galaxy, 
         # sorted according to an (x,y) tuple of their coordinates in pc.
 
-        game.factions = []
-        
-        game.ships = {} # A dictionary of lists of ships according to their position.
         for y in range (height):
             for x in range (width):
                 game.ships[(x,y)] = [] # Add a list to each coordinate position.

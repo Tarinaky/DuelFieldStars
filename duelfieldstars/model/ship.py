@@ -20,15 +20,21 @@ class Ship(object):
         self.destination = self.position # Target destination.
                 
     @property
-    def attack(self): # Returns the attack value modified by tech levels.
+    def attack(self): 
+        """Returns the attack value modified by tech levels."""
         return self.offenseValue
     @property
-    def defence(self): # Returns the defence value modified by tech levels.
+    def defence(self): 
+        """Returns the defence value modified by tech levels."""
         return self.defenseValue
     @property
-    def speed(self): # Speed in pc, modified by tech levels.
+    def speed(self): 
+        """Speed in pc, modified by tech levels."""
         return 3
-        
+    
+    def tick(self):
+        """Process a turn."""
+        return
     
 class Cruiser(Ship):
     """This class represents a Cruiser"""
