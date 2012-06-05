@@ -91,7 +91,14 @@ class GameWindow(Window):
                 self.remove_widget(self.menu)
             (mouseX, mouseY) = pygame.mouse.get_pos()
             self.menu = ActionMenu(pygame.Rect(mouseX-1,mouseY-1,20,20),self.viewport.selected, event.selection)
-            self.add_widget(self.menu, True)        
+            self.add_widget(self.menu, True)
+            
+        if event.type == pygame.USEREVENT and event.action == "End of Turn":
+            for widget in self.widgets:
+                widget.update()
+                
+            log.debug("Updated all widgets.")
+            return True        
         
     def end_turn(self):
             """

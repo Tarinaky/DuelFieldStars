@@ -22,7 +22,8 @@ class Ticker(Widget):
         super(Ticker,self).__init__(rect)
 
         self.faction = faction
-        
+
+    def generate_surface(self):        
         font = pygame.font.Font(pygame.font.get_default_font(),12 )
         self.subwidgets = []
 
@@ -74,8 +75,9 @@ class Ticker(Widget):
         dx += closingParanLabel.width + 5
 
     def on_draw(self):
+        self.generate_surface()
         self.surface.fill((205,205,193))
-        
+
         self.surface.blit(self.flag, (0,0) )
 
         for widget in self.subwidgets:

@@ -3,6 +3,7 @@ Module to contain globals.
 Since only one game can be played at once a singleton seems appropriate.
 """
 import logging
+import pygame
 
 from galaxy import Galaxy
 import ship
@@ -32,6 +33,9 @@ def _do_end_of_turn():
     for faction in factions:
         faction.tick()
     ship.ShipTurnProcessor(sum(ships.values(),[]))
+    
+    event = pygame.event.Event(pygame.USEREVENT, action="End of Turn")
+    pygame.event.post(event)
 
 
 def end_of_turn(faction):
