@@ -38,7 +38,7 @@ class Ship(object):
     
 def process_ship_turn(ships):
         """Takes a list of ships and iterates over them to produce the new ship state."""
-        return
+        return {}
     
 class Cruiser(Ship):
     """This class represents a Cruiser"""
