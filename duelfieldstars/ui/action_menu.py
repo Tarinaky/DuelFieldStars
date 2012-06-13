@@ -36,7 +36,14 @@ class ActionMenu (Menu):
             dx = 28
             widget = Text(pygame.Rect(dx,dy,0,0), font, 
                           COLORS["light blue"], "Build >")
-            self.add_option(widget,None,None)
+            def open_build_menu(destination):
+                event = pygame.event.Event(
+                                           pygame.USEREVENT,
+                                           action = "open build menu",
+                                           destination = destination
+                                           )
+                pygame.event.post(event)
+            self.add_option(widget,open_build_menu,destination)
             dy += 14
         
         
@@ -46,7 +53,7 @@ class ActionMenu (Menu):
         width = 0
         height = 0
         for (widget,_,_) in self.options:
-            if (widget.width+28) > width:
+            if (widget.width+42) > width:
                 width = widget.width + 28
             height += widget.height
             
