@@ -14,20 +14,29 @@ class ActionMenu (Menu):
         
         self.source = source
         self.destination = destination
-        self.showBuildMenu = True
+        self.showBuildMenu = False
         
         font = pygame.font.Font(pygame.font.get_default_font(), 12)
-        dx = dy = 0
+        dy = 0
+        dx = 14
         "Name"
         name = str("Deep space at "+str(destination) )
         if destination in game.galaxy.planets: #@UndefinedVariable
             name = game.galaxy.planets[destination].name
             self.showBuildMenu = True
 
-        
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["white"], name)
-        self.options.append((widget,None,None))
-        dy += 14
+        self.add_option(widget,None,None)
+        dy += widget.height
+        
+        
+        "Build here"
+        if self.showBuildMenu:
+            dx = 28
+            widget = Text(pygame.Rect(dx,dy,0,0), font, 
+                          COLORS["light blue"], "Build >")
+            self.add_option(widget,None,None)
+            dy += 14
         
         
         
@@ -37,7 +46,7 @@ class ActionMenu (Menu):
         height = 0
         for (widget,_,_) in self.options:
             if widget.width > width:
-                width = widget.width
+                width = widget.width + 28
             height += widget.height
             
         self.surface = pygame.Surface((width,height))
