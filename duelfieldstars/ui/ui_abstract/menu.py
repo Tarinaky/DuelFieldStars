@@ -14,7 +14,12 @@ class Menu (Widget):
         self.add_mouse_handler(self.click, pygame.MOUSEBUTTONDOWN, 1, 1)
         self.add_mouse_handler(self.click, pygame.MOUSEBUTTONDOWN, 3, 3)
         
-    def add_option(self, widget, method, *arguments):
+    def do_nothing(self):
+        pass
+        
+    def add_option(self, widget, method=None,*arguments):
+        if method == None:
+            method = self.do_nothing
         widget.rect = (widget.x0,widget.y0,widget.width,widget.height)
         self.options.append((widget,method,arguments))
         
@@ -37,3 +42,6 @@ class Menu (Widget):
         for (widget, _, _) in self.options:
             widget._draw()
             self.surface.blit(widget.surface, (widget.x0, widget.y0) )
+
+
+    
