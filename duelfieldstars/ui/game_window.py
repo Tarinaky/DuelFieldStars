@@ -51,6 +51,8 @@ class GameWindow(Window):
                                                     COLORS["black"], COLORS["blue"], "End Turn"),
                                self.end_turn))
         
+        self.focusedWidget = self.viewport
+        
         
         return
     
