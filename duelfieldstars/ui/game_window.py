@@ -11,10 +11,10 @@ from ui.ticker import Ticker
 from ui.action_menu import ActionMenu
 from ui.ui_abstract.button import Button
 
-from model.galaxy import Galaxy
 from model import game
 from ui import texture_cache
 from color import COLORS
+from ui.build_menu import BuildMenu
 
 log = logging.getLogger(__name__)
 
@@ -87,6 +87,8 @@ class GameWindow(Window):
             else:
                 self.detailsPanel = PlanetDetails(pygame.Rect(self.width-174, 0, 174, self.height-32), planet )
                 self.add_widget(self.detailsPanel, False)
+            return True
+                
         
         if event.type == pygame.USEREVENT and event.action == "open menu":
             if self.menu is not None:
@@ -94,6 +96,13 @@ class GameWindow(Window):
             (mouseX, mouseY) = pygame.mouse.get_pos()
             self.menu = ActionMenu(pygame.Rect(mouseX-1,mouseY-1,20,20),self.viewport.selected, event.selection)
             self.add_widget(self.menu, True)
+            return True
+            
+        if event.type == pygame.USEREVENT and event.action == "open build menu":
+            self.remove_widget(self.menu)
+            self.menu = BuildMenu(self.menu.rect,event.destination)
+            self.add_widget(self.menu, True)
+            return True
             
         if event.type == pygame.USEREVENT and event.action == "End of Turn":
             for widget in self.widgets:

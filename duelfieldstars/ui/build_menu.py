@@ -7,9 +7,11 @@ from model import game
 
 class BuildMenu(Menu):
     
-    def __init__(self,destination):
+    def __init__(self,rect,destination):
         """Destination is an (x,y) tuple addressing the
         world the item will be built at."""
+        super(BuildMenu,self).__init__(rect)
+        
         self.destination = destination
         
         font = pygame.font.Font(pygame.font.get_default_font(), 12)
