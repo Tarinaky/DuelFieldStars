@@ -15,6 +15,7 @@ class Menu (Widget):
         self.add_mouse_handler(self.click, pygame.MOUSEBUTTONDOWN, 3, 3)
         
     def add_option(self, widget, method, *arguments):
+        widget.rect = (widget.x0,widget.y0,widget.width,widget.height)
         self.options.append((widget,method,arguments))
         
     def _tick(self,deltaTime):
@@ -27,7 +28,7 @@ class Menu (Widget):
         (mouseX, mouseY) = pygame.mouse.get_pos()
         (mouseX, mouseY) = (mouseX - self.x0, mouseY - self.y0)
         for (widget, method, args) in self.options:
-            if widget.rect.collidepoint(mouseX, mouseY):
+            if pygame.Rect(widget.rect).collidepoint(mouseX, mouseY):
                 method(*args)
                 
     def _draw(self):

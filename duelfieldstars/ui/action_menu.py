@@ -18,24 +18,25 @@ class ActionMenu (Menu):
         
         font = pygame.font.Font(pygame.font.get_default_font(), 12)
         dy = 0
-        dx = 14
+        dx = 0
         "Name"
-        name = str("Deep space at "+str(destination) )
+        name = str("    Deep space at "+str(destination) )
         if destination in game.galaxy.planets: #@UndefinedVariable
-            name = game.galaxy.planets[destination].name
+            name = "    "+game.galaxy.planets[destination].name+"    "
             if game.galaxy.planets[destination].owner == faction.PLAYERFACTION:
                 self.showBuildMenu = True
 
-        widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["white"], name)
-        self.add_option(widget,None,None)
+        widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["white"], name + "    ")
+        
+        self.add_option(widget,None)
         dy += widget.height
         
         
         "Build here"
         if self.showBuildMenu:
-            dx = 28
+            
             widget = Text(pygame.Rect(dx,dy,0,0), font, 
-                          COLORS["light blue"], "Build >")
+                          COLORS["light blue"], "        Build >    ")
             def open_build_menu(destination):
                 event = pygame.event.Event(
                                            pygame.USEREVENT,
@@ -53,8 +54,8 @@ class ActionMenu (Menu):
         width = 0
         height = 0
         for (widget,_,_) in self.options:
-            if (widget.width+42) > width:
-                width = widget.width + 28
+            if (widget.width) > width:
+                width = widget.width
             height += widget.height
             
         self.surface = pygame.Surface((width,height))

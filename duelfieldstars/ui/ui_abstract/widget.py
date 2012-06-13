@@ -73,8 +73,10 @@ class Widget(object):
         return self.rect.height
     @property
     def x0(self):
-        return self.rect.left
+        (x0,_,_,_) = self.rect
+        return x0
     @property
     def y0(self):
-        return self.rect.top
+        (_,y0,_,_) = self.rect
+        return y0
 
