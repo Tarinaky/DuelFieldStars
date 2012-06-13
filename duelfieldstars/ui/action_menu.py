@@ -5,7 +5,7 @@ from color import COLORS
 from ui_abstract.menu import Menu
 from ui_abstract.text import Text
 
-from model import game
+from model import game, faction
 
 class ActionMenu (Menu):
     
@@ -23,7 +23,8 @@ class ActionMenu (Menu):
         name = str("Deep space at "+str(destination) )
         if destination in game.galaxy.planets: #@UndefinedVariable
             name = game.galaxy.planets[destination].name
-            self.showBuildMenu = True
+            if game.galaxy.planets[destination].owner == faction.PLAYERFACTION:
+                self.showBuildMenu = True
 
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["white"], name)
         self.add_option(widget,None,None)
@@ -45,7 +46,7 @@ class ActionMenu (Menu):
         width = 0
         height = 0
         for (widget,_,_) in self.options:
-            if widget.width > width:
+            if (widget.width+28) > width:
                 width = widget.width + 28
             height += widget.height
             

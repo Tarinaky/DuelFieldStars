@@ -7,6 +7,7 @@ import pygame
 
 from galaxy import Galaxy
 import ship
+import faction
 
 factions = []
 ships = {}
@@ -19,6 +20,7 @@ def init():
     ships = {}
     galaxy = Galaxy()
     turn_count = 1
+    faction.PLAYERFACTION = factions[0]
 
 log = logging.getLogger(__name__)
 

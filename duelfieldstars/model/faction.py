@@ -70,4 +70,5 @@ class Faction(object):
 
 
 NOFACTION = Faction()
+PLAYERFACTION = NOFACTION
 
