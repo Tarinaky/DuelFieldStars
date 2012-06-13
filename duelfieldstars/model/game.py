@@ -24,7 +24,7 @@ log = logging.getLogger(__name__)
 
 def _do_end_of_turn():
     """End of turn processing."""
-    global turn_count
+    global turn_count, ships
     log.debug("End of turn "+str(turn_count)+".")
     turn_count += 1
     
