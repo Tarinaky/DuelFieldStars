@@ -111,11 +111,25 @@ class ViewportWidget(Widget):
         return
     
     def on_tick(self, deltaTime):
+        # Check that movement keys are depressed, else reset speed.
+        keys = pygame.key.get_pressed()
+        if not keys[pygame.K_w] and not keys[pygame.K_s]:
+            (dx,dy) = self.velocity
+            dy = 0
+            self.velocity = (dx,dy)
+            
+        if not keys[pygame.K_a] and not keys[pygame.K_d]:
+            (dx,dy) = self.velocity
+            dx = 0
+            self.velocity = (dx,dy)
+        
+        # Calculate new position.
         if deltaTime > 200:
             deltaTime = 200
         (x,y) = self.position
         (dx,dy) = self.velocity
         (x,y) = (x + dx * deltaTime, y + dy * deltaTime)
+
 
         # Generate event (and thus bypass niceness) if velocity != 0
         if dx != 0 or dy != 0:
