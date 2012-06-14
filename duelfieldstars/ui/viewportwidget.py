@@ -111,6 +111,8 @@ class ViewportWidget(Widget):
         return
     
     def on_tick(self, deltaTime):
+        if deltaTime > 200:
+            deltaTime = 100
         (x,y) = self.position
         (dx,dy) = self.velocity
         (x,y) = (x + dx * deltaTime, y + dy * deltaTime)
