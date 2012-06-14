@@ -36,7 +36,7 @@ class ActionMenu (Menu):
         if self.showBuildMenu:
             
             widget = Text(pygame.Rect(dx,dy,0,0), font, 
-                          COLORS["light blue"], "        Build >    ")
+                          COLORS["light blue"], "        (B)uild >    ")
             def open_build_menu(destination):
                 event = pygame.event.Event(
                                            pygame.USEREVENT,
@@ -45,6 +45,7 @@ class ActionMenu (Menu):
                                            )
                 pygame.event.post(event)
             self.add_option(widget,open_build_menu,destination)
+            self.add_keyboard_handler(open_build_menu, pygame.KEYDOWN, pygame.K_b, 0, destination)
             dy += 14
         
         
