@@ -73,6 +73,10 @@ class GameWindow(Window):
                     self.remove_widget(self.menu)
                     self.menu = None
                     self.focusedWidget = self.viewport
+        
+        #Do not log or handle events of type USEREVENT+1
+        if event.type == pygame.USEREVENT+1:
+            return True
             
         if event.type == pygame.USEREVENT and event.action == "selection":
             if self.detailsPanel is not None:

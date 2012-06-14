@@ -119,7 +119,7 @@ class ViewportWidget(Widget):
 
         # Generate event (and thus bypass niceness) if velocity != 0
         if dx != 0 or dy != 0:
-            event = pygame.event.Event(pygame.USEREVENT, action="Viewport moving")
+            event = pygame.event.Event(pygame.USEREVENT+1, action="Viewport moving")
             pygame.event.post(event)
                 
         # Snap to edge if outside bottom right boundary
