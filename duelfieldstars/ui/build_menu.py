@@ -16,31 +16,30 @@ class BuildMenu(Menu):
         
         font = pygame.font.Font(pygame.font.get_default_font(), 12)
         dy = 0
-        dx = 14
+        dx = 0
         
         "Label"
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["white"],
-                      "Build at "+game.galaxy.planets[destination].name)
+                      "    Build at "+game.galaxy.planets[destination].name+"    ")
         self.add_option(widget,None)
         dy += widget.height
         
-        dx = 28
-        
+
         "Cruiser"
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
-                      "Cruiser [2/1]")
+                      "        Cruiser [2/1]    ")
         self.add_option(widget, None)
         dy += widget.height
         
         "Marine Transport"
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
-                      "Marine Transport [1/1 Ground 1]")
+                      "        Marine Transport [1/1 Ground 1]    ")
         self.add_option(widget, None)
         dy += widget.height
         
         "Colony Transport"
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
-                      "Colony Transport [0/1]")
+                      "        Colony Transport [0/1]    ")
         self.add_option(widget, None)
         dy += widget.height
         
@@ -50,8 +49,8 @@ class BuildMenu(Menu):
         width = 0
         height = 0
         for (widget,_,_) in self.options:
-            if (widget.width+28) > width:
-                width = widget.width + 28
+            if (widget.width) > width:
+                width = widget.width
             height += widget.height
             
         self.surface = pygame.Surface((width,height))
