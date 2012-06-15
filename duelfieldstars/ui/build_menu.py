@@ -1,11 +1,11 @@
 """List of items that can be built at a world."""
-from ui.ui_abstract.menu import Menu
 import pygame
 from ui.ui_abstract.text import Text
 from color import COLORS
 from model import game, ship
+from ui.default_menu import DefaultMenu
 
-class BuildMenu(Menu):
+class BuildMenu(DefaultMenu):
     
     def __init__(self,rect,destination):
         """Destination is an (x,y) tuple addressing the
@@ -58,17 +58,4 @@ class BuildMenu(Menu):
         dy += widget.height
         
         
-    def on_draw(self):
-        "Calculate the size of the surface needed."
-        width = 0
-        height = 0
-        for (widget,_,_) in self.options:
-            if (widget.width) > width:
-                width = widget.width
-            height += widget.height
-            
-        self.surface = pygame.Surface((width,height))
-        self.rect.width = self.surface.get_width()
-        self.rect.height = self.surface.get_height() 
-        self.surface.fill(COLORS["darkGray"])
-        
+    
