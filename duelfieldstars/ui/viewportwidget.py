@@ -124,8 +124,8 @@ class ViewportWidget(Widget):
             self.velocity = (dx,dy)
         
         # Calculate new position.
-        if deltaTime > 200:
-            deltaTime = 200
+        if deltaTime > 10:
+            deltaTime = 10
         (x,y) = self.position
         (dx,dy) = self.velocity
         (x,y) = (x + dx * deltaTime, y + dy * deltaTime)
