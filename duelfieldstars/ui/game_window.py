@@ -1,6 +1,5 @@
 import pygame
 import logging
-import sys
 
 from ui.ui_abstract.window import Window
 
@@ -15,6 +14,7 @@ from model import game
 from ui import texture_cache
 from color import COLORS
 from ui.build_menu import BuildMenu
+from ui.insufficient_rez import InsufficientRezMenu
 
 log = logging.getLogger(__name__)
 
@@ -115,6 +115,12 @@ class GameWindow(Window):
         if event.type == pygame.USEREVENT and event.action == "open build menu":
             self.remove_widget(self.menu)
             self.menu = BuildMenu(self.menu.rect,event.destination)
+            self.add_widget(self.menu, True)
+            return True
+        
+        if event.type == pygame.USEREVENT and event.action == "insufficient rez":
+            self.remove_widget(self.menu)
+            self.menu = InsufficientRezMenu(self.menu.rect)
             self.add_widget(self.menu, True)
             return True
             
