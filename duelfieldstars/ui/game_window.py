@@ -18,10 +18,10 @@ from ui.build_menu import BuildMenu
 
 log = logging.getLogger(__name__)
 
-SILENT_EVENT = pygame.USEREVENT+1
-REDRAW_EVENT = pygame.USEREVENT+2
-
 class GameWindow(Window):
+    SILENT_EVENT = pygame.USEREVENT+1
+    REDRAW_EVENT = pygame.USEREVENT+2
+    
     def __init__(self):
         super(GameWindow,self).__init__()
         self.nice = True
@@ -73,6 +73,10 @@ class GameWindow(Window):
         
         # Action Menus
         if self.menu != None:
+            if event.type == pygame.USEREVENT and  event.action == "close menu":
+                self.remove_widget(self.menu)
+                self.menu = None
+                self.focusedWidget = self.viewport
             if event.type == pygame.KEYDOWN:
                 return self.menu._keyboard(event)
             if event.type == pygame.MOUSEBUTTONDOWN:

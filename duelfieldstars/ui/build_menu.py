@@ -3,7 +3,7 @@ from ui.ui_abstract.menu import Menu
 import pygame
 from ui.ui_abstract.text import Text
 from color import COLORS
-from model import game
+from model import game, ship
 
 class BuildMenu(Menu):
     
@@ -27,19 +27,26 @@ class BuildMenu(Menu):
 
         "Cruiser"
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
-                      "        Cruiser [2/1]    ")
-        self.add_option(widget, None)
+                      "        Crui(s)er    ")
+        def build_cruiser(destination):
+            game.galaxy.planets[destination].construction = ship.Cruiser
+            event = pygame.event.Event(pygame.USEREVENT, action="close menu")
+            pygame.event.post(event)
+            event = pygame.event.Event(pygame.USEREVENT+2)
+            pygame.event.post(event)
+            
+        self.add_option(widget, build_cruiser, destination)
         dy += widget.height
         
         "Marine Transport"
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
-                      "        Marine Transport [1/1 Ground 1]    ")
+                      "        (M)arine Transport    ")
         self.add_option(widget, None)
         dy += widget.height
         
         "Colony Transport"
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
-                      "        Colony Transport [0/1]    ")
+                      "        (C)olony Transport    ")
         self.add_option(widget, None)
         dy += widget.height
         

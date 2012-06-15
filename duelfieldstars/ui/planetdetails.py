@@ -139,7 +139,7 @@ class PlanetDetails(Widget):
                                          "Nothing")
         else:
             texture = texture_cache.text(None,fontSize,COLORS["blue"],
-                                         self.planet.construction.name)
+                                         self.planet.construction.type_)
         self.surface.blit(texture, (self.width-75,y))
         y += 14
         

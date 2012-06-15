@@ -43,24 +43,24 @@ def process_ship_turn(ships):
 class Cruiser(Ship):
     """This class represents a Cruiser"""
     type_ = "Cruiser"
-    offenseValue = 1
-    defenseValue = 2
+    offenseValue = 2
+    defenseValue = 1
     marines = False
     colony = False
     
     def __init__(self,faction,position):
         super(Cruiser,self).__init__(faction,position)
         
-class MarineLander(Ship):
+class MarineTransport(Ship):
     """This class represents a ground assault ship."""
-    type_ = "Marine Lander"
-    offenseValue = 0.5
-    defenseValue = 2
+    type_ = "Marine Transport"
+    offenseValue = 1
+    defenseValue = 1
     marines = True
     colony = False
     
     def __init__(self,faction,position):
-        super(MarineLander,self).__init__(faction,position)
+        super(MarineTransport,self).__init__(faction,position)
         
 class ColonyTransport(Ship):
     """This class represents a colony ship."""
