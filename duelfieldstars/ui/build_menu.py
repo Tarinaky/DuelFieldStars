@@ -29,6 +29,13 @@ class BuildMenu(Menu):
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
                       "        Crui(s)er    ")
         def build_cruiser(destination):
+            # Check enough cash available.
+            if game.galaxy.planets[destination].owner.rez <2:
+                event = pygame.event.Event(pygame.USEREVENT, action="insufficient rez")
+                pygame.event.post(event)
+                return
+            # Set construction.
+            game.galaxy.planets[destination].owner.rez -= 2
             game.galaxy.planets[destination].construction = ship.Cruiser
             event = pygame.event.Event(pygame.USEREVENT, action="close menu")
             pygame.event.post(event)
