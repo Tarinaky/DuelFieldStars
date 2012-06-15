@@ -34,11 +34,11 @@ def _do_end_of_turn():
     log.debug("End of turn "+str(turn_count)+".")
     turn_count += 1
     
-    for planet in galaxy.planets.values():
-        planet.tick()
     for faction in factions:
         faction.tick()
-    ships = ship.process_ship_turn(sum(ships.values(),[]))
+    for planet in galaxy.planets.values():
+        planet.tick()
+    ships = ship.process_ship_turn(ships)
     
     event = pygame.event.Event(pygame.USEREVENT, action="End of Turn")
     pygame.event.post(event)

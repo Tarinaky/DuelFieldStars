@@ -36,12 +36,14 @@ class Faction(object):
     def upkeep(self):
         i = 0
         for parsec in model.game.ships.values():
-            for ship in parsec: #@UnusedVariable
-                i += 2
+            for ship in parsec:
+                if ship.owner == self:
+                    i+=1
         return i
 
     def tick(self):
         """Update the faction by 1 turn."""
+        self.rez -= self.upkeep
         self.rez += self.income
 
         for planet in self.planets:

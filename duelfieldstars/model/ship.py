@@ -17,12 +17,15 @@ class Ship(object):
         
         self.destination = self.position # Target destination.
         
-        game.ships[position].append(self)
+        game.ships[0,0].append(self)
                 
     @property
     def attack(self): 
         """Returns the attack value modified by tech levels."""
         return self.offenseValue
+    @property
+    def owner(self):
+        return self.faction
     @property
     def defence(self): 
         """Returns the defence value modified by tech levels."""
@@ -38,7 +41,7 @@ class Ship(object):
     
 def process_ship_turn(ships):
         """Takes a list of ships and iterates over them to produce the new ship state."""
-        return {}
+        return ships
     
 class Cruiser(Ship):
     """This class represents a Cruiser"""
