@@ -24,11 +24,7 @@ class BuildMenu(DefaultMenu):
         self.add_option(widget,None)
         dy += widget.height
         
-
-        "Cruiser"
-        widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
-                      "        Crui(s)er    ")
-        def build_cruiser(destination):
+        def build(destination, ship_type_):
             # Check enough cash available.
             if game.galaxy.planets[destination].owner.rez <2:
                 event = pygame.event.Event(pygame.USEREVENT, action="insufficient rez")
@@ -36,25 +32,35 @@ class BuildMenu(DefaultMenu):
                 return
             # Set construction.
             game.galaxy.planets[destination].owner.rez -= 2
-            game.galaxy.planets[destination].construction = ship.Cruiser
+            game.galaxy.planets[destination].construction = ship_type_
             event = pygame.event.Event(pygame.USEREVENT, action="close menu")
             pygame.event.post(event)
             event = pygame.event.Event(pygame.USEREVENT+2)
             pygame.event.post(event)
-            
-        self.add_option(widget, build_cruiser, destination)
+        
+                
+        "Cruiser"
+        widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
+                      "        Crui(s)er    ")
+        self.add_option(widget, build, destination, ship.Cruiser)
+        self.add_keyboard_handler(build, pygame.KEYDOWN, pygame.K_s, 
+                                  destination, ship.Cruiser)
         dy += widget.height
         
         "Marine Transport"
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
                       "        (M)arine Transport    ")
-        self.add_option(widget, None)
+        self.add_option(widget, build, destination, ship.MarineTransport)
+        self.add_keyboard_handler(build, pygame.KEYDOWN, pygame.K_m, 
+                                  destination, ship.MarineTransport)
         dy += widget.height
         
         "Colony Transport"
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
                       "        (C)olony Transport    ")
-        self.add_option(widget, None)
+        self.add_option(widget, build, destination, ship.ColonyTransport)
+        self.add_keyboard_handler(build, pygame.KEYDOWN, pygame.K_c, 
+                                  destination, ship.ColonyTransport)
         dy += widget.height
         
         
