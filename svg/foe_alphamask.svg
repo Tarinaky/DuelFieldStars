@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.1 "
-   sodipodi:docname="C:\Documents and Settings\Tarinaky\git\DuelFieldStars\svg\friend_alphamask.svg">
+   sodipodi:docname="friend_alphamask.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -86,14 +86,10 @@
      id="layer1"
      transform="translate(0,-924.36218)">
     <path
-       sodipodi:type="arc"
-       style="fill:#ffffff;stroke:none;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1;fill-rule:nonzero;opacity:1"
-       id="path3019"
-       sodipodi:cx="64"
-       sodipodi:cy="64"
-       sodipodi:rx="48"
-       sodipodi:ry="48"
-       d="M 112,64 C 112,90.509668 90.509668,112 64,112 37.490332,112 16,90.509668 16,64 16,37.490332 37.490332,16 64,16 c 26.509668,0 48,21.490332 48,48 z"
+       style="fill:#ffffff;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       d="M 16,64 64,16 112,64 64,112 16,64"
+       id="path2988"
+       inkscape:connector-curvature="0"
        transform="translate(0,924.36218)" />
   </g>
 </svg>
