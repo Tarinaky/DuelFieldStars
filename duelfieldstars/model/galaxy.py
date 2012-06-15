@@ -8,8 +8,8 @@ import unittest
 import name
 
 from planet import Planet
-from faction import Faction, NOFACTION
 import game
+from faction import Faction
 
 class Galaxy(object):
     def __init__(self, width=50, height=50, density=1.0/25, seed=None):
@@ -52,9 +52,10 @@ class Galaxy(object):
         game.factions.append(faction)
         
         homeworld = random.choice(self.planets.values() )
-        homeworld.set(150,150,150,[1,5,10,15,20],1,faction.type)
+        homeworld.set_(150,150,150,[1,5,10,15,20],1,faction.type)
         homeworld.set_owner(faction)
-        homeworld.name = name.name()
+        # Give the planet the faction's name.
+        homeworld.name = faction.name.split(" ",1)[0]
     
     def at(self,x,y):
         if (x,y) in self.planets:

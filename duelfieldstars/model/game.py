@@ -7,6 +7,7 @@ import pygame
 
 from galaxy import Galaxy
 import ship
+import faction
 
 factions = []
 ships = {}
@@ -19,20 +20,25 @@ def init():
     ships = {}
     galaxy = Galaxy()
     turn_count = 1
+    faction.PLAYERFACTION = factions[0]
+    
+    for y in range(galaxy.height):
+        for x in range(galaxy.width):
+            ships[x,y] = []
 
 log = logging.getLogger(__name__)
 
 def _do_end_of_turn():
     """End of turn processing."""
-    global turn_count
+    global turn_count, ships
     log.debug("End of turn "+str(turn_count)+".")
     turn_count += 1
     
-    for planet in galaxy.planets.values():
-        planet.tick()
     for faction in factions:
         faction.tick()
-    ships = ship.process_ship_turn(sum(ships.values(),[]))
+    for planet in galaxy.planets.values():
+        planet.tick()
+    ships = ship.process_ship_turn(ships)
     
     event = pygame.event.Event(pygame.USEREVENT, action="End of Turn")
     pygame.event.post(event)

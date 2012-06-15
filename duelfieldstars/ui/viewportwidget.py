@@ -3,8 +3,6 @@ import logging
 
 from ui_abstract.widget import Widget
 
-from model.faction import NOFACTION
-
 import texture_cache
 
 from color import COLORS
@@ -83,7 +81,7 @@ class ViewportWidget(Widget):
                     # self.surface.fill(color,rect)
                     
                     "Draw the owner's flair"
-                    if planet.owner is not NOFACTION:
+                    if planet.owner is not None:
                         (forgroundColor,backgroundColor) = planet.owner.flag
                         
                         texture = texture_cache.flag((self.scale,self.scale),forgroundColor,backgroundColor)
@@ -94,8 +92,8 @@ class ViewportWidget(Widget):
                     self.surface.blit(texture, (drawX-self.scale/4, drawY-self.scale/4))
                     
                     font = pygame.font.Font(pygame.font.get_default_font(), self.scale/2-2)
-                    label = font.render(planet.type, True, textColor)
-                    (labelWidth,labelHeight) = font.size(planet.type)
+                    label = font.render(planet.type_, True, textColor)
+                    (labelWidth,labelHeight) = font.size(planet.type_)
                     self.surface.blit(label, (drawX-labelWidth/2, drawY-labelHeight/2))
                     
         "Draw selection box"
@@ -111,13 +109,29 @@ class ViewportWidget(Widget):
         return
     
     def on_tick(self, deltaTime):
+        # Check that movement keys are depressed, else reset speed.
+        keys = pygame.key.get_pressed()
+        if not keys[pygame.K_w] and not keys[pygame.K_s]:
+            (dx,dy) = self.velocity
+            dy = 0
+            self.velocity = (dx,dy)
+            
+        if not keys[pygame.K_a] and not keys[pygame.K_d]:
+            (dx,dy) = self.velocity
+            dx = 0
+            self.velocity = (dx,dy)
+        
+        # Calculate new position.
+        if deltaTime > 10:
+            deltaTime = 10
         (x,y) = self.position
         (dx,dy) = self.velocity
         (x,y) = (x + dx * deltaTime, y + dy * deltaTime)
 
+
         # Generate event (and thus bypass niceness) if velocity != 0
         if dx != 0 or dy != 0:
-            event = pygame.event.Event(pygame.USEREVENT, action="Viewport moving")
+            event = pygame.event.Event(pygame.USEREVENT+1, action="Viewport moving")
             pygame.event.post(event)
                 
         # Snap to edge if outside bottom right boundary

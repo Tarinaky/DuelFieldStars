@@ -1,6 +1,5 @@
 import pygame
 import logging
-import sys
 
 from ui.ui_abstract.window import Window
 
@@ -11,14 +10,18 @@ from ui.ticker import Ticker
 from ui.action_menu import ActionMenu
 from ui.ui_abstract.button import Button
 
-from model.galaxy import Galaxy
 from model import game
 from ui import texture_cache
 from color import COLORS
+from ui.build_menu import BuildMenu
+from ui.insufficient_rez import InsufficientRezMenu
 
 log = logging.getLogger(__name__)
 
 class GameWindow(Window):
+    SILENT_EVENT = pygame.USEREVENT+1
+    REDRAW_EVENT = pygame.USEREVENT+2
+    
     def __init__(self):
         super(GameWindow,self).__init__()
         self.nice = True
@@ -51,17 +54,29 @@ class GameWindow(Window):
                                                     COLORS["black"], COLORS["blue"], "End Turn"),
                                self.end_turn))
         
+        self.focusedWidget = self.viewport
+        
         
         return
     
     def on_event(self, event):
-        """if event.type == pygame.USEREVENT and event.action == "Open planet":
-            if self.detailsPanel is not None:
-                self.remove_widget(self.detailsPanel)
-            self.detailsPanel = PlanetDetails(pygame.Rect(self.width-174, 0, 174, self.height), event.planet )
-            self.add_widget(self.detailsPanel, False)
-            return True"""
+        
+        # Do not log or handle events of type USEREVENT+1
+        if event.type == pygame.USEREVENT+1:
+            return True
+        
+        # Use USEREVENT+2 to force redraws.
+        if event.type == pygame.USEREVENT+2:
+            for widget in self.widgets:
+                widget.update()
+            return True
+        
+        # Action Menus
         if self.menu != None:
+            if event.type == pygame.USEREVENT and  event.action == "close menu":
+                self.remove_widget(self.menu)
+                self.menu = None
+                self.focusedWidget = self.viewport
             if event.type == pygame.KEYDOWN:
                 return self.menu._keyboard(event)
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -71,7 +86,8 @@ class GameWindow(Window):
                     self.remove_widget(self.menu)
                     self.menu = None
                     self.focusedWidget = self.viewport
-            
+        
+        # Userevents for openning/closing widgets.    
         if event.type == pygame.USEREVENT and event.action == "selection":
             if self.detailsPanel is not None:
                 self.remove_widget(self.detailsPanel)
@@ -85,6 +101,8 @@ class GameWindow(Window):
             else:
                 self.detailsPanel = PlanetDetails(pygame.Rect(self.width-174, 0, 174, self.height-32), planet )
                 self.add_widget(self.detailsPanel, False)
+            return True
+                
         
         if event.type == pygame.USEREVENT and event.action == "open menu":
             if self.menu is not None:
@@ -92,6 +110,19 @@ class GameWindow(Window):
             (mouseX, mouseY) = pygame.mouse.get_pos()
             self.menu = ActionMenu(pygame.Rect(mouseX-1,mouseY-1,20,20),self.viewport.selected, event.selection)
             self.add_widget(self.menu, True)
+            return True
+            
+        if event.type == pygame.USEREVENT and event.action == "open build menu":
+            self.remove_widget(self.menu)
+            self.menu = BuildMenu(self.menu.rect,event.destination)
+            self.add_widget(self.menu, True)
+            return True
+        
+        if event.type == pygame.USEREVENT and event.action == "insufficient rez":
+            self.remove_widget(self.menu)
+            self.menu = InsufficientRezMenu(self.menu.rect)
+            self.add_widget(self.menu, True)
+            return True
             
         if event.type == pygame.USEREVENT and event.action == "End of Turn":
             for widget in self.widgets:

@@ -3,6 +3,8 @@ import color
 
 import name
 
+import model
+
 class Faction(object):
     """
     Represents a player controlled faction in the game.
@@ -32,10 +34,16 @@ class Faction(object):
     
     @property 
     def upkeep(self):
-        return 0 
+        i = 0
+        for parsec in model.game.ships.values():
+            for ship in parsec:
+                if ship.owner == self:
+                    i+=1
+        return i
 
     def tick(self):
         """Update the faction by 1 turn."""
+        self.rez -= self.upkeep
         self.rez += self.income
 
         for planet in self.planets:
@@ -69,5 +77,5 @@ class Faction(object):
         self.ships.remove(ship)
 
 
-NOFACTION = Faction()
+PLAYERFACTION = None
 

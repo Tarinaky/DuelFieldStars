@@ -1,3 +1,4 @@
 To do list...
+ * Allow construction to be cancelled.
  * Allow players to build ships.
  * Make ships move.
