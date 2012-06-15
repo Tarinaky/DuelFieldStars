@@ -26,25 +26,16 @@ ADJECTIVE = ['adorable', 'beautiful', 'clean', 'drab', 'elegant', 'fancy',
             'red', 'orange', 'yellow', 'green', 'blue', 'purple', 'gray', 'black',
             'white', 'golden', 'azure', 'marine', 'twisted', 'fierce',
             'worried', 'indefatigable', 'dauntless', 'brave', 'fearless',
-            'clever', 'calm', 'eager', 'jolly', 'fat', 'sable']
+            'clever', 'calm', 'eager', 'jolly', 'fat', 'sable', 'vengeful', 'merciful',
+            'indefatigable', 'dauntless', 'accursed', 'eldritch', 'hungry', 'ravenous',
+            'dark', 'bloody']
 NOUN = ['rose', 'disk', 'lizard', 'rock', 'paper', 'scissors', 'taboo',
         'spear', 'lance', 'ocean', 'void', 'mercury', 'venus', 'mars', 'terra',
-        'jupiter', 'saturn', 'neptune', 'pluto']
-
-"""def syllable():
-    string = ""
-    for i in range (0,random.choice([0,1]) ):
-        string += random.choice(CONSONENTS)
-    string += random.choice(VOWELS)
-    for i in range (0, random.choice([1,2]) ):
-        string += random.choice(CONSONENTS)
-    return string
-
-def root(syllables):
-    string = ""
-    for i in range(syllables):
-        string += syllable()
-    return string"""
+        'jupiter', 'saturn', 'neptune', 'pluto', 'grave',
+        'kibalchich', 'tsar', 'caesar', 'pharoh', 'imperator', 'augustus', 'inquisitor',
+        'flame', 'clown', 'nova', 'warp', 'maelstrom', 'cadence', 'storm', 'star',
+        'seagod', 'stormlord', 'wind', 'sabre', 'scimitar', 'axe', 'cannon', 'book',
+        'engine', 'shield', 'mind', 'body', 'soul', 'virgin', 'rock']
 
 def planet_name():
     string_ = choice(PHONECIAN) + choice(PHONECIAN) + " " + choice(GREEK) + " " + str(randint(1,9) )
@@ -53,7 +44,7 @@ def planet_name():
 
 def faction_name():
     string_ = choice(PHONEME_CONSONANT) + choice(PHONEME_VOWEL) + choice(PHONEME_CONSONANT)
-    for i in range(randint(0,1) ):
+    for _ in range(randint(0,1) ):
         string_ += choice(PHONEME_VOWEL) + choice(PHONEME_CONSONANT) 
     string_ += ' '+choice(GOVERNMENTS)
     string_ = string.capwords(string_)
@@ -71,10 +62,14 @@ def name():
 
 def ship_name():
     string_ = ""
-    for _ in range (randint(0,1) ):
+    i = randint(0,1)
+    for _ in range (i):
         string_ += choice(ADJECTIVE) + " "
     
-    string_ += name()
+    if i == 0 or choice([True,False]):
+        string_ += name()
+    
+    string_ = "The "+string_
     
     string_ = string.capwords(string_)
     return string_   
