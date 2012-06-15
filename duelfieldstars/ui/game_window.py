@@ -18,6 +18,9 @@ from ui.build_menu import BuildMenu
 
 log = logging.getLogger(__name__)
 
+SILENT_EVENT = pygame.USEREVENT+1
+REDRAW_EVENT = pygame.USEREVENT+2
+
 class GameWindow(Window):
     def __init__(self):
         super(GameWindow,self).__init__()
@@ -57,12 +60,18 @@ class GameWindow(Window):
         return
     
     def on_event(self, event):
-        """if event.type == pygame.USEREVENT and event.action == "Open planet":
-            if self.detailsPanel is not None:
-                self.remove_widget(self.detailsPanel)
-            self.detailsPanel = PlanetDetails(pygame.Rect(self.width-174, 0, 174, self.height), event.planet )
-            self.add_widget(self.detailsPanel, False)
-            return True"""
+        
+        # Do not log or handle events of type USEREVENT+1
+        if event.type == pygame.USEREVENT+1:
+            return True
+        
+        # Use USEREVENT+2 to force redraws.
+        if event.type == pygame.USEREVENT+2:
+            for widget in self.widgets:
+                widget.update()
+            return True
+        
+        # Action Menus
         if self.menu != None:
             if event.type == pygame.KEYDOWN:
                 return self.menu._keyboard(event)
@@ -74,10 +83,7 @@ class GameWindow(Window):
                     self.menu = None
                     self.focusedWidget = self.viewport
         
-        #Do not log or handle events of type USEREVENT+1
-        if event.type == pygame.USEREVENT+1:
-            return True
-            
+        # Userevents for openning/closing widgets.    
         if event.type == pygame.USEREVENT and event.action == "selection":
             if self.detailsPanel is not None:
                 self.remove_widget(self.detailsPanel)
