@@ -129,9 +129,23 @@ class PlanetDetails(Widget):
             self.surface.blit(texture, (self.width-75,y))
         y += 14
         
-        # Space
+        # Construction?
+        texture = texture_cache.text(None, fontSize, COLORS["black"],
+                                       "Building... ")
+        self.surface.blit(texture, (20,y))
+        
+        if self.planet.construction == None:
+            texture = texture_cache.text(None,fontSize,COLORS["black"],
+                                         "Nothing")
+        else:
+            texture = texture_cache.text(None,fontSize,COLORS["blue"],
+                                         self.planet.construction.name)
+        self.surface.blit(texture, (self.width-75,y))
         y += 14
         
+        # Space
+        y += 14
+                
         # Improvement Levels
         texture = texture_cache.text(None, fontSize, COLORS["black"],
                                      "Mining Improvement Levels")
