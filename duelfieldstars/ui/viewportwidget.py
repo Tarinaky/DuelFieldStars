@@ -3,8 +3,6 @@ import logging
 
 from ui_abstract.widget import Widget
 
-from model.faction import NOFACTION
-
 import texture_cache
 
 from color import COLORS
@@ -83,7 +81,7 @@ class ViewportWidget(Widget):
                     # self.surface.fill(color,rect)
                     
                     "Draw the owner's flair"
-                    if planet.owner is not NOFACTION:
+                    if planet.owner is not None:
                         (forgroundColor,backgroundColor) = planet.owner.flag
                         
                         texture = texture_cache.flag((self.scale,self.scale),forgroundColor,backgroundColor)
@@ -94,8 +92,8 @@ class ViewportWidget(Widget):
                     self.surface.blit(texture, (drawX-self.scale/4, drawY-self.scale/4))
                     
                     font = pygame.font.Font(pygame.font.get_default_font(), self.scale/2-2)
-                    label = font.render(planet.type, True, textColor)
-                    (labelWidth,labelHeight) = font.size(planet.type)
+                    label = font.render(planet.type_, True, textColor)
+                    (labelWidth,labelHeight) = font.size(planet.type_)
                     self.surface.blit(label, (drawX-labelWidth/2, drawY-labelHeight/2))
                     
         "Draw selection box"

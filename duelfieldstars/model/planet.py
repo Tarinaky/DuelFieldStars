@@ -8,12 +8,10 @@ import math
 
 import name
 
-from faction import Faction, NOFACTION
-
 class Planet(object):
     def __init__(self, *position):
         self.name = name.planet_name()
-        self.owner = NOFACTION
+        self.owner = None
 
         self.construction = None
         
@@ -24,21 +22,21 @@ class Planet(object):
         self.improvementLevels = [] # The planet's five mining improvement levels.
         self.realisedImprovement = 0 
         
-        self.type = '' # The planet's type, expressed as one of the letters A, B, C, D or E.
+        self.type_ = '' # The planet's type, expressed as one of the letters A, B, C, D or E.
         
         self.position = position # The planet's position expressed as an (x,y) tuple.
         return
     
-    def set(self,baseValue, currentValue, realisedValue, improvementLevels, realisedImprovement, type):
+    def set_(self,baseValue, currentValue, realisedValue, improvementLevels, realisedImprovement, type_):
         self.baseValue = baseValue
         self.currentValue = currentValue
         self.realisedValue = realisedValue
         self.improvementLevels = improvementLevels
         self.realisedImprovement = realisedImprovement
-        self.type = type
+        self.type_ = type_
         
     def set_owner(self,faction):
-        if self.owner != NOFACTION:
+        if self.owner != None:
             self.owner.remove_planet(self)
         self.owner = faction
         self.owner.add_planet(self)
@@ -54,7 +52,7 @@ class Planet(object):
             accumulator = accumulator + prng.randint(5,20)
             self.improvementLevels.append(accumulator)
                 
-        self.type = prng.choice(['A','B','C','D','E'])
+        self.type_ = prng.choice(['A','B','C','D','E'])
         return
     
     @property
@@ -75,7 +73,9 @@ class Planet(object):
         """Update the planet by 1 turn."""
         self.realisedValue += self.growth
         "Build construction item."
-        self.construction = None
+        if self.construction != None:
+            self.construction(self.owner, self.position)
+            self.construction = None
 
 class PlanetTest(unittest.TestCase):
     def setUp(self):

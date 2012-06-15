@@ -8,9 +8,6 @@ from ui_abstract.text import Text
 
 from ui import texture_cache
 
-from model.faction import Faction, NOFACTION
-
-
 log = logging.getLogger(__name__)
 
 class Ticker(Widget):
@@ -18,7 +15,7 @@ class Ticker(Widget):
     Ticker bar to appear across the top. Contains information on rez, income and maybe some buttons.
     """
 
-    def __init__(self,rect,faction=NOFACTION):
+    def __init__(self,rect,faction=None):
         super(Ticker,self).__init__(rect)
 
         self.faction = faction

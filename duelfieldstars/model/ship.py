@@ -2,8 +2,6 @@ import name
 
 import game
 
-from faction import Faction, NOFACTION
-
 class Ship(object):
     """Abstract class for space ships."""
     type_ = "error"
@@ -18,6 +16,8 @@ class Ship(object):
         self.name = name.ship_name()
         
         self.destination = self.position # Target destination.
+        
+        game.ships[position].append(self)
                 
     @property
     def attack(self): 

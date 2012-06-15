@@ -5,8 +5,6 @@ from ui_abstract.widget import Widget
 import texture_cache
 from color import COLORS
 
-from model.faction import NOFACTION
-
 fontSize = 16
 
 class PlanetDetails(Widget):
@@ -38,7 +36,7 @@ class PlanetDetails(Widget):
         y += 14
 
         # Owner
-        if self.planet.owner != NOFACTION:
+        if self.planet.owner != None:
             texture = texture_cache.text(None, fontSize, COLORS["black"],
                                          "Faction: ")
             self.surface.blit(texture, (0,y))
@@ -54,7 +52,7 @@ class PlanetDetails(Widget):
         self.surface.blit(texture, (20,y))
         
         texture = texture_cache.text(None, fontSize, COLORS["black"],
-                                     self.planet.type)
+                                     self.planet.type_)
         self.surface.blit(texture, (self.width-100,y))
         y += 14
         
@@ -85,7 +83,7 @@ class PlanetDetails(Widget):
         y += 14
         
         # Realisation
-        if self.planet.owner != NOFACTION:
+        if self.planet.owner != None:
             
             texture = texture_cache.text(None, fontSize, COLORS["black"],
                                          "Realisation, ")
@@ -105,7 +103,7 @@ class PlanetDetails(Widget):
         
         
         
-        if self.planet.owner != NOFACTION:
+        if self.planet.owner != None:
             
             texture = texture_cache.text(None, fontSize, COLORS["black"],
                                      "Growth, ")
@@ -118,7 +116,7 @@ class PlanetDetails(Widget):
         y += 14
         
         # Income
-        if self.planet.owner != NOFACTION:
+        if self.planet.owner != None:
             
             texture = texture_cache.text(None, fontSize, COLORS["black"],
                                          "Income, ")

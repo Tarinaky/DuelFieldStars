@@ -21,6 +21,10 @@ def init():
     galaxy = Galaxy()
     turn_count = 1
     faction.PLAYERFACTION = factions[0]
+    
+    for y in range(galaxy.height):
+        for x in range(galaxy.width):
+            ships[x,y] = []
 
 log = logging.getLogger(__name__)
 
