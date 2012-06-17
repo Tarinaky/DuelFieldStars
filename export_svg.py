@@ -9,7 +9,7 @@ def export_svg():
             command = "inkscape"
         for i in [2**a for a in range(3,8)]:
             print "Exporting "+file+" at size "+str(i)
-            invocation = command+" -f svg/"+file+" -e asset/"+file.replace('.svg','_'+str(i)+'.png')+" --export-width="+str(i)+" --export-height="+str(i)
+            invocation = command+" -f svg/"+file+" -e asset/png/"+file.replace('.svg','_'+str(i)+'.png')+" --export-width="+str(i)+" --export-height="+str(i)
             print invocation
             os.system(invocation)
     
