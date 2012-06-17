@@ -30,8 +30,8 @@ class Type(object):
     """
     An abstract class representing a type of binary asset that can be loaded.
     """
-    def load(self,filename=None):
+    def load(self,filename=None): # return True
         """Overload this. Load the specified filename into the cache.
-        If filename is None instead load all assets from the directory structure."""
+        If filename is None instead load all assets from the directory structure. Must return True"""
         pass
     

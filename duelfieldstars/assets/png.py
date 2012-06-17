@@ -18,11 +18,13 @@ class PNG(Type):
         log.debug("loading "+path)
         surface = pygame.image.load(path)
         assets._cache[(PNG,filename)] = surface
+        return True
         
     def load_all(self):
         for file in os.listdir(assets.asset_path+"/png/"):
             filename = file.split('.')[0]
             self.load(filename)
+        return True
             
 assets._types.append(PNG)
 
