@@ -22,7 +22,7 @@ def get(type_,filename):
         else:
             log.debug("Could not find asset "+filename)
     
-def preload():
+def preload(): # FIXME: Not tested, may not work.
     for type_ in _types:
         type_().load()
         
