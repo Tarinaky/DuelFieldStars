@@ -31,5 +31,6 @@ assets._types.append(PNG)
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
     os.chdir("..")
-    PNG().load()
+    #PNG().load()
+    assets.preload()
     print assets._cache
