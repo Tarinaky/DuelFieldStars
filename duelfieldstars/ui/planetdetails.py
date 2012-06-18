@@ -193,7 +193,7 @@ class PlanetDetails(Widget):
             shiplist_x = 0
             shiplist_height = self.surface.get_height() - shiplist_y
             shiplist_width = self.surface.get_width() - shiplist_x 
-            event = pygame.event.Event(pygame.USEREVENT, action="show embedded ship list", 
+            event = pygame.event.Event(pygame.USEREVENT, action="show embedded ship list", position=self.planet.position,
                                        rect=pygame.Rect(shiplist_x,shiplist_y,shiplist_width,shiplist_height))
             pygame.event.post(event)
         else:
