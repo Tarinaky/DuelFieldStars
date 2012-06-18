@@ -2,6 +2,8 @@
 Obtain binary assets from a cache. Also includes a method to traverse and preload all assets.
 """
 
+__all__ = ['PNG']
+
 import os
 import logging
 import sys
