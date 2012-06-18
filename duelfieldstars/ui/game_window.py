@@ -141,7 +141,9 @@ class GameWindow(Window):
             self.add_widget(self.ship_list, False)
         
         if event.type == pygame.USEREVENT and event.action == "hide embedded ship list":        
-            pass
+            if self.ship_list != None:
+                self.remove_widget(self.ship_list)
+                self.ship_list = None
         
     def end_turn(self):
             """
