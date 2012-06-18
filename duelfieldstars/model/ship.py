@@ -15,7 +15,8 @@ class Ship(object):
         self.position = position # Position in pc
         self.name = name.ship_name()
         
-        self.destination = self.position # Target destination.
+        #self.destination = self.position # Target destination.
+        self.orders = [] # List of orders.
         
         game.ships[position].append(self)
                 
