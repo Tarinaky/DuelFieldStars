@@ -15,6 +15,7 @@ from ui import texture_cache
 from color import COLORS
 from ui.build_menu import BuildMenu
 from ui.insufficient_rez import InsufficientRezMenu
+from ui.ship_list import ShipList
 
 log = logging.getLogger(__name__)
 
@@ -41,6 +42,7 @@ class GameWindow(Window):
         
         self.detailsPanel = None
         self.menu = None
+        self.ship_list = None
 
         self.ticker = Ticker(pygame.Rect(0,0,self.width-174,14), self.player )
         self.add_widget(self.ticker,False)
@@ -131,7 +133,12 @@ class GameWindow(Window):
             return True
         
         if event.type == pygame.USEREVENT and event.action == "show embedded ship list":
-            pass
+            rect = event.rect
+            position = event.position
+            if self.ship_list != None:
+                self.remove_widget(self.ship_list)
+            self.ship_list = ShipList(rect,position)
+            self.add_widget(self.ship_list, False)
         
         if event.type == pygame.USEREVENT and event.action == "hide embedded ship list":        
             pass
