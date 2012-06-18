@@ -5,6 +5,7 @@ from ui_abstract.widget import Widget
 import texture_cache
 from color import COLORS
 from ui.ui_abstract.button import Button
+from model import game
 
 fontSize = 16
 
@@ -177,6 +178,17 @@ class PlanetDetails(Widget):
                                          str(level) )
             self.surface.blit(texture, (x,y))
             x += 28
+        y += 14
+        
+        # Space
+        y += 14
+        
+        # Ships in tile
+        if game.ships[self.planet.position] != []:
+            # Number of ships
+            texture = texture_cache.text(None, fontSize, COLORS["black"],
+                                          str(len(game.ships[self.planet.position]))+" ship(s) in orbit")
+            self.surface.blit(texture, (0,y))
             
     def on_mouse(self,event):
         # Call cancel button on click.

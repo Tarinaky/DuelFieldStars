@@ -17,7 +17,7 @@ class Ship(object):
         
         self.destination = self.position # Target destination.
         
-        game.ships[0,0].append(self)
+        game.ships[position].append(self)
                 
     @property
     def attack(self): 
