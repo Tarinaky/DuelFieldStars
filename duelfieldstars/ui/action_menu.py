@@ -12,7 +12,12 @@ class ActionMenu (DefaultMenu):
     def __init__(self,rect, source, destination):
         super(ActionMenu,self).__init__(rect)
         
+        self.showMoveMenu = False
         self.source = source
+        if source != None:
+            if game.ships[source] != [] and source != destination:
+                self.showMoveMenu = True
+        
         self.destination = destination
         self.showBuildMenu = False
         
@@ -47,4 +52,14 @@ class ActionMenu (DefaultMenu):
             self.add_option(widget,open_build_menu,destination)
             self.add_keyboard_handler(open_build_menu, pygame.KEYDOWN, pygame.K_b, 0, destination)
             dy += 14
+            
+        # Move here
+        if self.showMoveMenu:
+            widget = Text(pygame.Rect(dx,dy,0,0), font,
+                          COLORS["light blue"], "        (M)ove here    ")
+            def move_ships(source,destination):
+                pass # TODO: Implement this
+            self.add_option(widget,move_ships,source,destination)
+            self.add_keyboard_handler(move_ships, pygame.KEYDOWN, pygame.K_m, 0, source, destination)
+            
         
