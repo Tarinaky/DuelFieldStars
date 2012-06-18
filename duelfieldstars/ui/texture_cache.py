@@ -75,9 +75,9 @@ def button(fontname, fontSize, boxSize, colorFG, colorBG, string):
         cache[key] = surface
         return surface
         
-def ship_token(size, colors, friend, *args):
+def ship_token(size, colors, friend, colony=False, marine=False, missile=False, service=False):
     (foreground_color, background_color) = colors
-    key = ("ship_token", size, foreground_color, background_color, friend, args)
+    key = ("ship_token", size, foreground_color, background_color, friend, colony, marine, missile, service)
     if key in cache:
         return cache[key]
     else:
