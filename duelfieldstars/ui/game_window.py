@@ -127,9 +127,14 @@ class GameWindow(Window):
         if event.type == pygame.USEREVENT and event.action == "End of Turn":
             for widget in self.widgets:
                 widget.update()
-                
             log.debug("Updated all widgets.")
-            return True        
+            return True
+        
+        if event.type == pygame.USEREVENT and event.action == "show embedded ship list":
+            pass
+        
+        if event.type == pygame.USEREVENT and event.action == "hide embedded ship list":        
+            pass
         
     def end_turn(self):
             """
