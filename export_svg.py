@@ -2,6 +2,9 @@ import os
 import string
 
 def export_svg():
+    if not os.path.exists("asset/png/"):
+        os.mkdir("asset/png/")
+    
     for file in os.listdir("svg"):
         if os.name == 'nt':
             command = '"c:\Program Files\Inkscape\Inkscape.exe"'
