@@ -189,6 +189,16 @@ class PlanetDetails(Widget):
             texture = texture_cache.text(None, fontSize, COLORS["black"],
                                           str(len(game.ships[self.planet.position]))+" ship(s) in orbit")
             self.surface.blit(texture, (0,y))
+            shiplist_y = y
+            shiplist_x = 0
+            shiplist_height = self.surface.get_height() - shiplist_y
+            shiplist_width = self.surface.get_width() - shiplist_x 
+            event = pygame.event.Event(pygame.USEREVENT, action="show embedded ship list", 
+                                       rect=pygame.Rect(shiplist_x,shiplist_y,shiplist_width,shiplist_height))
+            pygame.event.post(event)
+        else:
+            event = pygame.event.Event(pygame.USEREVENT, action="hide embedded ship list")
+            pygame.event.post(event)
             
     def on_mouse(self,event):
         # Call cancel button on click.
