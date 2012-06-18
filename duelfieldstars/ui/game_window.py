@@ -100,6 +100,8 @@ class GameWindow(Window):
                 planet = game.galaxy.planets[(x,y)] #@UndefinedVariable
             if planet is None:  
                 log.debug("No planet at "+str((x,y)))
+                event = pygame.event.Event(pygame.USEREVENT,action="hide embedded ship list")
+                pygame.event.post(event)
             else:
                 self.detailsPanel = PlanetDetails(pygame.Rect(self.width-174, 0, 174, self.height-32), planet )
                 self.add_widget(self.detailsPanel, False)
