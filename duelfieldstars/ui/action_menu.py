@@ -58,7 +58,9 @@ class ActionMenu (DefaultMenu):
             widget = Text(pygame.Rect(dx,dy,0,0), font,
                           COLORS["light blue"], "        (M)ove here    ")
             def move_ships(source,destination):
-                pass # TODO: Implement this
+                event = pygame.event.Event(pygame.USEREVENT,action="move ships", source=source, destination=destination)
+                pygame.event.post(event)
+                return # TODO: Handle this
             self.add_option(widget,move_ships,source,destination)
             self.add_keyboard_handler(move_ships, pygame.KEYDOWN, pygame.K_m, 0, source, destination)
             
