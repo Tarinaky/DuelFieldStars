@@ -4,6 +4,8 @@ This module stores a dictionary to which commonly used textures may be 'cached' 
 """
 
 import pygame
+from assets.png import PNG
+import assets
 
 cache = {}
 
@@ -73,7 +75,23 @@ def button(fontname, fontSize, boxSize, colorFG, colorBG, string):
         cache[key] = surface
         return surface
         
-        
+def ship_token(size, foreground_color, background_color, friend, **kwargs):
+    key = ("ship_token", size, foreground_color, background_color, friend, kwargs)
+    if key in cache:
+        return cache[key]
+    else:
+        # Start with faction flag
+        texture = flag(size, foreground_color, background_color)
+        # Mask off edge
+        alphamask = None
+        if friend:
+            alphamask = assets.get(PNG,"friend_alphamask_"+str(size))
+        else:
+            alphamask = assets.get(PNG,"foe_alphamask_"+str(size))
+        alphamask.set_colorkey((0xff,0xff,0xff))
+        texture.blit(alphamask,(0,0))
+        texture.set_colorkey((0x0,0x0,0x0))
+             
         
     
         
