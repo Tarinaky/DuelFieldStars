@@ -151,9 +151,8 @@ class PlanetDetails(Widget):
                     self.planet.owner.rez += 2
                     event = pygame.event.Event(pygame.USEREVENT+2,action = "cancelled construction")
                     pygame.event.post(event)
-                dx = texture.get_width()+2
                 texture = texture_cache.rect((10,10), COLORS["red"], 0)
-                self.cancel_button = Button(pygame.Rect(self.width-75+dx,y,10,10), texture, texture, cancel_construction)
+                self.cancel_button = Button(pygame.Rect(self.width-75-10,y,10,10), texture, texture, cancel_construction)
                 self.cancel_button._draw()
                 self.surface.blit(self.cancel_button.surface, self.cancel_button.rect)
             
