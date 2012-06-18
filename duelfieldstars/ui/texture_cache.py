@@ -91,7 +91,8 @@ def ship_token(size, foreground_color, background_color, friend, **kwargs):
         alphamask.set_colorkey((0xff,0xff,0xff))
         texture.blit(alphamask,(0,0))
         texture.set_colorkey((0x0,0x0,0x0))
-             
+        cache[key] = texture
+        return texture
         
     
         
