@@ -14,7 +14,7 @@ from model import game
 from ui import texture_cache
 from color import COLORS
 from ui.build_menu import BuildMenu
-from ui.insufficient_rez import InsufficientRezMenu
+from ui.insufficient_rez import InsufficientRezMenu, TooMuchUpkeep
 from ui.ship_list import ShipList
 
 log = logging.getLogger(__name__)
@@ -123,6 +123,12 @@ class GameWindow(Window):
         if event.type == pygame.USEREVENT and event.action == "insufficient rez":
             self.remove_widget(self.menu)
             self.menu = InsufficientRezMenu(self.menu.rect)
+            self.add_widget(self.menu, True)
+            return True
+        
+        if event.type == pygame.USEREVENT and event.action == "too much upkeep":
+            self.remove_widget(self.menu)
+            self.menu = TooMuchUpkeep(self.menu.rect)
             self.add_widget(self.menu, True)
             return True
             

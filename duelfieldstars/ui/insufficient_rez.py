@@ -18,3 +18,6 @@ class InsufficientRezMenu(DefaultMenu):
                       )
         self.add_option(widget, None)
     
+class TooMuchUpkeep(InsufficientRezMenu):
+    message = "Upkeep would exceed income"
+    

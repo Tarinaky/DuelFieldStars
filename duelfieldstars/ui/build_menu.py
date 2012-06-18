@@ -35,6 +35,11 @@ class BuildMenu(DefaultMenu):
                 event = pygame.event.Event(pygame.USEREVENT, action="insufficient rez")
                 pygame.event.post(event)
                 return
+            # Check upkeep/income balance.
+            if world.owner.income < world.owner.upkeep + 1:
+                event = pygame.event.Event(pygame.USEREVENT, action="too much upkeep")
+                pygame.event.post(event)
+                return
             # Set construction.
             world.owner.rez -= 2
             world.construction = ship_type_
