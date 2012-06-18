@@ -13,7 +13,7 @@ log = logging.getLogger(__name__)
 asset_path = "../asset"
 
 _cache = {} # A dictionary of assets sorted by a (type,filename) tuple.
-_types = [] # A list of all types of assets.
+_types = [] # A list of all types of asset
 
 def get(type_,filename):
     if (type_,filename) in _cache:
