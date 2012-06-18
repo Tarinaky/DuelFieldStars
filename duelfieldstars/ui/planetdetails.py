@@ -130,7 +130,7 @@ class PlanetDetails(Widget):
         y += 14
         
         # Construction?
-        if self.planet.owner != None:
+        if self.planet.owner == game.factions[0]:
             texture = texture_cache.text(None, fontSize, COLORS["black"],
                                        "Building... ")
             self.surface.blit(texture, (20,y))
