@@ -27,21 +27,25 @@ class ShipList(Widget):
             if y >= self.height-dy:
                 # TODO: print 'scroll down' button then break.
                 break
-            # Ship name
             dy = 2
+            dx = 16
+            # Token
+            texture = texture_cache.ship_token(16, ship.faction.flag, True)
+            self.surface.blit(texture,(0,dy+y))
+            # Ship name
             texture = texture_cache.text(None, 12, COLORS["white"],
                                          ship.name+" ("+ship.type_+")")
-            self.surface.blit(texture,(0,dy+y))
+            self.surface.blit(texture,(dx,dy+y))
             dy += texture.get_height()
             # Show offence and defence
             texture = texture_cache.text(None,12, COLORS["white"],
                                          "    Offence: "+str(ship.attack)+" Defence: "+str(ship.defence))
-            self.surface.blit(texture,(0,dy+y))
+            self.surface.blit(texture,(dx,dy+y))
             dy += texture.get_height()
             # Show orders
             texture = texture_cache.text(None,12, COLORS["white"],
                                          "    "+str(len(ship.orders))+" orders")
-            self.surface.blit(texture,(0,dy+y))
+            self.surface.blit(texture,(dx,dy+y))
             dy += texture.get_height()
             # Increase y
             y += dy + 2

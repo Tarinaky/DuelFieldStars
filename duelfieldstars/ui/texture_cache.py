@@ -75,13 +75,14 @@ def button(fontname, fontSize, boxSize, colorFG, colorBG, string):
         cache[key] = surface
         return surface
         
-def ship_token(size, foreground_color, background_color, friend, **kwargs):
-    key = ("ship_token", size, foreground_color, background_color, friend, kwargs)
+def ship_token(size, colors, friend, *args):
+    (foreground_color, background_color) = colors
+    key = ("ship_token", size, foreground_color, background_color, friend, args)
     if key in cache:
         return cache[key]
     else:
         # Start with faction flag
-        texture = flag(size, foreground_color, background_color)
+        texture = flag((size,size), foreground_color, background_color)
         # Mask off edge
         alphamask = None
         if friend:
@@ -90,7 +91,7 @@ def ship_token(size, foreground_color, background_color, friend, **kwargs):
             alphamask = assets.get(PNG,"foe_alphamask_"+str(size))
         alphamask.set_colorkey((0xff,0xff,0xff))
         texture.blit(alphamask,(0,0))
-        texture.set_colorkey((0x0,0x0,0x0))
+        #texture.set_colorkey((0x0,0x0,0x0))
         cache[key] = texture
         return texture
         
