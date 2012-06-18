@@ -77,5 +77,16 @@
        id="path3755"
        inkscape:connector-curvature="0"
        transform="translate(0,924.36218)" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:0.4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 56,1036.3622 0,-48 c 0,0 0.457528,-16.00002 8,-16.00002 7.542472,0 8,16.00002 8,16.00002 l 0,48"
+       id="path2985-1"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccscc" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:0.4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 64,972.36218 0,64.00002"
+       id="path3755-7"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>
