@@ -4,6 +4,7 @@ from ui_abstract.widget import Widget
 
 import texture_cache
 from color import COLORS
+from ui.ui_abstract.button import Button
 
 fontSize = 16
 
@@ -15,7 +16,7 @@ class PlanetDetails(Widget):
         super(PlanetDetails,self).__init__(rect)
         
         self.planet = planet
-        
+        self.cancel_button = None
         
         
         
@@ -135,10 +136,26 @@ class PlanetDetails(Widget):
         if self.planet.construction == None:
             texture = texture_cache.text(None,fontSize,COLORS["black"],
                                          "Nothing")
+            self.surface.blit(texture, (self.width-75,y))
+            self.cancel_button = None
         else:
             texture = texture_cache.text(None,fontSize,COLORS["blue"],
                                          self.planet.construction.type_)
-        self.surface.blit(texture, (self.width-75,y))
+            self.surface.blit(texture, (self.width-75,y))
+            
+            # Cancel button
+            def cancel_construction():
+                self.planet.construction = None
+                self.planet.owner.rez += 2
+                event = pygame.event.Event(pygame.USEREVENT+2,action = "cancelled construction")
+                pygame.event.post(event)
+            dx = texture.get_width()
+            texture = texture_cache.rect((14,14), COLORS["red"], 14)
+            self.cancel_button = Button(pygame.Rect(self.width-75+dx,y,14,14), texture, texture, cancel_construction)
+            self.cancel_button._draw()
+            self.surface.blit(self.cancel_button.surface, self.cancel_button.rect)
+            
+        
         y += 14
         
         # Space
@@ -160,3 +177,15 @@ class PlanetDetails(Widget):
                                          str(level) )
             self.surface.blit(texture, (x,y))
             x += 28
+            
+    def on_mouse(self,event):
+        # Call cancel button on click.
+        if self.cancel_button != None:
+            (x,y) = event.pos
+            (widget_x,widget_y,_,_) = self.rect
+            x = x - widget_x
+            y = y - widget_y
+            if self.cancel_button.rect.colliderect(pygame.Rect(x,y,0,0)):
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    return self.cancel_button._mouse(event)
+            
