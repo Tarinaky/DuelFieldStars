@@ -189,10 +189,14 @@ class PlanetDetails(Widget):
             texture = texture_cache.text(None, fontSize, COLORS["black"],
                                           str(len(game.ships[self.planet.position]))+" ship(s) in orbit")
             self.surface.blit(texture, (0,y))
+            y += 14
             shiplist_y = y
-            shiplist_x = 0
-            shiplist_height = self.surface.get_height() - shiplist_y
-            shiplist_width = self.surface.get_width() - shiplist_x 
+            (shiplist_x,_,_,_) = self.rect
+            shiplist_x += 5
+            shiplist_height = self.surface.get_height() - shiplist_y - 5
+            shiplist_width = self.surface.get_width() - 10
+            print (shiplist_x, shiplist_y, shiplist_width, shiplist_height)
+            
             event = pygame.event.Event(pygame.USEREVENT, action="show embedded ship list", position=self.planet.position,
                                        rect=pygame.Rect(shiplist_x,shiplist_y,shiplist_width,shiplist_height))
             pygame.event.post(event)

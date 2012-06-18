@@ -18,24 +18,24 @@ class ShipList(Widget):
         self.position = position
         
     def on_draw(self):
-        self.surface.fill(0x0,0x0,0x0)
+        self.surface.fill(COLORS["black"])
         
         y = 0
         
         ship_list = game.ships[self.position]
         for ship in ship_list:
-            if y >= self.height-16:
+            if y >= self.height-20:
                 # TODO: print 'scroll down' button then break.
                 break
             # Ship name
-            dy = 0
-            texture = texture_cache.text(None, 8, COLORS["white"],
+            dy = 2
+            texture = texture_cache.text(None, 12, COLORS["white"],
                                          ship.name+" ("+ship.type_+")")
             self.surface.blit(texture,(0,dy+y))
             dy += texture.get_height()
             # Show offence and defence
-            texture = texture_cache.text(None,8, COLORS["white"],
+            texture = texture_cache.text(None,12, COLORS["white"],
                                          "    Offence: "+str(ship.attack)+" Defence: "+str(ship.defence))
             self.surface.blit(texture,(0,dy+y))
             # Increase y
-            y += 16
+            y += 20
