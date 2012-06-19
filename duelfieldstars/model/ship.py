@@ -38,12 +38,12 @@ def get_path(source,destination):
         error += gradient
         while error > 0.5:
             y +=1
-            if error > 1:
+            if error > 1.5:
                 values.append((x,y))
             error -=1
         while error < -0.5:
             y -=1
-            if error < -1:
+            if error < -1.5:
                 values.append((x,y))
             error +=1
     values.append(destination)
