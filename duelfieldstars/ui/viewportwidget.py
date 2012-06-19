@@ -64,6 +64,8 @@ class ViewportWidget(Widget):
             
         # Draw movement lines.
         for ship in sum(game.ships.values(),[]):
+            if ship.faction != game.factions[0]:
+                continue
             for (_,target) in ship.orders:
                 path = model.ship.get_path(ship.position, target)
                 print path
