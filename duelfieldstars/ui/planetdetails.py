@@ -6,6 +6,8 @@ import texture_cache
 from color import COLORS
 from ui.ui_abstract.button import Button
 from model import game
+from assets.png import PNG
+import assets
 
 fontSize = 16
 
@@ -141,9 +143,7 @@ class PlanetDetails(Widget):
                 self.surface.blit(texture, (self.width-75,y))
                 self.cancel_button = None
             else:
-                texture = texture_cache.text(None,fontSize,COLORS["blue"],
-                                                 self.planet.construction.type_)
-                self.surface.blit(texture, (self.width-75,y))
+                
             
                 # Cancel button
                 def cancel_construction():
@@ -151,10 +151,14 @@ class PlanetDetails(Widget):
                     self.planet.owner.rez += 2
                     event = pygame.event.Event(pygame.USEREVENT+2,action = "cancelled construction")
                     pygame.event.post(event)
-                texture = texture_cache.rect((10,10), COLORS["red"], 0)
-                self.cancel_button = Button(pygame.Rect(self.width-75-10,y,10,10), texture, texture, cancel_construction)
+                texture = assets.get(PNG,"cancel_32")
+                self.cancel_button = Button(pygame.Rect(self.width-40,y,32,32), texture, texture, cancel_construction)
                 self.cancel_button._draw()
                 self.surface.blit(self.cancel_button.surface, self.cancel_button.rect)
+                y += 14
+                texture = texture_cache.text(None,fontSize,COLORS["blue"],
+                                                 self.planet.construction.type_)
+                self.surface.blit(texture, (20,y))
             
         
         y += 14
