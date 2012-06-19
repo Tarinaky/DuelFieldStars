@@ -1,4 +1,4 @@
 To do list...
- * Allow construction to be cancelled.
- * Allow players to build ships.
+ * Display top ship order.
+ * Allow cancelling of orders.
  * Make ships move.
