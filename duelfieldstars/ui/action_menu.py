@@ -64,6 +64,8 @@ class ActionMenu (DefaultMenu):
             def move_ships(source,destination):
                 for ship in self.ship_list:
                     ship.orders = [("move to",destination)]
+                    event = pygame.event.Event(pygame.USEREVENT+2)
+                    pygame.event.post(event)
                     
             self.add_option(widget,move_ships,source,destination)
             self.add_keyboard_handler(move_ships, pygame.KEYDOWN, pygame.K_m, 0, source, destination)
