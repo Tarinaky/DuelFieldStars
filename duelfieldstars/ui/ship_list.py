@@ -28,6 +28,8 @@ class ShipList(Widget):
     
     def on_mouse(self,event):
         if event.type == pygame.MOUSEBUTTONDOWN:
+            
+            # Select/Deselect ships. Do this last.
             (x,y) = event.pos
             (x,y) = (x-self.x0, y-self.y0)
             (x,y) = (x, y/self.tile_height)
@@ -36,7 +38,10 @@ class ShipList(Widget):
             if  y >= len(ship_list):
                 return False # If the list isn't that long then return to the dispatcher.
             ship = ship_list[y+self.scroll]
-            self.selected.append(ship)
+            if ship in self.selected:
+                self.selected.remove(ship)
+            else:
+                self.selected.append(ship)
             self.update()
             return True
         else:
