@@ -82,6 +82,14 @@ class ShipList(Widget):
             texture = texture_cache.text(None,12, COLORS["white"],
                                          "    "+str(len(ship.orders))+" orders")
             self.surface.blit(texture,(dx,dy+y))
+            if ship.orders != []:
+                (order,coordinate) = ship.orders[0]
+                dx += texture.get_width()
+                texture = texture_cache.text(None, 12, COLORS["green"],
+                                             "    "+order+" "+str(coordinate))
+                self.surface.blit(texture,(dx,dy+y))
+                dx = 16
+            
             dy += texture.get_height()
             # Save dy
             self.tile_height = dy +2
