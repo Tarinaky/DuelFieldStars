@@ -8,6 +8,10 @@ from ui import texture_cache
 from color import COLORS
 from assets.png import PNG
 import assets
+import pygame
+import logging
+
+log = logging.getLogger(__name__)
 
 class ShipList(Widget):
     """
@@ -20,6 +24,23 @@ class ShipList(Widget):
         self.position = position
         
         self.selected = []
+        self.tile_height = 1
+    
+    def on_mouse(self,event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            (x,y) = event.pos
+            (x,y) = (x-self.x0, y-self.y0)
+            (x,y) = (x, y/self.tile_height)
+            log.debug("Trying to get ship "+str(y))
+            ship_list = game.ships[self.position]
+            if  y >= len(ship_list):
+                return False # If the list isn't that long then return to the dispatcher.
+            ship = ship_list[y+self.scroll]
+            self.selected.append(ship)
+            self.update()
+            return True
+        else:
+            return False
         
     def on_draw(self):
         self.surface.fill(COLORS["black"])
@@ -57,5 +78,7 @@ class ShipList(Widget):
                                          "    "+str(len(ship.orders))+" orders")
             self.surface.blit(texture,(dx,dy+y))
             dy += texture.get_height()
+            # Save dy
+            self.tile_height = dy +2
             # Increase y
             y += dy + 2
