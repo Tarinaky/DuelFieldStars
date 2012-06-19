@@ -14,12 +14,12 @@
    id="svg2986"
    version="1.1"
    inkscape:version="0.48.1 "
-   sodipodi:docname="New document 1">
+   sodipodi:docname="unselected.svg">
   <defs
      id="defs2988" />
   <sodipodi:namedview
      id="base"
-     pagecolor="#ffffff"
+     pagecolor="#000000"
      bordercolor="#666666"
      borderopacity="1.0"
      inkscape:pageopacity="1"
@@ -53,7 +53,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -63,7 +63,7 @@
      id="layer1"
      transform="translate(0,-924.36217)">
     <rect
-       style="fill:none;stroke:#000000;stroke-width:7;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#ffffff;stroke:#000000;stroke-width:7;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1"
        id="rect2996"
        width="96"
        height="96"

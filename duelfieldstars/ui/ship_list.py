@@ -6,6 +6,8 @@ from ui.ui_abstract.widget import Widget
 from model import game
 from ui import texture_cache
 from color import COLORS
+from assets.png import PNG
+import assets
 
 class ShipList(Widget):
     """
@@ -17,6 +19,8 @@ class ShipList(Widget):
         self.scroll = 0
         self.position = position
         
+        self.selected = []
+        
     def on_draw(self):
         self.surface.fill(COLORS["black"])
         
@@ -24,7 +28,7 @@ class ShipList(Widget):
         
         ship_list = game.ships[self.position]
         for ship in ship_list:
-            if y >= self.height-dy:
+            if y >= self.height:
                 # TODO: print 'scroll down' button then break.
                 break
             dy = 2
@@ -32,6 +36,12 @@ class ShipList(Widget):
             # Token
             texture = texture_cache.ship_token(16, ship.faction.flag, True)
             self.surface.blit(texture,(0,dy+y))
+            # Selected?
+            if ship in self.selected:
+                texture = assets.get(PNG,"selected_16")
+            else:
+                texture = assets.get(PNG,"unselected_16")
+            self.surface.blit(texture,(0,dy+y+16))
             # Ship name
             texture = texture_cache.text(None, 12, COLORS["white"],
                                          ship.name+" ("+ship.type_+")")
