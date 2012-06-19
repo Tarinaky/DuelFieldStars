@@ -9,14 +9,17 @@ from ui.default_menu import DefaultMenu
 
 class ActionMenu (DefaultMenu):
     
-    def __init__(self,rect, source, destination):
+    def __init__(self,rect, source, destination,ship_list=None):
         super(ActionMenu,self).__init__(rect)
+        
+        self.ship_list = ship_list
         
         self.showMoveMenu = False
         self.source = source
         if source != None:
-            if game.ships[source] != [] and source != destination:
-                self.showMoveMenu = True
+            if ship_list is not None:
+                if ship_list.selected != []:
+                    self.showMoveMenu = True
         
         self.destination = destination
         self.showBuildMenu = False
@@ -57,10 +60,11 @@ class ActionMenu (DefaultMenu):
         if self.showMoveMenu:
             widget = Text(pygame.Rect(dx,dy,0,0), font,
                           COLORS["light blue"], "        (M)ove here    ")
+            
             def move_ships(source,destination):
-                event = pygame.event.Event(pygame.USEREVENT,action="move ships", source=source, destination=destination)
-                pygame.event.post(event)
-                return # TODO: Handle this
+                for ship in self.ship_list:
+                    ship.orders = [("move to",destination)]
+                    
             self.add_option(widget,move_ships,source,destination)
             self.add_keyboard_handler(move_ships, pygame.KEYDOWN, pygame.K_m, 0, source, destination)
             
