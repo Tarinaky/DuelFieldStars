@@ -76,12 +76,12 @@ class ViewportWidget(Widget):
                     if self.window.ship_list != None:
                         if ship in self.window.ship_list.selected:
                             line_width = 4
-                    # Draw a line
+                    # Draw a line segment
                     line_start_x = last_point_x * self.scale - x0
                     line_start_y = last_point_y * self.scale - y0
                     line_end_x = grid_x * self.scale - x0
                     line_end_y = grid_y * self.scale - y0
-                        
+                    #gradient = float(line_end_y - line_start_y)/(line_end_x - line_start_x)
                     pygame.draw.line(self.surface, COLORS["green"],
                                      (line_start_x,line_start_y),
                                      (line_end_x,line_end_y),
