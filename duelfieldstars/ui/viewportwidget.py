@@ -10,9 +10,10 @@ from color import COLORS
 log = logging.getLogger(__name__)
 
 class ViewportWidget(Widget):
-    def __init__(self,rect,galaxy):
+    def __init__(self,rect,galaxy,window):
         super(ViewportWidget,self).__init__(rect)
         self.galaxy = galaxy
+        self.window = window
         
         self.font = pygame.font.Font(pygame.font.get_default_font(),10)
         

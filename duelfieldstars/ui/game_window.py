@@ -31,7 +31,7 @@ class GameWindow(Window):
         self.player = game.factions[0]
         
         (width,height) = pygame.display.get_surface().get_size()
-        self.viewport = ViewportWidget(pygame.Rect(0,14,width-174,height), game.galaxy)
+        self.viewport = ViewportWidget(pygame.Rect(0,14,width-174,height), game.galaxy, self)
         self.add_widget(self.viewport)
         
         self.hzScrollbar = HorizontalScrollBar(pygame.Rect(0,self.height-8,width-174,8), self.viewport)
