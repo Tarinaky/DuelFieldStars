@@ -1,4 +1,5 @@
 To do list...
  * Display top ship order.
+ * Show unit paths.
  * Allow cancelling of orders.
  * Make ships move.
