@@ -6,6 +6,7 @@ from ui_abstract.widget import Widget
 import texture_cache
 
 from color import COLORS
+import model
 
 log = logging.getLogger(__name__)
 
@@ -59,6 +60,31 @@ class ViewportWidget(Widget):
             pygame.draw.line(self.surface, white, (x-x0, 0), (x-x0, self.height) )
             label = self.font.render("("+str(x//self.scale)+")", True, white)
             self.surface.blit(label, (x-x0,0) )
+            
+        # Draw movement lines.
+        if self.window.ship_list is not None:
+            for ship in self.window.ship_list.selected:
+                for (_,target) in ship.orders:
+                    path = model.ship.get_path(ship.position, target)
+                    print path
+                    (last_point_x,last_point_y) = path.pop(0)
+                    for (grid_x,grid_y) in path:
+                        # Draw a line
+                        line_start_x = last_point_x * self.scale - x0
+                        line_start_y = last_point_y * self.scale - y0
+                        line_end_x = grid_x * self.scale - x0
+                        line_end_y = grid_y * self.scale - y0
+                        
+                        pygame.draw.line(self.surface, COLORS["green"],
+                                         (line_start_x,line_start_y),
+                                         (line_end_x,line_end_y),
+                                         5)
+                        
+                        last_point_x = grid_x
+                        last_point_y = grid_y
+                        
+                            
+                        
         
         # Draw planets
         for y in range ( (y0/self.scale)*self.scale, self.height+y0+self.scale, self.scale):

@@ -2,6 +2,54 @@ import name
 
 import game
 
+def get_path(source,destination):
+    """
+    Obtain and return a list of the coordinates of all tiles between two points.
+    """
+    values = []
+    (x0,y0) = source
+    (x1,y1) = destination
+    
+    dx = x1 - x0
+    dy = y1 - y0
+    if dx == 0:
+        gradient = dy
+    else:
+        if dx > 0:
+            gradient = float(dy)/dx
+        else:
+            gradient = -float(dy)/dx
+    error = 0.0
+    y = y0
+    
+    def my_range(a,b):
+        if a < b:
+            return range(a,b)
+        if a > b:
+            return range(a,b,-1)
+        if a == b:
+            return [a]
+    
+    #print (x0,x1)
+    #print gradient
+    #print my_range(x0,x1)
+    for x in my_range(x0,x1):
+        values.append((x,y))
+        error += gradient
+        while error > 0.5:
+            y +=1
+            if error > 1:
+                values.append((x,y))
+            error -=1
+        while error < -0.5:
+            y -=1
+            if error < -1:
+                values.append((x,y))
+            error +=1
+    values.append(destination)
+    return values
+        
+    
 class Ship(object):
     """Abstract class for space ships."""
     type_ = "error"
