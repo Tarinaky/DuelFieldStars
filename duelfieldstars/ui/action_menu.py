@@ -62,9 +62,11 @@ class ActionMenu (DefaultMenu):
                           COLORS["light blue"], "        (M)ove here    ")
             
             def move_ships(source,destination):
-                for ship in self.ship_list:
+                for ship in self.ship_list.selected:
                     ship.orders = [("move to",destination)]
-                event = pygame.event.Event(pygame.USEREVENT+2)
+                event = pygame.event.Event(pygame.USEREVENT+2) # Call for a redraw
+                pygame.event.post(event)
+                event = pygame.event.Event(pygame.USEREVENT,action="close menu")
                 pygame.event.post(event)
                     
             self.add_option(widget,move_ships,source,destination)
