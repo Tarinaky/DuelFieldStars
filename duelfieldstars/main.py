@@ -16,6 +16,7 @@ if __name__ == '__main__':
     window.run()
     
     log.debug("Quitting...")
+    sys.exit(0)
     
         
         
