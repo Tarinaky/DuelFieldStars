@@ -2,6 +2,8 @@ import os
 import string
 
 def export_svg():
+    if not os.path.exists("asset"):
+        os.mkdir("asset")
     if not os.path.exists("asset/png/"):
         os.mkdir("asset/png/")
     
