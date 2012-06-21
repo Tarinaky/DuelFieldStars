@@ -19,6 +19,7 @@ class Ticker(Widget):
         super(Ticker,self).__init__(rect)
 
         self.faction = faction
+        self.flagbox = pygame.Rect((0,0,0,0))
 
     def generate_surface(self):        
         font = pygame.font.Font(pygame.font.get_default_font(),12 )
@@ -27,6 +28,7 @@ class Ticker(Widget):
         dx = 0
         "Flag"
         self.flag = texture_cache.flag((self.height,self.height), *self.faction.flag)
+        self.flagbox = pygame.Rect((dx,0,self.height,self.height))
         dx += self.flag.get_width() + 5
         
         "Name"
@@ -70,6 +72,22 @@ class Ticker(Widget):
                                  ")")
         self.subwidgets.append(closingParanLabel)
         dx += closingParanLabel.width + 5
+
+    def on_mouse(self,event):
+        # Check flag box.
+        def check_flag_box(a):
+            if a.type == pygame.MOUSEBUTTONDOWN:
+                ((mouse_x, mouse_y),button) = (a.pos, a.button)
+                if self.flagbox.colliderect(pygame.Rect((mouse_x,mouse_y,0,0))):
+                    if button == 1:
+                        event = pygame.event.Event(pygame.USEREVENT, action="scroll worlds")
+                        pygame.event.post(event)
+                        return True
+            return False
+        
+        if check_flag_box(event):
+            return True
+                
 
     def on_draw(self):
         self.generate_surface()
