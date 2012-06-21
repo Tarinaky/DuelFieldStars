@@ -83,6 +83,24 @@ def ship_token(size, colors, friend, colony=False, marine=False, missile=False, 
     else:
         # Start with faction flag
         texture = flag((size,size), foreground_color, background_color).copy()
+        # Composite icons
+        if marine == True:
+            icon = assets.get(PNG, "marine_transport_icon_"+str(size))
+            icon.set_colorkey((0xff,0xff,0xff))
+            texture.blit(icon,(0,0))
+        if colony == True:
+            icon = assets.get(PNG, "colony_transport_icon_"+str(size))
+            icon.set_colorkey((0xff,0xff,0xff))
+            texture.blit(icon,(0,0))
+        if missile == True:
+            icon = assets.get(PNG, "missile_icon_"+str(size))
+            icon.set_colorkey((0xff,0xff,0xff))
+            texture.blit(icon,(0,0))
+        if service == True:
+            icon = assets.get(PNG, "repairship_icon_"+str(size))
+            icon.set_colorkey((0xff,0xff,0xff))
+            texture.blit(icon,(0,0))
+        
         # Mask off edge
         alphamask = None
         if friend:
