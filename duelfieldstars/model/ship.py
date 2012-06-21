@@ -63,6 +63,8 @@ class Ship(object):
         self.position = position # Position in pc
         self.name = name.ship_name()
         
+        self.path = []
+        
         #self.destination = self.position # Target destination.
         self.orders = [] # List of orders.
         
@@ -103,21 +105,19 @@ def process_ship_turn(ships):
         
         # Iterate over all ships and perform a single microtick/move. 
         def do_microtick(top_speed, ships):
-            for x in xrange (0, game.galaxy.width):
-                for y in xrange (0, game.galaxy.height):
-                    # Move.
-                    for ship in ships[(x,y)]:
-                        ship.micro_movement += float(ship.speed) / top_speed
-                        if ship.micro_movement >= 1:
-                            if ship.orders != []:
-                                (order,target) = ship.orders[0]
-                                if order == "move to":
-                                    path = get_path((x,y), target)
-                                    ships[(x,y)].remove(ship)
-                                    ship.position = path[1]
-                                    ships[path[1]].append(ship)
-                                    if path[1] == target:
-                                        ship.orders.pop(0)
+            for ship in sum(ships.values(),[]):
+                if ship.orders != []:
+                    (order, target) = ship.orders[0]
+                    if ship.path == []:
+                        ship.path = get_path(ship.position, target)
+                        ship.path.pop(0)
+                    if order == "move to": # Do movement
+                        ships[ship.position].remove(ship)
+                        ship.position = ship.path.pop(0)
+                        ships[ship.position].append(ship)
+                    # If position = target, cycle to next order.
+                    if target == ship.position:
+                        ship.orders.pop(0)
             return ships
         for i in range (0, top_speed):
             ships = do_microtick(top_speed, ships)
