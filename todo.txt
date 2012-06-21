@@ -1,3 +1,4 @@
 To do list...
  * Allow cancelling of orders.
- * Show ships in deep space.
+ * Allow colonisation
+ * Improve graphics
