@@ -15,6 +15,14 @@ class ActionMenu (DefaultMenu):
         self.ship_list = ship_list
         
         self.showMoveMenu = False
+        
+        self.show_colonisation = False
+        if ship_list is not None:
+            for ship in ship_list.selected:
+                if ship.colony:
+                    self.show_colonisation = True
+                    break
+            
         self.source = source
         if source != None:
             if ship_list is not None:
@@ -76,5 +84,30 @@ class ActionMenu (DefaultMenu):
                     
             self.add_option(widget,move_ships,source,destination)
             self.add_keyboard_handler(move_ships, pygame.KEYDOWN, pygame.K_m, None, source, destination)
+        dy += 14    
+        # Colonise this
+        if self.show_colonisation:
+            widget = Text(pygame.Rect(dx,dy,0,0), font,
+                          COLORS["light blue"], "        (C)olonise this    ")
             
-        
+            def colony_here(source,destination):
+                for ship in self.ship_list.selected:
+                    move = ("move to", destination)
+                    colonise = ("colony here", destination)
+                    if not ship.colony:
+                        order = [move]
+                    else:
+                        order = [move, colonise]
+                    modifiers = pygame.key.get_mods()
+                    if modifiers & pygame.KMOD_LSHIFT or modifiers & pygame.KMOD_RSHIFT:
+                        ship.orders.append(order)
+                    else:
+                        ship.orders = order
+                event = pygame.event.Event(pygame.USEREVENT+2) # Call for a redraw
+                pygame.event.post(event)
+                event = pygame.event.Event(pygame.USEREVENT,action="close menu")
+                pygame.event.post(event)
+            self.add_option(widget, colony_here, source, destination)
+            self.add_keyboard_handler(colony_here, pygame.KEYDOWN, pygame.K_c, None,
+                                      source, destination)  
+        dy += 14
