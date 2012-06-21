@@ -66,10 +66,14 @@ class ViewportWidget(Widget):
         for ship in sum(game.ships.values(),[]):
             if ship.faction != game.factions[0]:
                 continue
+            (last_point_x, last_point_y) = (None, None)
             for (_,target) in ship.orders:
-                path = model.ship.get_path(ship.position, target)
-                print path
-                (last_point_x,last_point_y) = path.pop(0)
+                if last_point_x == None:
+                    (last_point_x,last_point_y) = ship.position
+                
+                path = model.ship.get_path((last_point_x, last_point_y), target)
+                # print path
+                
                 for (grid_x,grid_y) in path:
                     # Is ship 'selected'?
                     line_width = 1
