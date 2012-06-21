@@ -106,6 +106,12 @@ def process_ship_turn(ships):
         # Iterate over all ships and perform a single microtick/move. 
         def do_microtick(top_speed, ships):
             for ship in sum(ships.values(),[]):
+                ship.micro_movement += ship.speed / top_speed
+                if ship.micro_movement < 1:
+                    continue # Skip the rest of this function if the ship isn't
+                    # fast enough
+                ship.micro_movement -= 1
+                
                 if ship.orders != []:
                     (order, target) = ship.orders[0]
                     if ship.path == []:
