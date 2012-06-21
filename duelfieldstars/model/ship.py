@@ -98,7 +98,8 @@ def process_ship_turn(ships):
         def get_fastest(ships):
             fastest = 0
             for ship in sum(ships.values(),[]):
-                ship.micro_movement = 0 # prepare them for the next step
+                ship.micro_movement = 0 # prepare them for the next step.
+                ship.path = [] # Force repopulation in the next step.
                 if ship.speed > fastest:
                     fastest = ship.speed
                     
