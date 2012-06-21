@@ -57,6 +57,8 @@ class Ship(object):
     defenseValue = 1
     marines = False
     colony = False
+    missile = False
+    service = False
         
     def __init__(self,faction,position):
         self.faction = faction
