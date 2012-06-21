@@ -8,7 +8,7 @@ COLORS = {}
 def random():
     return choice(COLORS.values() )
 
-COLORS ["black"] = (0,0,0),
+COLORS ["black"] = (1,1,1),
 COLORS ["white"] = (0xFF,0xFF,0xFF)
 COLORS ["grey"] = COLORS ["gray"] = (0xcd,0xcd,0xc1)
 COLORS ["darkGrey"] = COLORS ["darkGray"] = (64,64,64)

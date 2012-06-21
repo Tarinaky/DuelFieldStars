@@ -82,7 +82,7 @@ def ship_token(size, colors, friend, colony=False, marine=False, missile=False, 
         return cache[key]
     else:
         # Start with faction flag
-        texture = flag((size,size), foreground_color, background_color)
+        texture = flag((size,size), foreground_color, background_color).copy()
         # Mask off edge
         alphamask = None
         if friend:

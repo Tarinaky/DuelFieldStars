@@ -131,6 +131,8 @@ class Cruiser(Ship):
     defenseValue = 1
     marines = False
     colony = False
+    service = False
+    missile = False
     
     def __init__(self,faction,position):
         super(Cruiser,self).__init__(faction,position)

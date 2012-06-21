@@ -90,8 +90,40 @@ class ViewportWidget(Widget):
                     last_point_x = grid_x
                     last_point_y = grid_y
                         
-                            
+        # Draw ships in deep space.
+        def draw_ships(x0, y0):
+            for y in xrange( (y0/self.scale)*self.scale, self.height+y0+self.scale, self.scale):
+                for x in xrange( (x0/self.scale)*self.scale, self.width+x0+self.scale, self.scale):
+                    if x < 0 or y < 0 or x/self.scale >= game.galaxy.width or y/self.scale >= game.galaxy.height:
+                        continue # Do nothing if value out of bounds.
+                    tile = game.ships[(x/self.scale,y/self.scale)]
+                    if tile == []:
+                        continue # Do nothing if there are no ships.
+                    friends = foes = 0
+                    marine = colony = missile = service = False
+                    for ship in tile:
+                        if ship.faction == game.factions[0]:
+                            friends += 1
+                        else:
+                            foes += 1
+                        if ship.marines:
+                            marine = True
+                        if ship.colony:
+                            colony = True
+                        if ship.missile:
+                            missile = True
+                        if ship.service:
+                            service = True
                         
+                    if foes > 0:
+                        pass # Draw foe tile
+                    elif friends > 0: # Draw friend tile
+                        texture = texture_cache.ship_token(self.scale, ship.faction.flag, 
+                                                           True, colony, marine, missile, service)
+                        texture.set_colorkey((0x0,0x0,0x0))
+                        self.surface.blit(texture, (x-x0-self.scale/2,y-y0-self.scale/2))
+                        
+        draw_ships(x0,y0)
         
         # Draw planets
         for y in range ( (y0/self.scale)*self.scale, self.height+y0+self.scale, self.scale):
