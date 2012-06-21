@@ -100,7 +100,7 @@ class ActionMenu (DefaultMenu):
                         order = [move, colonise]
                     modifiers = pygame.key.get_mods()
                     if modifiers & pygame.KMOD_LSHIFT or modifiers & pygame.KMOD_RSHIFT:
-                        ship.orders.append(order)
+                        ship.orders.extend(order)
                     else:
                         ship.orders = order
                 event = pygame.event.Event(pygame.USEREVENT+2) # Call for a redraw
