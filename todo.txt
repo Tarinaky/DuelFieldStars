@@ -1,4 +1,3 @@
 To do list...
- * Display top ship order.
- * Show unit paths.
  * Allow cancelling of orders.
+ * Show ships in deep space.
