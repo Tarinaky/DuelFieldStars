@@ -80,7 +80,7 @@ class Ticker(Widget):
                 ((mouse_x, mouse_y),button) = (a.pos, a.button)
                 if self.flagbox.colliderect(pygame.Rect((mouse_x,mouse_y,0,0))):
                     if button == 1:
-                        event = pygame.event.Event(pygame.USEREVENT, action="scroll worlds")
+                        event = pygame.event.Event(pygame.USEREVENT, action="go to homeworld")
                         pygame.event.post(event)
                         return True
             return False

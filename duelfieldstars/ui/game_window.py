@@ -154,6 +154,24 @@ class GameWindow(Window):
             if self.ship_list != None:
                 self.remove_widget(self.ship_list)
                 self.ship_list = None
+                
+        # Go to a player's homeworld.
+        def go_to_homeworld(event):
+            if event.type == pygame.USEREVENT and event.action == "go to homeworld":
+                
+                def find_homeworld():
+                    for planet in game.galaxy.planets.values():
+                        if planet.is_homeworld == game.factions[0]:
+                            return planet
+                homeworld = find_homeworld()
+                
+                (grid_x,grid_y) = homeworld.position
+                self.viewport.position = (grid_x * self.viewport.scale - self.viewport.width/2, grid_y * self.viewport.scale - self.viewport.height/2)
+                
+                return True
+        if go_to_homeworld(event):
+            return True 
+                        
         
     def end_turn(self):
             """
