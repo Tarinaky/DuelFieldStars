@@ -90,6 +90,38 @@ class Ship(object):
     
 def process_ship_turn(ships):
         """Takes a list of ships and iterates over them to produce the new ship state."""
+        # Get the top speed to determine how many microticks there will be.
+        def get_fastest(ships):
+            fastest = 0
+            for ship in sum(ships.values(),[]):
+                ship.micro_movement = 0 # prepare them for the next step
+                if ship.speed > fastest:
+                    fastest = ship.speed
+                    
+            return fastest
+        top_speed = get_fastest(ships)
+        
+        # Iterate over all ships and perform a single microtick/move. 
+        def do_microtick(top_speed, ships):
+            for x in xrange (0, game.galaxy.width):
+                for y in xrange (0, game.galaxy.height):
+                    # Move.
+                    for ship in ships[(x,y)]:
+                        ship.micro_movement += float(ship.speed) / top_speed
+                        if ship.micro_movement >= 1:
+                            if ship.orders != []:
+                                (order,target) = ship.orders[0]
+                                if order == "move to":
+                                    path = get_path((x,y), target)
+                                    ships[(x,y)].remove(ship)
+                                    ship.position = path[1]
+                                    ships[path[1]].append(ship)
+                                    if path[1] == target:
+                                        ship.orders.pop(0)
+            return ships
+        for i in range (0, top_speed):
+            ships = do_microtick(top_speed, ships)
+        
         return ships
     
 class Cruiser(Ship):
