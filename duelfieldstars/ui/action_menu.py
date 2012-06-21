@@ -53,7 +53,7 @@ class ActionMenu (DefaultMenu):
                                            )
                 pygame.event.post(event)
             self.add_option(widget,open_build_menu,destination)
-            self.add_keyboard_handler(open_build_menu, pygame.KEYDOWN, pygame.K_b, 0, destination)
+            self.add_keyboard_handler(open_build_menu, pygame.KEYDOWN, pygame.K_b, None, destination)
             dy += 14
             
         # Move here
@@ -75,6 +75,6 @@ class ActionMenu (DefaultMenu):
                 pygame.event.post(event)
                     
             self.add_option(widget,move_ships,source,destination)
-            self.add_keyboard_handler(move_ships, pygame.KEYDOWN, pygame.K_m, 0, source, destination)
+            self.add_keyboard_handler(move_ships, pygame.KEYDOWN, pygame.K_m, None, source, destination)
             
         

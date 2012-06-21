@@ -36,6 +36,10 @@ class Widget(object):
             (handler,args) = self._event_junction[(event.type,event.key,event.mod)]
             handler(*args)
             return True 
+        if (event.type, event.key, None) in self._event_junction:
+            (handler,args) = self._event_junction[(event.type,event.key,None)]
+            handler(*args)
+            return True
         if self.on_keyboard(event):
             return True
         return False
@@ -55,7 +59,7 @@ class Widget(object):
         """Handles keyboard events for this widget. Overload if you want to respond to key events."""
         return False
     
-    def add_keyboard_handler(self, function, type_, key, modifier, *args):
+    def add_keyboard_handler(self, function, type_, key, modifier=None, *args):
         """Use this method to register a function to be called when a particular keyboard event is received."""
         self._event_junction[(type_, key, modifier)] = (function,args) 
     def add_mouse_handler(self, function, type_, button, *args):
