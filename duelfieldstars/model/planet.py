@@ -12,6 +12,7 @@ class Planet(object):
     def __init__(self, *position):
         self.name = name.planet_name()
         self.owner = None
+        self.is_homeworld = False
 
         self.construction = None
         
