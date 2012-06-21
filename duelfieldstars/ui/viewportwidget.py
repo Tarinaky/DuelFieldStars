@@ -121,7 +121,17 @@ class ViewportWidget(Widget):
                         texture = texture_cache.ship_token(self.scale, ship.faction.flag, 
                                                            True, colony, marine, missile, service)
                         texture.set_colorkey((0x0,0x0,0x0))
-                        self.surface.blit(texture, (x-x0-self.scale/2,y-y0-self.scale/2))
+                        count = texture_cache.text(None,12,COLORS["green"],str(friends))
+                        
+                        if foes > 0 or game.galaxy.at(x/self.scale, y/self.scale) is not None:
+                            self.surface.blit(texture, (x-x0, y-y0)) # Blit off centre.
+                            self.surface.blit(count, (x-x0+self.scale*2/3, y-y0+self.scale*2/3))
+                        else: # Draw centered    
+                            self.surface.blit(texture, (x-x0-self.scale/2,y-y0-self.scale/2))
+                            self.surface.blit(count, (x-x0+self.scale/3, y-y0+self.scale/3))
+                        
+                        
+                        
                         
         draw_ships(x0,y0)
         
