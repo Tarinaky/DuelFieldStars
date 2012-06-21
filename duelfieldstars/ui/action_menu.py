@@ -63,7 +63,12 @@ class ActionMenu (DefaultMenu):
             
             def move_ships(source,destination):
                 for ship in self.ship_list.selected:
-                    ship.orders = [("move to",destination)]
+                    modifiers = pygame.key.get_mods()
+                    order = ("move to", destination)
+                    if modifiers & pygame.KMOD_LSHIFT or modifiers & pygame.KMOD_RSHIFT:
+                        ship.orders.append(order)
+                    else:
+                        ship.orders = [order]
                 event = pygame.event.Event(pygame.USEREVENT+2) # Call for a redraw
                 pygame.event.post(event)
                 event = pygame.event.Event(pygame.USEREVENT,action="close menu")
