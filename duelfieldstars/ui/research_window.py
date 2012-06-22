@@ -21,6 +21,8 @@ class ResearchWindow(Window):
         self.tech_items = []
         self.selected = faction.research # Load and persist research goals.
         
+        self.quitrect = pygame.Rect((0,0,0,0))
+        
         self.error = ""
         
         
@@ -35,6 +37,17 @@ class ResearchWindow(Window):
         texture = texture_cache.text(None,16, COLORS["blue"],
                                "    "+str(self.faction.rez)+" rez available. It will cost "+str((len(self.selected)+1)**2)+" rez for another technology this turn.")
         self.surface.blit(texture,(0,dy+texture.get_height()))
+        dx = texture.get_width() + 4
+        
+        # Back button
+        texture = texture_cache.text(None, 20, COLORS["red"],
+                                     "Back to Viewport")
+        top_right = (self.width - texture.get_width(), 0)
+        self.surface.blit(texture,top_right)
+        
+        self.quitrect = pygame.Rect(self.width-texture.get_width(),0, texture.get_width(), texture.get_height())
+        
+        
         dy += texture.get_height()*2
         
         texture = texture_cache.text(None, 16, COLORS["white"],
@@ -70,6 +83,11 @@ class ResearchWindow(Window):
         
     def on_mouse(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
+            if self.quitrect.collidepoint((event.pos)):
+                self.runControl = False
+                return True
+            
+            
             for (rect, technology) in self.tech_items:
                 ((mouse_x, mouse_y), button) = (event.pos, event.button)
                 if rect.colliderect(pygame.Rect(mouse_x, mouse_y,0,0)) and button == 1:
