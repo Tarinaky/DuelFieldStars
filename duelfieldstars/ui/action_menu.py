@@ -20,8 +20,9 @@ class ActionMenu (DefaultMenu):
         if ship_list is not None:
             for ship in ship_list.selected:
                 if ship.colony and game.galaxy.at(*destination).owner == None:
-                    self.show_colonisation = True
-                    break
+                    if game.galaxy.at(*destination).type_ in ship.faction.colony_types:
+                        self.show_colonisation = True
+                        break
             
         self.source = source
         if source != None:
