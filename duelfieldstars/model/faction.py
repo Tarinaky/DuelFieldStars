@@ -61,9 +61,9 @@ class Faction(object):
         for technology in self.research:
             self.tech[technology] +=1
         self.research = []
-        for (tech, choice) in self.special_choice:
-            if tech == "Colony Technology": # Gain new colony types
-                self.colony_types.append(choice)
+        for technology in self.special_choice.keys():
+            if technology == "Colony Technology": # Gain new colony types
+                self.colony_types.append(self.special_choice[technology])
             else:
                 log.debug("Unknown special tech "+tech)
         self.special_choice = {}

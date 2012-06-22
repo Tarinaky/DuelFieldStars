@@ -35,6 +35,7 @@ class Menu (Widget):
         for (widget, method, args) in self.options:
             if pygame.Rect(widget.rect).collidepoint(mouseX, mouseY):
                 method(*args)
+                return True
                 
     def _draw(self):
         super(Menu,self)._draw()

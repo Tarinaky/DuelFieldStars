@@ -1,5 +1,6 @@
 
 from widget import Widget
+import pygame
 
 def write(surface, x, y , font,color,string):
     """Utility function that draws multiple lines of text."""
