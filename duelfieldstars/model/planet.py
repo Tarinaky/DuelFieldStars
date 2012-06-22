@@ -59,7 +59,7 @@ class Planet(object):
     @property
     def income(self):
         """Calculates this planet's per turn income."""
-        income = self.realisedValue / float(100)
+        income = round(self.realisedValue / float(100) * math.sqrt(self.owner.tech["Production Technology"]),2)
         for level in self.improvementLevels:
             if level <= self.realisedImprovement:
                 income += 1
