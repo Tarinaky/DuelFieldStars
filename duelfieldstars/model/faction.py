@@ -23,6 +23,7 @@ class Faction(object):
         self.ready = False
 
         self.tech = self.basic_tech() # Table of tech levels by key
+        self.research = []
         self.colony_types = ['X']
 
     @property
