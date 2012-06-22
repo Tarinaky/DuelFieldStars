@@ -19,7 +19,7 @@ class ActionMenu (DefaultMenu):
         self.show_colonisation = False
         if ship_list is not None:
             for ship in ship_list.selected:
-                if ship.colony:
+                if ship.colony and game.galaxy.at(*destination).owner == None:
                     self.show_colonisation = True
                     break
             

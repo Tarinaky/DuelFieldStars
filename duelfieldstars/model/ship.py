@@ -1,6 +1,9 @@
 import name
 
 import game
+import logging
+
+log = logging.getLogger(__name__)
 
 def get_path(source,destination):
     """
@@ -124,9 +127,23 @@ def process_ship_turn(ships):
                         ships[ship.position].remove(ship)
                         ship.position = ship.path.pop(0)
                         ships[ship.position].append(ship)
-                    # If position = target, cycle to next order.
-                    if target == ship.position:
-                        ship.orders.pop(0)
+                        if target == ship.position:
+                            ship.orders.pop(0) # If position = target, cycle to next order.
+                    if order == "colony here": # Do colonisation
+                        if game.galaxy.at(*target).owner != None:
+                            log.debug("Planet at "+str(target)+" already colonised.")
+                            ship.orders.pop(0) # If planet is already colonised
+                            # then cycle to next order.
+                            continue
+                        if target == ship.position:
+                            game.galaxy.at(*target).set_owner(ship.faction)
+                            game.galaxy.at(*target).name = ship.name.split(' ',1)[1]
+                            ships[ship.position].remove(ship)
+                            continue
+                        ship.orders.pop(0) # If all else fails, skip the order.
+                            
+                    
+                    
             return ships
         for i in range (0, top_speed):
             ships = do_microtick(top_speed, ships)
