@@ -182,6 +182,8 @@ class GameWindow(Window):
             if event.type == pygame.USEREVENT and event.action == "open research":
                 window = ResearchWindow(game.factions[0])
                 window.run()
+                event = pygame.event.Event(pygame.USEREVENT+2)
+                pygame.event.post(event) # Redraw.
                 return True
         if open_research(event):
             return True
