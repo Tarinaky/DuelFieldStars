@@ -25,7 +25,8 @@ a = [
                     Technology("Growth Technology"),
                     Technology("Terraforming Technology"),
                     Technology("Mining Enhancement Technology", 100),
-                    Technology("Colony Technology", 25, is_square)
+                    Technology("Colony Technology", 25, is_square),
+                    Technology("Engine Technology")
                     
                     
                     ]

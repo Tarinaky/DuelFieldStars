@@ -2,6 +2,7 @@ import name
 
 import game
 import logging
+import math
 
 log = logging.getLogger(__name__)
 
@@ -78,18 +79,18 @@ class Ship(object):
     @property
     def attack(self): 
         """Returns the attack value modified by tech levels."""
-        return self.offenseValue
+        return self.offenseValue * math.sqrt(self.faction.tech["Space Weapons Technology"])
     @property
     def owner(self):
         return self.faction
     @property
     def defence(self): 
         """Returns the defence value modified by tech levels."""
-        return self.defenseValue
+        return self.defenseValue * math.sqrt(self.faction.tech["Space Defence Technology"])
     @property
     def speed(self): 
         """Speed in pc, modified by tech levels."""
-        return 3
+        return 2 + math.sqrt(self.faction.tech["Engine Technology"])
     
     def tick(self):
         """Process a turn."""
@@ -147,7 +148,7 @@ def process_ship_turn(ships):
                     
                     
             return ships
-        for i in range (0, top_speed):
+        for i in range (0, int(top_speed)):
             ships = do_microtick(top_speed, ships)
         
         return ships
