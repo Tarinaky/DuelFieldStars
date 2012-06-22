@@ -7,6 +7,7 @@ import pygame
 from ui.ui_abstract.widget import Widget
 from ui import texture_cache
 from color import COLORS
+from model import tech
 
 log = logging.getLogger(__name__)
 
@@ -59,8 +60,13 @@ class ResearchWindow(Window):
                                          "    "+technology)
             self.surface.blit(texture, (0,dy))
             dx = texture.get_width()
+            
             texture = texture_cache.text(None, 16, COLORS["white"],
                                              " "+str(self.faction.tech[technology]))
+            if tech.by_name[technology].max_level == self.faction.tech[technology]:
+                texture = texture_cache.text(None, 16, COLORS["gray"],
+                                             " MAX")
+            
             self.surface.blit(texture, (dx,dy))
             dx += texture.get_width()
             

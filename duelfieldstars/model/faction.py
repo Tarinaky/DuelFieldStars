@@ -4,6 +4,7 @@ import color
 import name
 
 import model
+from model import tech
 
 class Faction(object):
     """
@@ -85,14 +86,12 @@ class Faction(object):
         self.ships.remove(ship)
         
     def basic_tech(self):
-        tech = {}
-        tech["Colony Technology"] = 1
-        tech["Space Weapon Technology"] = 1
-        tech["Space Defence Technology"] = 1
-        tech["Ground Combat Technology"] = 1
-        tech["Production Technology"] = 1
-        tech["Mining Enhancement Technology"] = 1
-        return tech
+        a = {}
+        for item in tech.a:
+            if item.advanced == False:
+                a[item.name] = 1
+        a["Colony Technology"] = 24
+        return a
 
 
 PLAYERFACTION = None
