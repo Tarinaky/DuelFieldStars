@@ -79,14 +79,14 @@ class Ship(object):
     @property
     def attack(self): 
         """Returns the attack value modified by tech levels."""
-        return self.offenseValue * math.sqrt(self.faction.tech["Space Weapons Technology"])
+        return round(self.offenseValue * math.sqrt(self.faction.tech["Space Weapons Technology"]),2)
     @property
     def owner(self):
         return self.faction
     @property
     def defence(self): 
         """Returns the defence value modified by tech levels."""
-        return self.defenseValue * math.sqrt(self.faction.tech["Space Defence Technology"])
+        return round(self.defenseValue * math.sqrt(self.faction.tech["Space Defence Technology"]),2)
     @property
     def speed(self): 
         """Speed in pc, modified by tech levels."""
