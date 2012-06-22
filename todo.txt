@@ -1,4 +1,17 @@
 To do list...
  * Allow cancelling of orders.
- * Allow research
+ * Allow scrapping of ships
+ * Implement game launch menu
+ * Implement hotseat multiplayer
+ * Implement ship-ship combat
+ * Implement ground combat
+ * Implement game saving
+ * Implement PBEM
+ * Implement TCP/IP
+ * Implement AI Opponent
+ * Implement Fog of War
+ * Implement Missile Carriers
+ * Implement Service Carriers
+ * Implement World Traits/Resources
+ * Implement Special Technology
  * Improve graphics
