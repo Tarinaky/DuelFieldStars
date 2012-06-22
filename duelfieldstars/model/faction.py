@@ -22,7 +22,8 @@ class Faction(object):
         
         self.ready = False
 
-        self.tech = {} # Table of tech levels by key
+        self.tech = self.basic_tech() # Table of tech levels by key
+        self.colony_types = ['X']
 
     @property
     def income(self):
@@ -62,6 +63,7 @@ class Faction(object):
         self.flag = (forgroundColor,backgroundColor)
         "Set type"
         self.type = random.choice(['A','B','C','D','E'])
+        self.colony_types.append(self.type)
          
     
     def add_planet(self, planet):
@@ -75,6 +77,10 @@ class Faction(object):
         
     def remove_ship(self, ship):
         self.ships.remove(ship)
+        
+    def basic_tech(self):
+        tech = {}
+        tech["colony tech"] = 1
 
 
 PLAYERFACTION = None
