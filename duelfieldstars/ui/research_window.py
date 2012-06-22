@@ -19,7 +19,8 @@ class ResearchWindow(Window):
         
         self.faction = faction
         
-        self.tech_items = []
+        self.tech_items = [] # A list of (rect, technology) 2-tuples.
+        self.special_choice = [] # A list of (rect, technology) 2-tuples.
         self.selected = faction.research # Load and persist research goals.
         
         self.quitrect = pygame.Rect((0,0,0,0))
@@ -61,6 +62,17 @@ class ResearchWindow(Window):
             self.surface.blit(texture, (0,dy))
             dx = texture.get_width()
             
+            # Is a choice needed from the player?
+            if tech.by_name[technology].check_special_func != None:
+                if tech.by_name[technology].check_special_func(1+self.faction.tech[technology]):
+                    texture = texture_cache.text(None, 16, COLORS["blue"],
+                                                 " A choice must be made to advance")
+                    self.surface.blit(texture, (dx,dy))
+                    self.special_choice.append((pygame.Rect(0,dy,dx,texture.get_height()), technology))
+                    dy += texture.get_height() +2
+                    continue
+            
+            # Check for max tech level.
             if tech.by_name[technology].max_level == self.faction.tech[technology]:
                 texture = texture_cache.text(None, 16, COLORS["gray"],
                                              " MAX")
