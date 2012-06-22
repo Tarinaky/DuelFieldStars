@@ -71,8 +71,8 @@ class Planet(object):
         if self.owner == None:
             return 0
         if self.type_ == self.owner.type:
-            return round(10 * math.sqrt(self.owner.tech["Growth Technology"]),0)
-        return round(5 * math.sqrt(self.owner.tech["Growth Technology"]),0)
+            return int(10 * math.sqrt(self.owner.tech["Growth Technology"]))
+        return int(5 * math.sqrt(self.owner.tech["Growth Technology"]))
     
     def terraforming(self):
         """Modify current value by terraforming."""
