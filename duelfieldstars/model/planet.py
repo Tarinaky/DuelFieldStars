@@ -68,11 +68,17 @@ class Planet(object):
     @property
     def growth(self):
         """Calculates this planet's per turn growth."""
-        return 0
+        if self.owner == None:
+            return 0
+        if self.type_ == self.owner.type:
+            return 10
+        return 5
 
     def tick(self):
         """Update the planet by 1 turn."""
         self.realisedValue += self.growth
+        if self.realisedValue > self.currentValue:
+            self.realisedValue = self.currentValue
         "Build construction item."
         if self.construction != None:
             self.construction(self.owner, self.position)
