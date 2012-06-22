@@ -80,7 +80,13 @@ class Faction(object):
         
     def basic_tech(self):
         tech = {}
-        tech["colony tech"] = 1
+        tech["Colony Technology"] = 1
+        tech["Space Weapon Technology"] = 1
+        tech["Space Defence Technology"] = 1
+        tech["Ground Combat Technology"] = 1
+        tech["Production Technology"] = 1
+        tech["Mining Enhancement Technology"] = 1
+        return tech
 
 
 PLAYERFACTION = None
