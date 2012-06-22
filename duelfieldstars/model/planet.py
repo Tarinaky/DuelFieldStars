@@ -71,11 +71,22 @@ class Planet(object):
         if self.owner == None:
             return 0
         if self.type_ == self.owner.type:
-            return 10
-        return 5
+            return round(10 * math.sqrt(self.owner.tech["Growth Technology"]),0)
+        return round(5 * math.sqrt(self.owner.tech["Growth Technology"]),0)
+    
+    def terraforming(self):
+        """Modify current value by terraforming."""
+        if self.realisedValue == self.currentValue:
+            self.currentValue += 1
+        if self.currentValue > self.baseValue + 10 * math.sqrt(self.owner.tech["Terraforming Technology"]):
+            self.currentValue = round(self.baseValue + 10 * math.sqrt(self.owner.tech["Terraforming Technology"]),0)
+        if self.currentValue > 200:
+            self.currentValue = 200
 
     def tick(self):
         """Update the planet by 1 turn."""
+        if self.owner != None:
+            self.terraforming()
         self.realisedValue += self.growth
         if self.realisedValue > self.currentValue:
             self.realisedValue = self.currentValue
