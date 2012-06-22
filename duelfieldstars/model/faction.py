@@ -90,7 +90,7 @@ class Faction(object):
         for item in tech.a:
             if item.advanced == False:
                 a[item.name] = 1
-        a["Colony Technology"] = 24
+        #a["Colony Technology"] = 24
         return a
 
 
