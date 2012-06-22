@@ -16,6 +16,7 @@ from color import COLORS
 from ui.build_menu import BuildMenu
 from ui.insufficient_rez import InsufficientRezMenu, TooMuchUpkeep
 from ui.ship_list import ShipList
+from ui.research_window import ResearchWindow
 
 log = logging.getLogger(__name__)
 
@@ -175,6 +176,15 @@ class GameWindow(Window):
                 return True
         if go_to_homeworld(event):
             return True 
+        
+        # Open research window
+        def open_research(event):
+            if event.type == pygame.USEREVENT and event.action == "open research":
+                window = ResearchWindow(game.factions[0])
+                window.run()
+                return True
+        if open_research(event):
+            return True
                         
         
     def end_turn(self):
