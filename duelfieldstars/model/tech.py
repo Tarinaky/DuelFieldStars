@@ -23,7 +23,7 @@ a = [
                     Technology("Space Defence Technology","Increases the Defensive Value of all ships."),
                     Technology("Ground Combat Technology","Increases the Combat Value of all ground forces."),
                     Technology("Production Technology","Increases the amount of Rez received from planetary Realisation."),
-                    Technology("Growth Technology","Increases the amount of Realisation gained each turn."),
+                    Technology("Growth Technology","Increases the amount of Realisation gained each turn.",40),
                     Technology("Terraforming Technology","Allows all worlds to exceed their base value, increasing Rez income."),
                     Technology("Mining Enhancement Technology","Unlocks Mining Enhancement Levels, each provides 1 Rez", 100),
                     Technology("Colony Technology", "Allows new types of world to be colonised.",25, is_square),

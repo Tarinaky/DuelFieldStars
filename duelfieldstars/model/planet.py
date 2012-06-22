@@ -76,12 +76,11 @@ class Planet(object):
     
     def terraforming(self):
         """Modify current value by terraforming."""
-        if self.realisedValue == self.currentValue:
+        max_value = self.baseValue + 5 * self.owner.tech["Terraforming Technology"] - 5
+        if max_value > 200:
+            max_value = 200
+        if self.currentValue < max_value:
             self.currentValue += 1
-        if self.currentValue > self.baseValue + 10 * math.sqrt(self.owner.tech["Terraforming Technology"]):
-            self.currentValue = int(self.baseValue + 10 * math.sqrt(self.owner.tech["Terraforming Technology"]))
-        if self.currentValue > 200:
-            self.currentValue = 200
             
     def mining_enhancement(self):
         """Realise mining enhancements."""
