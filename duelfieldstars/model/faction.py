@@ -50,6 +50,11 @@ class Faction(object):
 
         for planet in self.planets:
             planet.tick
+        
+        # Research technology    
+        for technology in self.research:
+            self.tech[technology] +=1
+        self.research = []
             
     def generate(self):
         self.name = name.faction_name()
