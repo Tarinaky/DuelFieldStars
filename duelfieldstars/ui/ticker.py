@@ -7,6 +7,9 @@ from ui_abstract.widget import Widget
 from ui_abstract.text import Text
 
 from ui import texture_cache
+import assets
+from assets.png import PNG
+from ui.ui_abstract.image import Image
 
 log = logging.getLogger(__name__)
 
@@ -20,6 +23,7 @@ class Ticker(Widget):
 
         self.faction = faction
         self.flagbox = pygame.Rect((0,0,0,0))
+        self.researchbox = pygame.Rect((0,0,0,0))
 
     def generate_surface(self):        
         font = pygame.font.Font(pygame.font.get_default_font(),12 )
@@ -72,6 +76,16 @@ class Ticker(Widget):
                                  ")")
         self.subwidgets.append(closingParanLabel)
         dx += closingParanLabel.width + 5
+        
+        # Start at the reverse end of the bar.
+        dx = self.width
+        
+        "Research button"
+        texture = assets.get(PNG, "research_16")
+        texture.set_colorkey((0x0,0x0,0x0))
+        dx -= texture.get_width()
+        self.researchbox = pygame.Rect(dx,0,texture.get_width(), texture.get_height())
+        self.subwidgets.append(Image(self.researchbox,texture))
 
     def on_mouse(self,event):
         # Check flag box.
