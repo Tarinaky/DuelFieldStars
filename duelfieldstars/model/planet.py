@@ -82,10 +82,25 @@ class Planet(object):
             self.currentValue = int(self.baseValue + 10 * math.sqrt(self.owner.tech["Terraforming Technology"]))
         if self.currentValue > 200:
             self.currentValue = 200
+            
+    def mining_enhancement(self):
+        """Realise mining enhancements."""
+        if self.realisedValue != self.currentValue:
+            return
+        for improvement in self.improvementLevels:
+            if self.realisedImprovement < improvement:
+                if improvement < self.owner.tech["Mining Enhancement Technology"]:
+                    self.realisedImprovement = improvement
+                    return
+                else:
+                    return
+                    
+            
 
     def tick(self):
         """Update the planet by 1 turn."""
         if self.owner != None:
+            self.mining_enhancement()
             self.terraforming()
         self.realisedValue += self.growth
         if self.realisedValue > self.currentValue:
