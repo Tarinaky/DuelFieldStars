@@ -20,7 +20,7 @@ class ResearchWindow(Window):
         self.faction = faction
         
         self.tech_items = [] # A list of (rect, technology) 2-tuples.
-        self.special_choice = [] # A list of (rect, technology) 2-tuples.
+        self.special_choice_rect = [] # A list of (rect, technology) 2-tuples.
         self.selected = faction.research # Load and persist research goals.
         
         self.quitrect = pygame.Rect((0,0,0,0))
@@ -65,10 +65,14 @@ class ResearchWindow(Window):
             # Is a choice needed from the player?
             if tech.by_name[technology].check_special_func != None:
                 if tech.by_name[technology].check_special_func(1+self.faction.tech[technology]):
-                    texture = texture_cache.text(None, 16, COLORS["blue"],
-                                                 " A choice must be made to advance")
+                    if technology in self.faction.special_choice.keys():
+                        texture = texture_cache.text(None, 16, COLORS["blue"],
+                                                     " "+self.faction.special_choice[technology])
+                    else:
+                        texture = texture_cache.text(None, 16, COLORS["blue"],
+                                                     " (a choice must be made to advance)")
                     self.surface.blit(texture, (dx,dy))
-                    self.special_choice.append((pygame.Rect(0,dy,dx,texture.get_height()), technology))
+                    self.special_choice_rect.append((pygame.Rect(0,dy,dx,texture.get_height()), technology))
                     dy += texture.get_height() +2
                     continue
             
@@ -109,6 +113,11 @@ class ResearchWindow(Window):
                 self.runControl = False
                 return True
             
+            for (rect,technology) in self.special_choice_rect:
+                ((mouse_x, mouse_y), button) = (event.pos, event.button)
+                if rect.colliderect(pygame.Rect(mouse_x, mouse_y, 0,0)) and button == 1:
+                    if technology == "Colony Technology":
+                        pass # Display options for Colony Tech.
             
             for (rect, technology) in self.tech_items:
                 ((mouse_x, mouse_y), button) = (event.pos, event.button)

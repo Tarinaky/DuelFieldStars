@@ -5,6 +5,9 @@ import name
 
 import model
 from model import tech
+import logging
+
+log = logging.getLogger(__name__)
 
 class Faction(object):
     """
@@ -25,6 +28,8 @@ class Faction(object):
 
         self.tech = self.basic_tech() # Table of tech levels by key
         self.research = []
+        self.special_choice = {} # Used for storing colony types to accumulate or
+        # Special Tech upgrades.
         self.colony_types = ['X']
 
     @property
@@ -56,6 +61,12 @@ class Faction(object):
         for technology in self.research:
             self.tech[technology] +=1
         self.research = []
+        for (tech, choice) in self.special_choice:
+            if tech == "Colony Technology": # Gain new colony types
+                self.colony_types.append(choice)
+            else:
+                log.debug("Unknown special tech "+tech)
+        self.special_choice = {}
             
     def generate(self):
         self.name = name.faction_name()
