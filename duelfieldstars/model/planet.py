@@ -79,7 +79,7 @@ class Planet(object):
         if self.realisedValue == self.currentValue:
             self.currentValue += 1
         if self.currentValue > self.baseValue + 10 * math.sqrt(self.owner.tech["Terraforming Technology"]):
-            self.currentValue = round(self.baseValue + 10 * math.sqrt(self.owner.tech["Terraforming Technology"]),0)
+            self.currentValue = int(self.baseValue + 10 * math.sqrt(self.owner.tech["Terraforming Technology"]))
         if self.currentValue > 200:
             self.currentValue = 200
 
