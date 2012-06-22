@@ -1,4 +1,4 @@
 To do list...
  * Allow cancelling of orders.
- * Allow colonisation
+ * Allow research
  * Improve graphics
