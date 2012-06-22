@@ -110,6 +110,11 @@ class ResearchWindow(Window):
                 self.surface.blit(texture, (dx,dy))
                 dx += texture.get_width()
                 
+            texture = texture_cache.text(None, 16, COLORS["gray"],
+                                         "    "+tech.by_name[technology].desc)
+            self.surface.blit(texture, (dx,dy))
+            dx += texture.get_width()
+                
             
             self.tech_items.append((pygame.Rect(0,dy,dx,texture.get_height()), technology))
             
