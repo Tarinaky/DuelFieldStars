@@ -101,6 +101,19 @@ class Ticker(Widget):
         
         if check_flag_box(event):
             return True
+        
+        # Check research box.
+        def check_research_box(a):
+            if a.type == pygame.MOUSEBUTTONDOWN:
+                ((mouse_x, mouse_y), button) = (a.pos, a.button)
+                if self.researchbox.colliderect(pygame.Rect((mouse_x,mouse_y,0,0))):
+                    if button == 1:
+                        event = pygame.event.Event(pygame.USEREVENT, action="open research")
+                        pygame.event.post(event)
+                        return True
+            return False
+        if check_research_box(event):
+            return True
                 
 
     def on_draw(self):
