@@ -61,12 +61,16 @@ class ResearchWindow(Window):
             self.surface.blit(texture, (0,dy))
             dx = texture.get_width()
             
-            texture = texture_cache.text(None, 16, COLORS["white"],
-                                             " "+str(self.faction.tech[technology]))
             if tech.by_name[technology].max_level == self.faction.tech[technology]:
                 texture = texture_cache.text(None, 16, COLORS["gray"],
                                              " MAX")
+                self.surface.blit(texture, (dx,dy))
+                dy += texture.get_height() +2
+                continue
             
+            
+            texture = texture_cache.text(None, 16, COLORS["white"],
+                                             " "+str(self.faction.tech[technology]))
             self.surface.blit(texture, (dx,dy))
             dx += texture.get_width()
             
