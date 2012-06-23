@@ -1,5 +1,4 @@
 To do list...
- * Allow ship-list to scroll.
  * Allow scrapping of ships
  * Implement game launch menu
  * Implement hotseat multiplayer
