@@ -134,7 +134,11 @@ class ShipList(Widget):
                                          "    "+str(len(ship.orders))+" orders")
             self.surface.blit(texture,(dx,dy+y))
             if ship.orders != []:
-                (order,coordinate) = ship.orders[0]
+                try:
+                    (order,coordinate) = ship.orders[0]
+                except ValueError:
+                    (order) = ship.orders[0]
+                    coordinate = ""
                 dx += texture.get_width()
                 texture = texture_cache.text(None, 12, COLORS["green"],
                                              "    "+order+" "+str(coordinate))

@@ -120,11 +120,20 @@ def process_ship_turn(ships):
                 ship.micro_movement -= 1
                 
                 if ship.orders != []:
-                    (order, target) = ship.orders[0]
-                    if ship.path == []:
-                        ship.path = get_path(ship.position, target)
-                        ship.path.pop(0)
+                    try:
+                        (order, target) = ship.orders[0]
+                    except ValueError:
+                        (order) = ship.orders[0]
+                        target = None
+                    if order == "scrap": # Scrap ship.
+                        ships[ship.position].remove(ship)
+                        ship.faction.rez += 2 # Refund part of the cost, adjusted for upkeep taken.
+                        continue
                     if order == "move to": # Do movement
+                        if ship.path == []:
+                            ship.path = get_path(ship.position, target)
+                            ship.path.pop(0)
+                    
                         ships[ship.position].remove(ship)
                         ship.position = ship.path.pop(0)
                         ships[ship.position].append(ship)

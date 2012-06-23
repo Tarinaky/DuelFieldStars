@@ -67,33 +67,37 @@ class ViewportWidget(Widget):
             if ship.faction != game.factions[0]:
                 continue
             (last_point_x, last_point_y) = (None, None)
-            for (_,target) in ship.orders:
-                if last_point_x == None:
-                    (last_point_x,last_point_y) = ship.position
-                
-                path = model.ship.get_path((last_point_x, last_point_y), target)
-                # print path
-                
-                for (grid_x,grid_y) in path:
-                    # Is ship 'selected'?
-                    line_width = 1
-                    if self.window.ship_list != None:
-                        if ship in self.window.ship_list.selected:
-                            line_width = 4
-                    # Draw a line segment
-                    line_start_x = last_point_x * self.scale - x0
-                    line_start_y = last_point_y * self.scale - y0
-                    line_end_x = grid_x * self.scale - x0
-                    line_end_y = grid_y * self.scale - y0
-                    #gradient = float(line_end_y - line_start_y)/(line_end_x - line_start_x)
-                    pygame.draw.line(self.surface, COLORS["green"],
-                                     (line_start_x,line_start_y),
-                                     (line_end_x,line_end_y),
-                                     line_width)
-                        
-                    last_point_x = grid_x
-                    last_point_y = grid_y
-                        
+
+            try:            
+                for (_,target) in ship.orders:
+                    if last_point_x == None:
+                        (last_point_x,last_point_y) = ship.position
+                    
+                    path = model.ship.get_path((last_point_x, last_point_y), target)
+                    # print path
+                    
+                    for (grid_x,grid_y) in path:
+                        # Is ship 'selected'?
+                        line_width = 1
+                        if self.window.ship_list != None:
+                            if ship in self.window.ship_list.selected:
+                                line_width = 4
+                        # Draw a line segment
+                        line_start_x = last_point_x * self.scale - x0
+                        line_start_y = last_point_y * self.scale - y0
+                        line_end_x = grid_x * self.scale - x0
+                        line_end_y = grid_y * self.scale - y0
+                        #gradient = float(line_end_y - line_start_y)/(line_end_x - line_start_x)
+                        pygame.draw.line(self.surface, COLORS["green"],
+                                         (line_start_x,line_start_y),
+                                         (line_end_x,line_end_y),
+                                         line_width)
+                            
+                        last_point_x = grid_x
+                        last_point_y = grid_y
+            except ValueError:
+                pass
+                            
         # Draw ships in deep space.
         def draw_ships(x0, y0):
             for y in xrange( (y0/self.scale)*self.scale, self.height+y0+self.scale, self.scale):

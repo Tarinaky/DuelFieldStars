@@ -70,7 +70,7 @@ class ActionMenu (DefaultMenu):
             self.add_keyboard_handler(open_build_menu, pygame.KEYDOWN, pygame.K_b, None, destination)
             dy += 14
         
-        # Cancel orders
+        # Cancel orders and Scrap Ship
         if self.showCancel:
             widget = Text(pygame.Rect(dx,dy,0,0), font,
                           COLORS["light blue"], "        (X)Cancel orders    ")
@@ -84,6 +84,18 @@ class ActionMenu (DefaultMenu):
             
             self.add_option(widget, cancel_orders, self.ship_list.selected)
             self.add_keyboard_handler(cancel_orders, pygame.KEYDOWN, pygame.K_x, None, self.ship_list.selected)
+            dy += widget.height
+            
+            widget = Text(pygame.Rect(dx,dy,0,0), font,
+                          COLORS["light blue"], "        Scrap ships    ")
+            def scrap_ships(selected):
+                for ship in selected:
+                    ship.orders = [("scrap")]
+                    event = pygame.event.Event(pygame.USEREVENT,action="close menu")
+                    pygame.event.post(event)
+                    event = pygame.event.Event(pygame.USEREVENT+2)
+                    pygame.event.post(event)
+            self.add_option(widget, scrap_ships, self.ship_list.selected)
             dy += widget.height
                 
         # Move here
