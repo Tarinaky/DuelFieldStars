@@ -25,9 +25,19 @@ class ShipList(Widget):
         
         self.selected = []
         self.tile_height = 1
+        
+        self.scroll_down_rect = None
     
     def on_mouse(self,event):
         if event.type == pygame.MOUSEBUTTONDOWN:
+            
+            # Scroll down button
+            (x,y) = event.pos
+            (x,y) = (x-self.x0, y-self.y0)
+            if self.scroll_down_rect.collidepoint(x,y): # Scroll down
+                self.scroll += 1
+                self.update()
+                return True
             
             # Select/Deselect ships. Do this last.
             (x,y) = event.pos
@@ -37,7 +47,10 @@ class ShipList(Widget):
             ship_list = game.ships[self.position]
             if  y >= len(ship_list):
                 return False # If the list isn't that long then return to the dispatcher.
-            ship = ship_list[y+self.scroll]
+            try:
+                ship = ship_list[y+self.scroll]
+            except IndexError:
+                return False
             if ship in self.selected:
                 self.selected.remove(ship)
             else:
@@ -53,11 +66,20 @@ class ShipList(Widget):
         dy = y = 0
         
         ship_list = game.ships[self.position]
+        scroll = self.scroll
         for ship in ship_list:
+            if scroll > 0:
+                scroll -= 1
+                continue # Skip down the list if there's an offset.
+            
             if y >= self.height:
                 # TODO: print 'scroll down' button then break.
                 texture = assets.get(PNG,"down_16")
                 self.surface.blit(texture,(self.width - texture.get_width(), self.height - texture.get_height()))
+                self.scroll_down_rect = pygame.Rect(self.width - texture.get_width(),
+                                                    self.height - texture.get_height(),
+                                                    texture.get_width(),
+                                                    texture.get_height())
                 break
             dy = 2
             dx = 16
