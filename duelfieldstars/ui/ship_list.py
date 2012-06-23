@@ -56,6 +56,8 @@ class ShipList(Widget):
         for ship in ship_list:
             if y >= self.height:
                 # TODO: print 'scroll down' button then break.
+                texture = assets.get(PNG,"down_16")
+                self.surface.blit(texture,(self.width - texture.get_width(), self.height - texture.get_height()))
                 break
             dy = 2
             dx = 16
