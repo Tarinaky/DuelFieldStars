@@ -1,5 +1,4 @@
 To do list...
- * Allow building by keyboard accellerators only (ie b->s to build a cruiser)
  * Implement game launch menu
  * Implement hotseat multiplayer
  * Implement ship-ship combat

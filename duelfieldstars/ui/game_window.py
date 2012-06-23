@@ -125,7 +125,12 @@ class GameWindow(Window):
             
         if event.type == pygame.USEREVENT and event.action == "open build menu":
             self.remove_widget(self.menu)
-            self.menu = BuildMenu(self.menu.rect,event.destination)
+            try:
+                rect = self.menu.rect
+            except AttributeError:
+                (x,y) = pygame.mouse.get_pos()
+                rect = pygame.Rect(x,y,0,0)
+            self.menu = BuildMenu(rect,event.destination)    
             self.add_widget(self.menu, True)
             return True
         

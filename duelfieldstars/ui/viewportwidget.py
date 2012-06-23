@@ -36,6 +36,7 @@ class ViewportWidget(Widget):
         self.add_keyboard_handler(self.change_scroll_speed, pygame.KEYUP, pygame.K_d, 0, -1, 0) # Release.
         self.add_keyboard_handler(self.zoom, pygame.KEYDOWN, pygame.K_PAGEUP, 0, "in")
         self.add_keyboard_handler(self.zoom, pygame.KEYDOWN, pygame.K_PAGEDOWN, 0, "out")
+        self.add_keyboard_handler(self.open_build_menu, pygame.KEYDOWN, pygame.K_b, 0)
         # Mouse button handlers
         self.add_mouse_handler(self.click_left_mouse_button, pygame.MOUSEBUTTONDOWN, 1)
         self.add_mouse_handler(self.click_right_mouse_button, pygame.MOUSEBUTTONDOWN, 3)
@@ -295,7 +296,18 @@ class ViewportWidget(Widget):
         (mouseX, mouseY) = (mouseX * self.scale, mouseY * self.scale)
         self.position = (mouseX - self.width/2, mouseY - self.height/2)
         
-        self.update()     
+        self.update()    
+    
+    def open_build_menu(self):
+        if game.galaxy.at(*self.selected).owner != game.factions[0]:
+            return True
+        
+        event = pygame.event.Event(pygame.USEREVENT, 
+                                   destination=self.selected, 
+                                   action="open build menu" 
+                                   )
+        pygame.event.post(event)
+        return True
                 
             
         
