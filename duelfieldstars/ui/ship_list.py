@@ -27,17 +27,32 @@ class ShipList(Widget):
         self.tile_height = 1
         
         self.scroll_down_rect = None
+        self.scroll_up_rect = None
     
     def on_mouse(self,event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             
             # Scroll down button
-            (x,y) = event.pos
-            (x,y) = (x-self.x0, y-self.y0)
-            if self.scroll_down_rect.collidepoint(x,y): # Scroll down
-                self.scroll += 1
-                self.update()
-                return True
+            try:
+                (x,y) = event.pos
+                (x,y) = (x-self.x0, y-self.y0)
+                if self.scroll_down_rect.collidepoint(x,y): # Scroll down
+                    self.scroll += 1
+                    self.update()
+                    return True
+            except AttributeError:
+                pass
+            
+            # Scroll up button
+            try:
+                (x,y) = event.pos
+                (x,y) = (x-self.x0, y-self.y0)
+                if self.scroll_up_rect.collidepoint(x,y): # Scroll up
+                    self.scroll -= 1
+                    self.update()
+                    return True
+            except AttributeError:
+                pass
             
             # Select/Deselect ships. Do this last.
             (x,y) = event.pos
@@ -62,6 +77,19 @@ class ShipList(Widget):
         
     def on_draw(self):
         self.surface.fill(COLORS["black"])
+        self.scroll_down_rect = None
+        
+        # If there is a scroll offset, show a button for going back.
+        if self.scroll > 0:
+            texture = assets.get(PNG,"up_16")
+            self.surface.blit(texture,(self.width-texture.get_width(),
+                                       0))
+            self.scroll_up_rect = pygame.Rect(self.width - texture.get_width(),
+                                              0,
+                                              texture.get_width(),
+                                              texture.get_height())
+        else:
+            self.scroll_up_rect = None
         
         dy = y = 0
         
