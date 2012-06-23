@@ -101,7 +101,8 @@ class Faction(object):
         for item in tech.a:
             if item.advanced == False:
                 a[item.name] = 1
-        #a["Mining Enhancement Technology"] = 24
+        #a["Mining Enhancement Technology"] = 20
+        #a["Production Technology"] = 100
         return a
 
 
