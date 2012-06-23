@@ -16,8 +16,13 @@ class ActionMenu (DefaultMenu):
         
         self.showMoveMenu = False
         
+        self.showCancel = False
+        if source == destination and ship_list != None:
+            if ship_list.selected != []:
+                self.showCancel = True
+        
         self.show_colonisation = False
-        if ship_list is not None:
+        if ship_list is not None and game.galaxy.at(*destination) != None:
             for ship in ship_list.selected:
                 if ship.colony and game.galaxy.at(*destination).owner == None:
                     if game.galaxy.at(*destination).type_ in ship.faction.colony_types:
@@ -64,7 +69,23 @@ class ActionMenu (DefaultMenu):
             self.add_option(widget,open_build_menu,destination)
             self.add_keyboard_handler(open_build_menu, pygame.KEYDOWN, pygame.K_b, None, destination)
             dy += 14
+        
+        # Cancel orders
+        if self.showCancel:
+            widget = Text(pygame.Rect(dx,dy,0,0), font,
+                          COLORS["light blue"], "        (X)Cancel orders    ")
+            def cancel_orders(selected):
+                for ship in selected:
+                    ship.orders = []
+                    event = pygame.event.Event(pygame.USEREVENT,action="close menu")
+                    pygame.event.post(event)
+                    event = pygame.event.Event(pygame.USEREVENT+2)
+                    pygame.event.post(event)
             
+            self.add_option(widget, cancel_orders, self.ship_list.selected)
+            self.add_keyboard_handler(cancel_orders, pygame.KEYDOWN, pygame.K_x, None, self.ship_list.selected)
+            dy += widget.height
+                
         # Move here
         if self.showMoveMenu:
             widget = Text(pygame.Rect(dx,dy,0,0), font,
