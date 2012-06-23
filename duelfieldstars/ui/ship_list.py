@@ -72,8 +72,7 @@ class ShipList(Widget):
                 scroll -= 1
                 continue # Skip down the list if there's an offset.
             
-            if y >= self.height:
-                # TODO: print 'scroll down' button then break.
+            if y >= self.height - dy:
                 texture = assets.get(PNG,"down_16")
                 self.surface.blit(texture,(self.width - texture.get_width(), self.height - texture.get_height()))
                 self.scroll_down_rect = pygame.Rect(self.width - texture.get_width(),
