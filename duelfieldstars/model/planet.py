@@ -88,7 +88,7 @@ class Planet(object):
             return
         for improvement in self.improvementLevels:
             if self.realisedImprovement < improvement:
-                if improvement < self.owner.tech["Mining Enhancement Technology"]:
+                if improvement <= self.owner.tech["Mining Enhancement Technology"]:
                     self.realisedImprovement = improvement
                     return
                 else:
