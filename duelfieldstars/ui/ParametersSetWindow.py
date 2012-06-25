@@ -42,5 +42,24 @@ class ParametersSetWindow(Window):
         self.add_widget(widget, False)
         dy += widget.height *1.2
         
+        # World density
+        d = self.world_density
+        num_worlds = int(w * h * d)
+        widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
+                      "World density: "+str(d)+" ("+str(num_worlds)+" worlds)")
+        self.add_widget(widget, False)
+        dy += widget.height * 1.2
         
+        # Seed?
+        seed = self.seed
+        widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
+                      "Galaxy seed: "+str(seed))
+        self.add_widget(widget, False)
+        dy += widget.height *1.2
         
+        # Number of factions?
+        num = self.faction_num
+        widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
+                      "Number of factions: "+str(num))
+        self.add_widget(widget, False)
+        dy += widget.height *1.2
