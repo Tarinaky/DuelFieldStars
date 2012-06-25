@@ -20,7 +20,6 @@ class ColonyTypeChoice(DefaultMenu):
         self.faction = research_window.faction
         self.window = research_window
         
-        self.nice = True
         
         def add(char):
             self.faction.special_choice["Colony Technology"] = char
@@ -45,6 +44,7 @@ class ColonyTypeChoice(DefaultMenu):
 class ResearchWindow(Window):
     def __init__(self, faction):
         super(ResearchWindow, self).__init__()
+        self.nice = True # Block when event queue empty
         
         log.debug("Opening research window for "+faction.name)
         
