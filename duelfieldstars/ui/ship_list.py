@@ -93,7 +93,10 @@ class ShipList(Widget):
         
         dy = y = 0
         
-        ship_list = game.ships[self.position]
+        try:
+            ship_list = game.ships[self.position]
+        except KeyError:
+            ship_list = []
         scroll = self.scroll
         for ship in ship_list:
             if scroll > 0:
