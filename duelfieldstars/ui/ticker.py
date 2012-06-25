@@ -10,6 +10,7 @@ from ui import texture_cache
 import assets
 from assets.png import PNG
 from ui.ui_abstract.image import Image
+from model import game
 
 log = logging.getLogger(__name__)
 
@@ -86,6 +87,13 @@ class Ticker(Widget):
         dx -= texture.get_width()
         self.researchbox = pygame.Rect(dx,0,texture.get_width(), texture.get_height())
         self.subwidgets.append(Image(self.researchbox,texture))
+        
+        # Turn number
+        turn_counter = Text(pygame.Rect(0,0,0,0), font, COLORS["black"],
+                            "Turn "+str(game.turn_count))
+        dx -= turn_counter.width
+        turn_counter.rect = pygame.Rect(dx,0,0,0)
+        self.subwidgets.append(turn_counter)
 
     def on_mouse(self,event):
         # Check flag box.
