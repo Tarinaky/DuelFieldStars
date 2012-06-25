@@ -7,6 +7,9 @@ from model import game
 from ui.ui_abstract.text import Text
 import pygame
 from color import COLORS
+from assets.png import PNG
+import assets
+from ui.ui_abstract.image import Image
 
 class ParametersSetWindow(Window):
     
@@ -20,13 +23,24 @@ class ParametersSetWindow(Window):
         self.faction_num = game.number_of_initial_factions
         self.seed = game.generation_seed
         
+        self.rects = []
+    
+    def on_mouse(self,event):
+        (x,y) = event.pos
+        if event.type != pygame.MOUSEBUTTONDOWN:
+            return False
+        for (rect,method) in self.rects:
+            if rect.collidepoint(x,y):
+                return method()
+        
     def on_draw(self):
         # Display all the parameters
         dx = dy = 20
-        font = pygame.font.Font(pygame.font.get_default_font(), 12)
+        font = pygame.font.Font(pygame.font.get_default_font(), 16)
         
         # Blank window
         self.widgets = []
+        self.rects = []
         self.surface.fill((0x0,0x0,0x0))
         
         # Window title
@@ -40,9 +54,35 @@ class ParametersSetWindow(Window):
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
                       "Galaxy size: "+str(w)+"x"+str(h)+" parsecs")
         self.add_widget(widget, False)
+        dx += widget.width+8
+        
+        def decrease_galaxy_size():
+            (w,h) = self.galaxy_size
+            (w,h) = (w-25,h-25) # Decrease by 25 square pc
+            if w < 25 or h < 25:
+                (w,h) = (25,25)
+            self.galaxy_size = (w,h)
+            #self.update()
+        asset = assets.get(PNG,"left_16")
+        widget = Image(pygame.Rect(dx,dy,0,0),asset)
+        self.add_widget(widget, False)
+        self.rects.append((widget.rect,decrease_galaxy_size))
+        dx += widget.width + 8
+        
+        def increase_galaxy_size():
+            (w,h) = self.galaxy_size
+            (w,h) = (w+25,h+25) # Increase by 25 square parsecs
+            self.galaxy_size = (w,h)
+            #self.update()
+        asset = assets.get(PNG,"right_16")
+        widget = Image(pygame.Rect(dx,dy,0,0),asset)
+        self.add_widget(widget, False)
+        self.rects.append((widget.rect,increase_galaxy_size))
         dy += widget.height *1.2
         
+        
         # World density
+        dx = 20
         d = self.world_density
         num_worlds = int(w * h * d)
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
@@ -51,6 +91,7 @@ class ParametersSetWindow(Window):
         dy += widget.height * 1.2
         
         # Seed?
+        dx = 20
         seed = self.seed
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
                       "Galaxy seed: "+str(seed))
@@ -58,6 +99,7 @@ class ParametersSetWindow(Window):
         dy += widget.height *1.2
         
         # Number of factions?
+        dx = 20
         num = self.faction_num
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
                       "Number of factions: "+str(num))
