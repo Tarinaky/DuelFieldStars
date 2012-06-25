@@ -20,6 +20,8 @@ class ColonyTypeChoice(DefaultMenu):
         self.faction = research_window.faction
         self.window = research_window
         
+        self.nice = True
+        
         def add(char):
             self.faction.special_choice["Colony Technology"] = char
             self.window.selected.append("Colony Technology")
