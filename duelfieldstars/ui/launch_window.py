@@ -18,6 +18,8 @@ class LaunchMenu(DefaultMenu):
         # Add options to the menu.
         font = pygame.font.Font(pygame.font.get_default_font(), 18)
         dx = dy = 0
+        
+        # Open new Sandbox game.
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
                       "    Single Player Sandbox    ")
         def new_sandbox():
@@ -25,6 +27,17 @@ class LaunchMenu(DefaultMenu):
             window = GameWindow()
             window.run()
         self.add_option(widget, new_sandbox)
+        dy += widget.height
+        
+        # Start new Hotseat game.
+        widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
+                      "    Hotseat Multiplayer    ")
+        def new_hotseat():
+            pass # Game options.
+        self.add_option(widget, new_hotseat)
+        dy += widget.height
+        
+        
 
 class LaunchWindow(Window):
     """The actual launcher itself."""
