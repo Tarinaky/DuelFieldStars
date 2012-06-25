@@ -45,7 +45,7 @@ class ActionMenu (DefaultMenu):
         name = str("    Deep space at "+str(destination) )
         if destination in game.galaxy.planets: #@UndefinedVariable
             name = "    "+game.galaxy.planets[destination].name+"    "
-            if game.galaxy.planets[destination].owner == faction.PLAYERFACTION:
+            if game.galaxy.planets[destination].owner == game.factions[0]:
                 self.showBuildMenu = True
 
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["white"], name + "    ")

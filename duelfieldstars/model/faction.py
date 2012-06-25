@@ -106,5 +106,5 @@ class Faction(object):
         return a
 
 
-PLAYERFACTION = None
+# PLAYERFACTION = None
 

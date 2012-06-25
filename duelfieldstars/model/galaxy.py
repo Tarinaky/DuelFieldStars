@@ -25,7 +25,7 @@ class Galaxy(object):
 
         
         self.generate(width, height, density, seed)
-        self.add_player()
+        # self.add_player()
         return
         
     def generate(self, width, height, density, seed=None):

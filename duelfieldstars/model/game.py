@@ -14,13 +14,42 @@ ships = {}
 galaxy = Galaxy()
 turn_count = 1
 
+# Generation parameters.
+galaxy_size = (50,50)
+world_density = float(1)/25
+generation_seed = None
+number_of_initial_factions = 1 
+
+def set_galaxy_size(size):
+    """Set the size of the game's galaxy."""
+    global galaxy_size
+    galaxy_size = size
+def set_world_density(density):
+    """Set the world generation density."""
+    global world_density
+    world_density = density
+def set_galaxy_seed(seed):
+    """Generate a particular galaxy."""
+    global generation_seed
+    generation_seed = seed    
+def set_number_of_factions(num):
+    """Set the number of player-character factions."""
+    global number_of_initial_factions
+    number_of_initial_factions = num
+    
 def init():
     global galaxy, factions, ships, turn_count
+    global galaxy_size, world_density, generation_seed
+    global number_of_initial_factions
     factions = []
     ships = {}
-    galaxy = Galaxy()
+    (w,h) = galaxy_size
+    galaxy = Galaxy(w,h, world_density, generation_seed)
     turn_count = 1
-    faction.PLAYERFACTION = factions[0]
+    # faction.PLAYERFACTION = factions[0]
+    
+    for _ in range(number_of_initial_factions):
+        galaxy.add_player()
     
     for y in range(galaxy.height):
         for x in range(galaxy.width):
