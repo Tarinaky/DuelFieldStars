@@ -50,7 +50,7 @@ class Window(object):
         if self.on_event(event):
             return True
         if event.type == pygame.QUIT:
-            self.runControl = False
+            self.on_quit() # Call quit event handler.
             return True
         if (event.type == pygame.MOUSEMOTION or event.type == pygame.MOUSEBUTTONDOWN 
             or event.type == pygame.MOUSEBUTTONUP):
@@ -102,6 +102,11 @@ class Window(object):
         """Override this with custom event handler.
         Must return True if the event is handled, else False."""
         return False
+    
+    def on_quit(self):
+        """This method is called when pygame.QUIT
+        events are received. Overload this to handle them."""
+        self.runControl = False
     
     def on_mouse(self, event):
         """Override this with custom mouse-event handler.
