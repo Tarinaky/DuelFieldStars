@@ -86,7 +86,7 @@ class ParametersSetWindow(Window):
         d = self.world_density
         num_worlds = int(w * h * d)
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
-                      "World density: "+str(d)+" ("+str(num_worlds)+" worlds)")
+                      "World density: 1/"+str(int(d**(-1)))+" ("+str(num_worlds)+" worlds)")
         self.add_widget(widget, False)
         dx += widget.width + 8
         
@@ -138,4 +138,24 @@ class ParametersSetWindow(Window):
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
                       "Number of factions: "+str(num))
         self.add_widget(widget, False)
+        dx += widget.width +8
+        
+        def decrease_faction_num():
+            if self.faction_num > 1:
+                self.faction_num -= 1
+        asset = assets.get(PNG,"left_16")
+        widget = Image(pygame.Rect(dx,dy,0,0), asset)
+        self.add_widget(widget, False)
+        self.rects.append((widget.rect,decrease_faction_num))
+        dx += widget.width +8
+        
+        def increase_faction_num():
+            (w,h) = self.galaxy_size
+            if self.faction_num < w*h*self.world_density:
+                self.faction_num += 1
+        asset = assets.get(PNG,"right_16")
+        widget = Image(pygame.Rect(dx,dy,0,0), asset)
+        self.add_widget(widget, False)
+        self.rects.append((widget.rect,increase_faction_num))
+        
         dy += widget.height *1.2
