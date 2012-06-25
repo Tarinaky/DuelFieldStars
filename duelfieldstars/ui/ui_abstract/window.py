@@ -21,8 +21,10 @@ class Window(object):
     def run(self):
         """Entry point into the class. Executes the window's main loop."""
         self.runControl = True
+        self.return_value = False # Return value to be returned upon completion.
         while self.runControl == True:
             self._tick()
+        return self.return_value
     
     def _tick(self):
         """Executes a single 'tick' or frame."""
