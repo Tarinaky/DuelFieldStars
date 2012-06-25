@@ -39,8 +39,15 @@ class LaunchMenu(DefaultMenu):
             window = ParametersSetWindow()
             if window.run():
                 game.init() # Initialise galaxy.
-                window = GameWindow()
-                window.run() # Open viewport.
+                runControl = True
+                while runControl:
+                    window = GameWindow()
+                    runControl = window.run()
+                    # Cycle to next player
+                    previous_player = game.factions[0]
+                    game.factions.remove(previous_player)
+                    game.factions.append(previous_player)
+                    
         self.add_option(widget, new_hotseat)
         dy += widget.height
         
