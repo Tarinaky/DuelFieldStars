@@ -85,8 +85,7 @@ def end_of_turn(faction):
         for faction in factions:
             if faction.ready == False:
                 return False
-            else:
-                return True
+        return True
             
     if check():
         _do_end_of_turn()
