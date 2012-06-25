@@ -9,6 +9,7 @@ from color import COLORS
 import pygame
 from ui.ui_abstract.text import Text
 from model import game
+from ui.ParametersSetWindow import ParametersSetWindow
 
 class LaunchMenu(DefaultMenu):
     """Menu of options to be displayed in the launcher."""
@@ -33,7 +34,9 @@ class LaunchMenu(DefaultMenu):
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
                       "    Hotseat Multiplayer    ")
         def new_hotseat():
-            pass # Game options.
+            # Ask for game parameters
+            window = ParametersSetWindow()
+            window.run()
         self.add_option(widget, new_hotseat)
         dy += widget.height
         
