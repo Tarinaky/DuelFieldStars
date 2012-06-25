@@ -88,6 +88,40 @@ class ParametersSetWindow(Window):
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
                       "World density: "+str(d)+" ("+str(num_worlds)+" worlds)")
         self.add_widget(widget, False)
+        dx += widget.width + 8
+        
+        def decrease_density():
+            choice = [float(1)/100, float(1)/50, float(1)/25, float(1)/12, float(1)/9]
+            d = self.world_density
+            for i in range(len(choice)):
+                if d == choice[i]:
+                    if i > 0:
+                        self.world_density = choice[i-1]
+                    
+                    return
+                else:
+                    i += 1
+        asset = assets.get(PNG,"left_16")
+        widget = Image(pygame.Rect(dx,dy,0,0),asset)
+        self.add_widget(widget, False)
+        self.rects.append((widget.rect,decrease_density))
+        dx += widget.width + 8
+        
+        def increase_density():
+            choice = [float(1)/100, float(1)/50, float(1)/25, float(1)/12, float(1)/9]
+            d = self.world_density
+            for i in range(len(choice)):
+                if d == choice[i]:
+                    if i < len(choice)-1:
+                        self.world_density = choice[i+1]
+                    return
+                else:
+                    i += 1
+        asset = assets.get(PNG,"right_16")
+        widget = Image(pygame.Rect(dx,dy,0,0),asset)
+        self.add_widget(widget, False)
+        self.rects.append((widget.rect,increase_density))
+        
         dy += widget.height * 1.2
         
         # Seed?
