@@ -159,3 +159,26 @@ class ParametersSetWindow(Window):
         self.rects.append((widget.rect,increase_faction_num))
         
         dy += widget.height *1.2
+        
+        
+        # Start the game!
+        dx = 20
+        font = pygame.font.Font(pygame.font.get_default_font(),32)
+        def start_game():
+            game.galaxy_size = self.galaxy_size
+            game.world_density = self.world_density
+            game.generation_seed = self.seed
+            game.number_of_initial_factions = self.faction_num
+            
+            self.return_value = 1
+            self.runControl = False
+        
+        widget = Text(pygame.Rect(dx,dy,0,0),font, COLORS["green"],
+                      "Start the Game!")
+        widget.on_draw()
+        widget.rect.w = widget.width
+        widget.rect.h = widget.height
+        self.add_widget(widget, False)
+        self.rects.append((widget.rect, start_game))
+        
+        dy += widget.height *1.2
