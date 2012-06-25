@@ -36,7 +36,10 @@ class LaunchMenu(DefaultMenu):
         def new_hotseat():
             # Ask for game parameters
             window = ParametersSetWindow()
-            window.run()
+            if window.run():
+                game.init() # Initialise galaxy.
+                window = GameWindow()
+                window.run() # Open viewport.
         self.add_option(widget, new_hotseat)
         dy += widget.height
         
