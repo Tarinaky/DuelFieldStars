@@ -199,6 +199,8 @@ class GameWindow(Window):
             Called to signify the end of a player's turn. Any processing is performed.
             """
             game.end_of_turn(self.player)
+            self.return_value = 1
+            self.runControl = False
             return
   
         
