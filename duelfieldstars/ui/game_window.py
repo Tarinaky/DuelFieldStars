@@ -28,7 +28,7 @@ class GameWindow(Window):
         super(GameWindow,self).__init__()
         self.nice = True
         
-        game.init()
+        #game.init()
         self.player = game.factions[0]
         
         (width,height) = pygame.display.get_surface().get_size()

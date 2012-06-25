@@ -8,6 +8,7 @@ from ui.game_window import GameWindow
 from color import COLORS
 import pygame
 from ui.ui_abstract.text import Text
+from model import game
 
 class LaunchMenu(DefaultMenu):
     """Menu of options to be displayed in the launcher."""
@@ -20,6 +21,7 @@ class LaunchMenu(DefaultMenu):
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
                       "    Single Player Sandbox    ")
         def new_sandbox():
+            game.init() # Reset game
             window = GameWindow()
             window.run()
         self.add_option(widget, new_sandbox)
