@@ -17,6 +17,10 @@ class ViewportWidget(Widget):
         self.galaxy = galaxy
         self.window = window
         
+        # Jump to the player's homeworld on creation.
+        event = pygame.event.Event(pygame.USEREVENT,action="go to homeworld")
+        pygame.event.post(event)
+        
         self.font = pygame.font.Font(pygame.font.get_default_font(),10)
         
         self.position = (0,0) # position in px
