@@ -26,7 +26,8 @@ class LaunchMenu(DefaultMenu):
         def new_sandbox():
             game.init() # Reset game
             window = GameWindow()
-            window.run()
+            while window.run():
+                pass
         self.add_option(widget, new_sandbox)
         dy += widget.height
         
