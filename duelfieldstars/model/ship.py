@@ -116,10 +116,10 @@ def resolve_combat(x, y):
     fleets = {} # Group ships by their faction.
     ships = game.ships[(x,y)]
     for ship in ships:
+        ship.end_of_turn = True # Fighting ships take no
+        # other action.
         if ship.faction in fleets.keys():
             fleets[ship.faction].append(ship)
-            ship.end_of_turn = True # Fighting ships take no
-            # other action.
         else:
             fleets[ship.faction] = [ship]
     attack_value = {} # Calculate per-fleet attack value
