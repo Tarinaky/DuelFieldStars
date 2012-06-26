@@ -20,6 +20,12 @@ class ActionMenu (DefaultMenu):
         if source == destination and ship_list != None:
             if ship_list.selected != []:
                 self.showCancel = True
+                
+        self.showAssault = False
+        if ship_list != None:
+            for ship in ship_list.selected:
+                if ship.marines and game.galaxy.at(*destination).owner != ship.faction:
+                    self.showAssault = True
         
         self.show_colonisation = False
         if ship_list is not None and game.galaxy.at(*destination) != None:
@@ -118,7 +124,7 @@ class ActionMenu (DefaultMenu):
                     
             self.add_option(widget,move_ships,source,destination)
             self.add_keyboard_handler(move_ships, pygame.KEYDOWN, pygame.K_m, None, source, destination)
-        dy += 14    
+            dy += 14    
         # Colonise this
         if self.show_colonisation:
             widget = Text(pygame.Rect(dx,dy,0,0), font,
@@ -144,4 +150,34 @@ class ActionMenu (DefaultMenu):
             self.add_option(widget, colony_here, source, destination)
             self.add_keyboard_handler(colony_here, pygame.KEYDOWN, pygame.K_c, None,
                                       source, destination)  
-        dy += 14
+            dy += 14
+        
+        #Send the marines!
+        if self.showAssault:
+            widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
+                          "        Marine (A)ssault    ")
+            
+            def assault_planet(source, destination):
+                for ship in self.ship_list.selected:
+                    move = ("move to", destination)
+                    assault = ("assault planet", destination)
+                    if not ship.marines:
+                        order = [move]
+                    else:
+                        order = [move, assault]
+                    modifiers = pygame.key.get_mods()
+                    if modifiers & pygame.KMOD_LSHIFT or modifiers & pygame.KMOD_RSHIFT:
+                        ship.orders.extend(order)
+                    else:
+                        ship.orders = order
+                    event = pygame.event.Event(pygame.USEREVENT+2) # Redraw
+                    pygame.event.post(event)
+                    event = pygame.event.Event(pygame.USEREVENT, action="close menu")
+                    pygame.event.post(event)
+                    
+            self.add_option(widget, assault_planet, source, destination)
+            self.add_keyboard_handler(assault_planet, pygame.KEYDOWN, pygame.K_a, None,
+                                      source, destination)
+            
+            dy += 14
+            

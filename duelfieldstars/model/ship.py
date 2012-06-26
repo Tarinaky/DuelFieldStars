@@ -191,10 +191,10 @@ def resolve_ground_attack(ship):
             return # Don't kill your own marines!
         log.debug("Defender on "+planet.name+" died gallantly.")
         planet.marines -= 1
-        planet.realisation -= 1
+        planet.realisedValue -= 1
         if planet.marines < 1:
             log.debug("Planet has been captured!")
-            planet.faction = attacker
+            planet.owner = attacker
             planet.marines = 1
     while kill_chance > 0:
         if kill_chance > ship.max_kill_chance:
@@ -203,6 +203,7 @@ def resolve_ground_attack(ship):
         else:
             if random.random() < kill_chance:
                 hit_scored(ship.faction, planet)
+        kill_chance -= ship.max_kill_chance
                 
     
     
@@ -284,7 +285,7 @@ def process_ship_turn(ships):
                             continue
                         ship.orders.pop(0) # If all else fails, skip the order.
                     if order == "assault planet": # Space Marine attack
-                        if game.galaxy.at(*target).realisation == 0:
+                        if game.galaxy.at(*target).realisedValue == 0:
                             log.debug("Planet at "+str(target)+" seems to have been glassed.")
                             ship.orders.pop(0) # If colony destroyed then cycle to
                             # next order.

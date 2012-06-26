@@ -70,6 +70,8 @@ class Planet(object):
     @property
     def growth(self):
         """Calculates this planet's per turn growth."""
+        if self.sieged:
+            return 0 # Sieged planets do not grow.
         if self.owner == None:
             return 0
         if self.type_ == self.owner.type:
@@ -119,9 +121,10 @@ class Planet(object):
     @property
     def ground_combat_value(self):
         if self.owner != None:
-            return math.sqrt(self.faction.tech["Ground Combat Technology"])
+            return math.sqrt(self.owner.tech["Ground Combat Technology"])
         else:
             return self.marines
+        
             
 
 class PlanetTest(unittest.TestCase):
