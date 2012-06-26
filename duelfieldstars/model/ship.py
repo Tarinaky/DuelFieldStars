@@ -255,7 +255,7 @@ def bombard(ship):
         planet.type = random.choice(['A','B','C','D','E'])
         log.debug("----An ecological disaster caused it to change to type "+planet.type+" permanently.")
     
-    string = "Planet "+planet.name+" was bombarded from space."
+    string = planet.name+" was bombarded from space."
     event_log.add(event_log.Event(string, planet.position))
 
 

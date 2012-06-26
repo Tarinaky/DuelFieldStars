@@ -98,6 +98,7 @@ class Planet(object):
             if self.realisedImprovement < improvement:
                 if improvement <= self.owner.tech["Mining Enhancement Technology"]:
                     self.realisedImprovement = improvement
+                    event_log.add(event_log.Event(self.name+" built a Mining Enhancement."))
                     return
                 else:
                     return
