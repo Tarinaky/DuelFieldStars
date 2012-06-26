@@ -94,6 +94,13 @@ class Ticker(Widget):
         dx -= turn_counter.width
         turn_counter.rect = pygame.Rect(dx,0,0,0)
         self.subwidgets.append(turn_counter)
+        
+        # Reports menu
+        texture = assets.get(PNG, "report_16")
+        texture.set_colorkey((0x0,0x0,0x0))
+        dx -= texture.get_width()
+        self.reportsbox = pygame.Rect(dx,0,texture.get_width(), texture.get_height() )
+        self.subwidgets.append(Image(self.reportsbox, texture))
 
     def on_mouse(self,event):
         # Check flag box.
@@ -121,6 +128,19 @@ class Ticker(Widget):
                         return True
             return False
         if check_research_box(event):
+            return True
+        
+        # Check reports icon.
+        def check_reports_button(a):
+            if a.type == pygame.MOUSEBUTTONDOWN:
+                ((mouse_x, mouse_y), button) = (a.pos, a.button)
+                if self.reportsbox.collidepoint(mouse_x, mouse_y):
+                    if button == 1:
+                        pygame.event.Event(pygame.USEREVENT, action="reports menu", position=(mouse_x,mouse_y))
+                        pygame.event.post(event)
+                        return True
+            return False
+        if check_reports_button(event):
             return True
                 
 
