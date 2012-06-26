@@ -119,7 +119,7 @@ class Planet(object):
     @property
     def ground_combat_value(self):
         if self.owner != None:
-            return self.marines * math.sqrt(self.faction.tech["Ground Combat Technology"])
+            return math.sqrt(self.faction.tech["Ground Combat Technology"])
         else:
             return self.marines
             

@@ -96,6 +96,12 @@ class Ship(object):
         """Speed in pc, modified by tech levels."""
         return 2 + math.sqrt(self.faction.tech["Engine Technology"])
     
+    @property
+    def ground_combat_value(self):
+        if self.marines:
+            return 2 * math.sqrt(self.faction.tech["Ground Combat Technology"])
+        return 0
+    
     def tick(self):
         """Process a turn."""
         return
@@ -171,7 +177,36 @@ def resolve_combat(x, y):
         except:
             pass
                     
+def resolve_ground_attack(ship):
+    ship.end_of_turn = True # Attacking ends your movement.
+    (x,y) = ship.position
+    planet = game.galaxy.at(x,y)
+    attacker = ship.ground_combat_value
+    defender = planet.ground_combat_value
+    
+    kill_chance = float(attacker) / defender
+    
+    def hit_scored(attacker,planet):
+        if attacker == planet.faction:
+            return # Don't kill your own marines!
+        log.debug("Defender on "+planet.name+" died gallantly.")
+        planet.marines -= 1
+        planet.realisation -= 1
+        if planet.marines < 1:
+            log.debug("Planet has been captured!")
+            planet.faction = attacker
+            planet.marines = 1
+    while kill_chance > 0:
+        if kill_chance > ship.max_kill_chance:
+            if random.random() < ship.max_kill_chance:
+                hit_scored(ship.faction, planet)
+        else:
+            if random.random() < kill_chance:
+                hit_scored(ship.faction, planet)
                 
+    
+    
+                    
     
         
 
