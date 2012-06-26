@@ -16,6 +16,12 @@ class ActionMenu (DefaultMenu):
         
         self.showMoveMenu = False
         
+        self.showBombard = False
+        if ship_list != None:
+            for ship in ship_list.selected:
+                if ship.attack > 0:
+                    self.showBombard = True
+        
         self.showCancel = False
         if source == destination and ship_list != None:
             if ship_list.selected != []:
@@ -180,4 +186,30 @@ class ActionMenu (DefaultMenu):
                                       source, destination)
             
             dy += 14
+            
+        # Ortillery / Bombard order
+        if self.showBombard:
+            widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
+                          "        B(o)mbard planet    ")
+            def bombard_planet(source, destination):
+                for ship in self.ship_list.selected:
+                    move = ("move to", destination)
+                    bombard = ("bombard planet", destination)
+                    if ship.attack > 0:
+                        order = [move, bombard]
+                    else:
+                        order = [move]
+                    modifiers = pygame.key.get_mods()
+                    if modifiers & pygame.KMOD_LSHIFT or modifiers & pygame.KMOD_RSHIFT:
+                        ship.orders.extend(order)
+                    else:
+                        ship.orders = order
+                event = pygame.event.Event(pygame.USEREVENT+2) # Redraw
+                pygame.event.post(event)
+                event = pygame.event.Event(pygame.USEREVENT, action="close menu")
+                pygame.event.post(event)
+            self.add_option(widget, bombard_planet, source, destination)
+            self.add_keyboard_handler(bombard_planet, pygame.KEYDOWN, pygame.K_o, None,
+                                      source, destination)
+            
             

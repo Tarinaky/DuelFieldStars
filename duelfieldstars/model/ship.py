@@ -214,6 +214,36 @@ def resolve_ground_attack(ship):
 
 
 
+def bombard(ship):
+    (x,y) = ship.position
+    planet = game.galaxy.at(x,y)
+    
+    ship.end_of_turn = True # Bombarding ends your turn.
+    
+    if planet.owner != None:
+        defence = math.sqrt(planet.owner.tech["Space Defence Technology"])
+    else:
+        defence = 1
+    
+    damage = int(ship.attack / defence)
+    
+    planet.baseValue -= damage # Deal damage.
+    if planet.baseValue < 0:
+        planet.baseValue = 0
+    planet.currentValue -= 2*damage
+    if planet.currentValue < 1:
+        planet.currentValue = 1
+    planet.realisedValue -= 5*damage
+    if planet.realisedValue <0:
+        planet.realisedValue = 0
+    
+    log.debug("Planet "+planet.name+" ("+str(planet.position)+") took "+str(damage)+" damage.")
+    
+    if random.randint(0,100) < damage:
+        planet.type = random.choice(['A','B','C','D','E'])
+        log.debug("----An ecological disaster caused it to change to type "+planet.type+" permanently.")
+
+
 def process_ship_turn(ships):
         """Takes a list of ships and iterates over them to produce the new ship state."""
         # Get the top speed to determine how many microticks there will be.
@@ -294,6 +324,11 @@ def process_ship_turn(ships):
                         resolve_ground_attack(ship)
                         if game.galaxy.at(*target).owner == ship.faction: # Were we successful?
                             ship.orders.pop(0) # End the attack once we have won.
+                    if order == "bombard planet": # Ortillery attack
+                        bombard(ship)
+                        if game.galaxy.at(*target).baseValue <= 0: # Planet glassed.
+                            ship.orders.pop(0) # End the attack once the planet is dead.
+                            continue
                         
                             
                     
