@@ -59,7 +59,7 @@ class Ship(object):
     """Abstract class for space ships."""
     type_ = "error"
     offenseValue = 0
-    defenseValue = 1
+    defenseValue = 2
     marines = False
     colony = False
     missile = False
@@ -243,7 +243,7 @@ class Cruiser(Ship):
     """This class represents a Cruiser"""
     type_ = "Cruiser"
     offenseValue = 2
-    defenseValue = 1
+    defenseValue = 2
     marines = False
     colony = False
     service = False
@@ -256,7 +256,7 @@ class MarineTransport(Ship):
     """This class represents a ground assault ship."""
     type_ = "Marine Transport"
     offenseValue = 1
-    defenseValue = 1
+    defenseValue = 2
     marines = True
     colony = False
     
@@ -267,7 +267,7 @@ class ColonyTransport(Ship):
     """This class represents a colony ship."""
     type_ = "Colony Transport"
     offenseValue = 0
-    defenseValue = 1
+    defenseValue = 2
     marines = False
     colony = True
     
