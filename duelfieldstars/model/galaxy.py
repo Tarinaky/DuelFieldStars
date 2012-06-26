@@ -52,6 +52,9 @@ class Galaxy(object):
         game.factions.append(faction)
         
         homeworld = random.choice(self.planets.values() )
+        while homeworld.is_homeworld != False:
+            homeworld = random.choice(self.planets.values() )
+        
         homeworld.set_(150,150,150,[1,5,10,15,20],1,faction.type)
         homeworld.set_owner(faction)
         homeworld.is_homeworld = faction
