@@ -19,6 +19,8 @@ class Planet(object):
         self.baseValue = 0 # The planet's base value expressed as a percentile.
         self.currentValue = 0 # The planet's value after terraforming.
         self.realisedValue = 0 # The planet's presently realised value expressed as a percentile.
+        self.marines = 0 # The planet's ground forces.
+        self.sieged = False # Is the planet being attacked?
                 
         self.improvementLevels = [] # The planet's five mining improvement levels.
         self.realisedImprovement = 0 
@@ -108,6 +110,19 @@ class Planet(object):
         if self.construction != None:
             self.construction(self.owner, self.position)
             self.construction = None
+        "Regenerate marines."
+        if not self.sieged and self.marines < self.realisedValue/10:
+            self.marines += 1 # When not under ground attack
+            # The planet may have one marine per 10 realisation
+            # and recovers 1 marine per turn.
+            
+    @property
+    def ground_combat_value(self):
+        if self.owner != None:
+            return self.marines * math.sqrt(self.faction.tech["Ground Combat Technology"])
+        else:
+            return self.marines
+            
 
 class PlanetTest(unittest.TestCase):
     def setUp(self):
