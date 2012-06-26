@@ -187,7 +187,7 @@ def resolve_ground_attack(ship):
     kill_chance = float(attacker) / defender
     
     def hit_scored(attacker,planet):
-        if attacker == planet.faction:
+        if attacker == planet.owner:
             return # Don't kill your own marines!
         log.debug("Defender on "+planet.name+" died gallantly.")
         planet.marines -= 1
@@ -290,7 +290,7 @@ def process_ship_turn(ships):
                             # next order.
                             continue
                         resolve_ground_attack(ship)
-                        if game.galaxy.at(*target).faction == ship.faction: # Were we successful?
+                        if game.galaxy.at(*target).owner == ship.faction: # Were we successful?
                             ship.orders.pop(0) # End the attack once we have won.
                         
                             
