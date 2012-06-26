@@ -11,13 +11,15 @@ from ui import texture_cache
 class EventList(Widget):
     
     def __init__(self,rect):
-        super(EventList,self).__init__()
+        super(EventList,self).__init__(rect)
         
         self.scroll = 0
         self.events = game.event_log.get_list(game.factions[0])
         
         self.scrollUpRect = None
         self.scrollDownRect = None
+        
+        self.tile_height = 1
         
     def on_draw(self):
         self.surface.fill(COLORS["black"])
@@ -28,5 +30,9 @@ class EventList(Widget):
             dy = 0
             texture = texture_cache.text(None,12,COLORS["white"],
                                          event.description)
-            self.surface.blit(texture, (0,dy))
+            self.surface.blit(texture, (0,y+dy))
             dy += texture.get_height()
+            
+            # Save dy.
+            self.tile_height = dy
+            y += dy

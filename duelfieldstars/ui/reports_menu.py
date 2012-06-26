@@ -22,4 +22,13 @@ class ReportsMenu(DefaultMenu):
         self.add_option(widget, None)
         dy += widget.height
         
-        
+        # Event List
+        widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
+                      "        Event Log    ")
+        def open_event_list():
+            event = pygame.event.Event(pygame.USEREVENT, action="open event list")
+            pygame.event.post(event)
+            event = pygame.event.Event(pygame.USEREVENT, action="close menu")
+            pygame.event.post(event)
+            
+        self.add_option(widget, open_event_list)
