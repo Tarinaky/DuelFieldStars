@@ -8,6 +8,7 @@ import pygame
 from galaxy import Galaxy
 import ship
 import faction
+from model import event_log
 
 factions = []
 ships = {}
@@ -62,6 +63,8 @@ def _do_end_of_turn():
     global turn_count, ships
     log.debug("End of turn "+str(turn_count)+".")
     turn_count += 1
+    
+    event_log.reset()
     
     for faction in factions:
         faction.tick()
