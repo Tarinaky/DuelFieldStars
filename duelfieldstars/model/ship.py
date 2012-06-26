@@ -60,6 +60,7 @@ class Ship(object):
     type_ = "error"
     offenseValue = 0
     defenseValue = 2
+    max_kill_chance = 0.5
     marines = False
     colony = False
     missile = False
@@ -142,15 +143,27 @@ def resolve_combat(x, y):
                 continue # Don't attack yourself.
             
             kill_chance = attack_value[attacker] / defence_value[faction]
+            
             for ship in fleets[defender]:
-                if random.random() < kill_chance: # A hit is scored
-                    log.debug("A hit is scored on the "+ship.name+" ("+ship.faction.name+")")
-                    if random.random() < 0.5: # Destroyed?
-                        log.debug("----She is destroyed.")
-                        destroyed_ships.append(ship)
+                hits = 0
+                a = kill_chance
+                while a > 0:
+                    if a > ship.max_kill_chance:
+                        if random.random() < ship.max_kill_chance: # score a hit
+                            hits += 1
                     else:
-                        log.debug("----She is damaged.")
+                        if random.random() < a: # score a hit
+                            hits +=1
+                    a -= ship.max_kill_chance
+                
+                log.debug(str(hits)+" hits scored on "+ship.name+" ("+ship.faction.name+")")
+                for _ in range (hits):
+                    if random.random() < 0.5: # Destroy
+                        destroyed_ships.append(ship)
+                        log.debug("----She is destroyed.")
+                    else: # Damage
                         ship.damaged = True
+                        log.debug("----She is damaged.")
                         
     for ship in destroyed_ships: # Remove destroyed ships from play.
         try:
