@@ -32,3 +32,15 @@ class ReportsMenu(DefaultMenu):
             pygame.event.post(event)
             
         self.add_option(widget, open_event_list)
+        dy += widget.height
+        
+        # World List
+        widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
+                      "        World List    ")
+        def open_world_list():
+            event = pygame.event.Event(pygame.USEREVENT, action="open world list")
+            pygame.event.post(event)
+            event = pygame.event.Event(pygame.USEREVENT, action="close menu")
+            pygame.event.post(event)
+        self.add_option(widget, open_world_list)
+        dy += widget.height
