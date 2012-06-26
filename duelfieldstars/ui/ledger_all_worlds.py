@@ -146,7 +146,10 @@ class LedgerAllWorlds(Widget):
             dy += texture.get_height()
             
             # Construction
-            string = "    Building: "+str(world.construction)
+            if world.owner == game.factions[0]:
+                string = "    Building: "+str(world.construction)
+            else:
+                string = "    Base Value "+str(world.baseValue)
             texture = texture_cache.text(None,12,COLORS["white"],string)
             self.surface.blit(texture,(0,y+dy))
             dy += texture.get_height()
