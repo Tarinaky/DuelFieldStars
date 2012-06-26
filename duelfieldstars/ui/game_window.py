@@ -179,8 +179,10 @@ class GameWindow(Window):
                 self.viewport.position = (grid_x * self.viewport.scale - self.viewport.width/2, grid_y * self.viewport.scale - self.viewport.height/2)
                 
                 return True
+        
         if go_to_homeworld(event):
-            return True 
+            return True # FixMe: This crashes sometimes.
+        
         
         # Open research window
         def open_research(event):

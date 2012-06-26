@@ -176,7 +176,7 @@ def process_ship_turn(ships):
                     fastest = ship.speed
                     
             return fastest
-        top_speed = get_fastest(ships)
+        top_speed = float(get_fastest(ships))
         
         # Iterate over all ships and perform a single microtick/move. 
         def do_microtick(top_speed, ships):
@@ -193,8 +193,11 @@ def process_ship_turn(ships):
                 # Check tactics and combat
                 (x,y) = ship.position
                 if check_for_combat(x,y):
-                    resolve_combat(x,y)
-                    continue # Forfeit rest of turn.
+                    if ship.attack == 0:
+                        pass # Colony ships escape.
+                    else:
+                        resolve_combat(x,y)
+                        continue # Forfeit rest of turn.
                 
                 # Perform orders
                 if ship.orders != []:
