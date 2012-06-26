@@ -118,12 +118,16 @@ class LedgerAllWorlds(Widget):
             if self.show == self.FOE and world.owner == game.factions[0]:
                 # Hide friends when filtering for foes.
                 continue
-            elif self.show == self.FRIEND and world.owner != game.factions[0] and world.owner != None:
+            if self.show == self.FRIEND and world.owner != game.factions[0]:
                 # Hide foes when filtering for friends.
+                continue
+            if self.show != self.ALL and world.owner == None:
                 continue
             dy = 0
             # Planet name
-            if world.owner == game.factions[0]:
+            if world.owner == None:
+                color = COLORS["white"]
+            elif world.owner == game.factions[0]:
                 color = COLORS["green"]
             else:
                 color = COLORS["red"]
