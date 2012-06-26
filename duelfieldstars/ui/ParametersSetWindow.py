@@ -63,6 +63,9 @@ class ParametersSetWindow(Window):
                 (w,h) = (25,25)
             self.galaxy_size = (w,h)
             #self.update()
+            d = self.world_density
+            if self.faction_num > int(w*h*d):
+                self.faction_num = int(w*h*d)
         asset = assets.get(PNG,"left_16")
         widget = Image(pygame.Rect(dx,dy,0,0),asset)
         self.add_widget(widget, False)
@@ -97,10 +100,14 @@ class ParametersSetWindow(Window):
                 if d == choice[i]:
                     if i > 0:
                         self.world_density = choice[i-1]
-                    
+                        (w,h) = self.galaxy_size
+                        d = self.world_density
+                        if self.faction_num > int(w*h*d):
+                            self.faction_num = int(w*h*d)
                     return
                 else:
                     i += 1
+            
         asset = assets.get(PNG,"left_16")
         widget = Image(pygame.Rect(dx,dy,0,0),asset)
         self.add_widget(widget, False)
@@ -151,7 +158,7 @@ class ParametersSetWindow(Window):
         
         def increase_faction_num():
             (w,h) = self.galaxy_size
-            if self.faction_num < w*h*self.world_density:
+            if self.faction_num < int(w*h*self.world_density):
                 self.faction_num += 1
         asset = assets.get(PNG,"right_16")
         widget = Image(pygame.Rect(dx,dy,0,0), asset)
