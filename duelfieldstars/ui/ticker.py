@@ -136,7 +136,7 @@ class Ticker(Widget):
                 ((mouse_x, mouse_y), button) = (a.pos, a.button)
                 if self.reportsbox.collidepoint(mouse_x, mouse_y):
                     if button == 1:
-                        pygame.event.Event(pygame.USEREVENT, action="reports menu", position=(mouse_x,mouse_y))
+                        event = pygame.event.Event(pygame.USEREVENT, action="reports menu", position=(mouse_x,mouse_y))
                         pygame.event.post(event)
                         return True
             return False

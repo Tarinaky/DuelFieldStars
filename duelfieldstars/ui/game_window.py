@@ -17,6 +17,7 @@ from ui.build_menu import BuildMenu
 from ui.insufficient_rez import InsufficientRezMenu, TooMuchUpkeep
 from ui.ship_list import ShipList
 from ui.research_window import ResearchWindow
+from ui.reports_menu import ReportsMenu
 
 log = logging.getLogger(__name__)
 
@@ -181,7 +182,7 @@ class GameWindow(Window):
                 return True
         
         if go_to_homeworld(event):
-            return True # FixMe: This crashes sometimes.
+            return True
         
         
         # Open research window
@@ -194,6 +195,20 @@ class GameWindow(Window):
                 return True
         if open_research(event):
             return True
+        
+        # Open reports menu
+        def open_reports_menu(event):
+            if event.type == pygame.USEREVENT and event.action == "reports menu":
+                (x,y) = event.position
+                rect = pygame.Rect(x,y,0,0)
+                if self.menu != None:
+                    self.remove_widget(self.menu)
+                self.menu = ReportsMenu(rect)
+                self.add_widget(self.menu, True)
+                return True
+        if open_reports_menu(event):
+            return True
+            
                         
         
     def end_turn(self):
