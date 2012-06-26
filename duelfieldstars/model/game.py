@@ -55,6 +55,8 @@ def init():
     for y in range(galaxy.height):
         for x in range(galaxy.width):
             ships[x,y] = []
+            
+    event_log.reset()
 
 log = logging.getLogger(__name__)
 
