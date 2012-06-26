@@ -56,6 +56,8 @@ class LedgerAllWorlds(Widget):
             def clicked():
                 self.show = self.ALL
                 self.update()
+            widget.rect.w = widget.surface.get_width()
+            widget.rect.h = widget.surface.get_height()
             self.elements.append((widget,clicked,[]))
             return (widget.width, widget.height)
         (dx,dy) = all_worlds_button(x,y)
@@ -68,6 +70,8 @@ class LedgerAllWorlds(Widget):
             def clicked():
                 self.show = self.FRIEND
                 self.update()
+            widget.rect.w = widget.surface.get_width()
+            widget.rect.h = widget.surface.get_height()
             self.elements.append((widget,clicked,[]))
             return (widget.width, widget.height)
         (dx,dy) = friend_worlds_button(x,y)
@@ -80,6 +84,8 @@ class LedgerAllWorlds(Widget):
             def clicked():
                 self.show = self.FOE
                 self.update()
+            widget.rect.w = widget.surface.get_width()
+            widget.rect.h = widget.surface.get_height()
             self.elements.append((widget, clicked, []))
             return (widget.width, widget.height)
         (dx,dy) = foe_worlds_button(x, y)
@@ -88,20 +94,31 @@ class LedgerAllWorlds(Widget):
         
         self.list_start = dy # Start list from here.
         
+    def on_mouse(self,event):
+        if event.type != pygame.MOUSEBUTTONDOWN:
+            return False
+        ((mouse_x, mouse_y), button) = (event.pos, event.button)
+        (x,y) = (mouse_x - self.x0, mouse_y - self.y0)
+        for (widget, method, args) in self.elements:
+            if widget.rect.collidepoint(x, y) and button == 1:
+                method(*args)
+                return True
+            
+    
         
     def on_draw(self):
+        self.surface.fill((0x0,0x0,0x0))
+        
         for (widget,_,_) in self.elements:
             self.surface.blit(widget.surface, widget.rect)
         
         # Draw list.
         y = self.list_start
         for world in game.galaxy.planets.values():
-            if world.owner == None:
-                pass
-            elif self.show == self.FOE and world.owner == game.factions[0]:
+            if self.show == self.FOE and world.owner == game.factions[0]:
                 # Hide friends when filtering for foes.
                 continue
-            elif self.show == self.FRIEND and world.owner != game.factions[0]:
+            elif self.show == self.FRIEND and world.owner != game.factions[0] and world.owner != None:
                 # Hide foes when filtering for friends.
                 continue
             dy = 0
