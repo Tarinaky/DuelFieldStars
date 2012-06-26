@@ -21,6 +21,7 @@ class Planet(object):
         self.realisedValue = 0 # The planet's presently realised value expressed as a percentile.
         self.marines = 0 # The planet's ground forces.
         self.sieged = False # Is the planet being attacked?
+        self.blockaded = False # Is the planet's space blocked?
                 
         self.improvementLevels = [] # The planet's five mining improvement levels.
         self.realisedImprovement = 0 
@@ -61,6 +62,8 @@ class Planet(object):
     @property
     def income(self):
         """Calculates this planet's per turn income."""
+        if self.blockaded:
+            return 0 # Blockaded planets have no income.
         income = round(self.realisedValue / float(100) * math.sqrt(self.owner.tech["Production Technology"]),2)
         for level in self.improvementLevels:
             if level <= self.realisedImprovement:
@@ -120,6 +123,7 @@ class Planet(object):
         
         # Clear tags ready for another ship turn.
         self.sieged = False
+        self.blockaded = False
             
     @property
     def ground_combat_value(self):
