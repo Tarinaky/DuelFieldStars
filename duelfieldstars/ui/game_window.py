@@ -60,6 +60,9 @@ class GameWindow(Window):
         
         self.focusedWidget = self.viewport
         
+        event = pygame.event.Event(pygame.USEREVENT, action="open event list")
+        pygame.event.post(event) # Start with event list open.
+        
         
         return
     
@@ -182,6 +185,16 @@ class GameWindow(Window):
                 return True
         
         if go_to_homeworld(event):
+            return True
+        
+        # Go to location.
+        def go_to(event):
+            if event.type == pygame.USEREVENT and event.action == "go to":
+                (grid_x, grid_y) = event.goto
+                self.viewport.position = (grid_x * self.viewport.scale - self.viewport.width/2,
+                                          grid_y * self.viewport.scale - self.viewport.height/2)
+                return True
+        if go_to(event):
             return True
         
         

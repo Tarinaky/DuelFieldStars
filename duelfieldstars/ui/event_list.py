@@ -7,6 +7,7 @@ from ui.ui_abstract.widget import Widget
 from color import COLORS
 from ui.ui_abstract.text import Text
 from ui import texture_cache
+import pygame
 
 class EventList(Widget):
     
@@ -21,6 +22,20 @@ class EventList(Widget):
         
         self.tile_height = 1
         
+    def on_mouse(self,event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            # Jump to target
+            (x,y) = event.pos
+            (x,y) = (x-self.x0, y-self.y0)
+            (x,y) = (x, y/self.tile_height)
+            try:
+                (x,y) = self.events[y].location
+            except:
+                return False
+            event = pygame.event.Event(pygame.USEREVENT, action="go to", goto=(x,y))
+            pygame.event.post(event)
+        
+        
     def on_draw(self):
         self.surface.fill(COLORS["black"])
         
@@ -28,7 +43,7 @@ class EventList(Widget):
         
         for event in self.events:
             dy = 0
-            texture = texture_cache.text(None,12,COLORS["white"],
+            texture = texture_cache.text(None,14,COLORS["white"],
                                          event.description)
             self.surface.blit(texture, (0,y+dy))
             dy += texture.get_height()
