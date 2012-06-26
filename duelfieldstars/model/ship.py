@@ -194,6 +194,7 @@ def process_ship_turn(ships):
                 (x,y) = ship.position
                 if check_for_combat(x,y):
                     resolve_combat(x,y)
+                    continue # Forfeit rest of turn.
                 
                 # Perform orders
                 if ship.orders != []:

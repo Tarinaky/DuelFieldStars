@@ -68,7 +68,7 @@ class ShipList(Widget):
                 return False
             if ship in self.selected:
                 self.selected.remove(ship)
-            else:
+            elif ship.faction == game.factions[0]:
                 self.selected.append(ship)
             self.update()
             return True
@@ -117,11 +117,12 @@ class ShipList(Widget):
             texture = texture_cache.ship_token(16, ship.faction.flag, True)
             self.surface.blit(texture,(0,dy+y))
             # Selected?
-            if ship in self.selected:
-                texture = assets.get(PNG,"selected_16")
-            else:
-                texture = assets.get(PNG,"unselected_16")
-            self.surface.blit(texture,(0,dy+y+16))
+            if ship.faction == game.factions[0]: # Skip if not yours.
+                if ship in self.selected:
+                    texture = assets.get(PNG,"selected_16")
+                else:
+                    texture = assets.get(PNG,"unselected_16")
+                self.surface.blit(texture,(0,dy+y+16))
             # Ship name
             texture = texture_cache.text(None, 12, COLORS["white"],
                                          ship.name+" ("+ship.type_+")")
@@ -133,10 +134,16 @@ class ShipList(Widget):
             self.surface.blit(texture,(dx,dy+y))
             dy += texture.get_height()
             # Show orders
-            texture = texture_cache.text(None,12, COLORS["white"],
-                                         "    "+str(len(ship.orders))+" orders")
+            if ship.faction == game.factions[0]:
+                string = "    "+str(len(ship.orders))+" orders"
+                color = COLORS["green"]
+            else:
+                string = "    "+ship.faction.name
+                color = COLORS["red"]
+            texture = texture_cache.text(None,12, color,
+                                         string)
             self.surface.blit(texture,(dx,dy+y))
-            if ship.orders != []:
+            if ship.orders != [] and ship.faction == game.factions[0]:
                 try:
                     (order,coordinate) = ship.orders[0]
                 except ValueError:
