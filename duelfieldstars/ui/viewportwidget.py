@@ -114,24 +114,56 @@ class ViewportWidget(Widget):
                         continue # Do nothing if there are no ships.
                     friends = foes = 0
                     marine = colony = missile = service = False
+                    enemy_marine = enemy_colony = enemy_missile = enemy_service = False
                     for ship in tile:
                         if ship.faction == game.factions[0]:
                             friends += 1
+                            
+                            flag = ship.faction.flag
+                        
+                            if ship.marines:
+                                marine = True
+                            if ship.colony:
+                                colony = True
+                            if ship.missile:
+                                missile = True
+                            if ship.service:
+                                service = True
                         else:
                             foes += 1
-                        if ship.marines:
-                            marine = True
-                        if ship.colony:
-                            colony = True
-                        if ship.missile:
-                            missile = True
-                        if ship.service:
-                            service = True
+                            enemy_flag = ship.faction.flag
+                            if ship.marines:
+                                enemy_marine = True
+                            if ship.colony:
+                                enemy_colony = True
+                            if ship.missile:
+                                enemy_missile = True
+                            if ship.service:
+                                enemy_service = True
                         
-                    if foes > 0:
-                        pass # Draw foe tile
-                    elif friends > 0: # Draw friend tile
-                        texture = texture_cache.ship_token(self.scale, ship.faction.flag, 
+                    if foes > 0: # FIXME: Rewrite this.
+                        texture = texture_cache.ship_token(self.scale,
+                                                           enemy_flag,
+                                                           False, 
+                                                           enemy_colony, 
+                                                           enemy_marine, 
+                                                           enemy_missile, 
+                                                           enemy_service)
+                        texture.set_colorkey((0x0,0x0,0x0))
+                        count = texture_cache.text(None, 12, COLORS["red"],
+                                                   str(foes))
+                        if friends > 0 or game.galaxy.at(x/self.scale, y/self.scale) is not None:
+                            # Draw off-center
+                            self.surface.blit(texture, (x-x0-self.scale, y-y0-self.scale))
+                            self.surface.blit(count, (x-x0-self.scale*2/3, y-y0-self.scale*2/3))
+                        else:
+                            # Draw centered
+                            self.surface.blit(texture, (x-x0-self.scale/2,y-y0-self.scale/2))
+                            self.surface.blit(count, (x-x0+self.scale/3, y-y0+self.scale/3))
+                        
+
+                    if friends > 0: # Draw friend tile
+                        texture = texture_cache.ship_token(self.scale, flag, 
                                                            True, colony, marine, missile, service)
                         texture.set_colorkey((0x0,0x0,0x0))
                         count = texture_cache.text(None,12,COLORS["green"],str(friends))
