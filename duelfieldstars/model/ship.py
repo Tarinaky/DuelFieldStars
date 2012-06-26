@@ -181,6 +181,7 @@ def resolve_ground_attack(ship):
     ship.end_of_turn = True # Attacking ends your movement.
     (x,y) = ship.position
     planet = game.galaxy.at(x,y)
+    planet.sieged = True
     attacker = ship.ground_combat_value
     defender = planet.ground_combat_value
     

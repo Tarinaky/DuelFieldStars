@@ -117,6 +117,9 @@ class Planet(object):
             self.marines += 1 # When not under ground attack
             # The planet may have one marine per 10 realisation
             # and recovers 1 marine per turn.
+        
+        # Clear tags ready for another ship turn.
+        self.sieged = False
             
     @property
     def ground_combat_value(self):
