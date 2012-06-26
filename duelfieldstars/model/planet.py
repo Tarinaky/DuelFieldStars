@@ -7,6 +7,7 @@ import unittest
 import math
 
 import name
+from model import event_log
 
 class Planet(object):
     def __init__(self, *position):
@@ -115,6 +116,7 @@ class Planet(object):
         if self.construction != None:
             self.construction(self.owner, self.position)
             self.construction = None
+            event_log.add(event_log.Event("Ship built at "+self.name,self.position))
         "Regenerate marines."
         if not self.sieged and self.marines < self.realisedValue/10:
             self.marines += 1 # When not under ground attack
