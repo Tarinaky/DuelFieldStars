@@ -5,6 +5,7 @@ import logging
 import math
 import random
 from model.faction import Faction
+from model import event_log
 
 log = logging.getLogger(__name__)
 
@@ -133,6 +134,7 @@ def resolve_combat(x, y):
     defence_value = {} # Calculate per-fleet defence
     
     destroyed_ships = [] # Place ships to be killed here.
+    damaged_ships = []
     
     for (faction,fleet) in fleets.items(): # Calculate per-fleet values
         fleet_attack = 0
@@ -169,6 +171,7 @@ def resolve_combat(x, y):
                         log.debug("----She is destroyed.")
                     else: # Damage
                         ship.damaged = True
+                        damaged_ships.append(ship)
                         log.debug("----She is damaged.")
                         
     for ship in destroyed_ships: # Remove destroyed ships from play.
@@ -176,6 +179,9 @@ def resolve_combat(x, y):
             game.ships[ship.position].remove(ship)
         except:
             pass
+    # Report event
+    string = str(len(destroyed_ships))+" ships destroyed, "+str(len(damaged_ships))+" ships damaged by fighting."
+    event_log.add(event_log.Event(string, (x,y)))
                     
 def resolve_ground_attack(ship):
     ship.end_of_turn = True # Attacking ends your movement.
@@ -205,6 +211,12 @@ def resolve_ground_attack(ship):
             if random.random() < kill_chance:
                 hit_scored(ship.faction, planet)
         kill_chance -= ship.max_kill_chance
+    
+    if attacker == planet.owner:
+        string = "Planet "+planet.name+" was captured by marines."
+    else:
+        string = "Garrison on "+planet.name+" resisted enemy marines."
+    event_log.add(event_log.Event(string, planet.position))
                 
     
     
@@ -242,6 +254,9 @@ def bombard(ship):
     if random.randint(0,100) < damage:
         planet.type = random.choice(['A','B','C','D','E'])
         log.debug("----An ecological disaster caused it to change to type "+planet.type+" permanently.")
+    
+    string = "Planet "+planet.name+" was bombarded from space."
+    event_log.add(event_log.Event(string, planet.position))
 
 
 def process_ship_turn(ships):
@@ -313,6 +328,8 @@ def process_ship_turn(ships):
                             game.galaxy.at(*target).set_owner(ship.faction)
                             game.galaxy.at(*target).name = ship.name.split(' ',1)[1]
                             ships[ship.position].remove(ship)
+                            string = "Planet at "+str(target)+" colonised."
+                            event_log.add(event_log.Event(string,target))
                             continue
                         ship.orders.pop(0) # If all else fails, skip the order.
                     if order == "assault planet": # Space Marine attack
