@@ -3,6 +3,8 @@ import name
 import game
 import logging
 import math
+import random
+from model.faction import Faction
 
 log = logging.getLogger(__name__)
 
@@ -53,7 +55,6 @@ def get_path(source,destination):
     values.append(destination)
     return values
         
-    
 class Ship(object):
     """Abstract class for space ships."""
     type_ = "error"
@@ -70,6 +71,8 @@ class Ship(object):
         self.name = name.ship_name()
         
         self.path = []
+        
+        self.damaged = False # True if the ship is damaged.
         
         #self.destination = self.position # Target destination.
         self.orders = [] # List of orders.
@@ -96,6 +99,70 @@ class Ship(object):
         """Process a turn."""
         return
     
+
+def check_for_combat(x, y):
+    ships = game.ships[(x,y)]
+    factions = []
+    for ship in ships:
+        if ship.faction in factions:
+            continue
+        factions.append(ship.faction)
+        if len(factions) > 1:
+            return True # There will be a fight!
+    return False
+             
+        
+def resolve_combat(x, y):
+    fleets = {} # Group ships by their faction.
+    ships = game.ships[(x,y)]
+    for ship in ships:
+        if ship.faction in fleets.keys():
+            fleets[ship.faction].append(ship)
+            ship.end_of_turn = True # Fighting ships take no
+            # other action.
+        else:
+            fleets[ship.faction] = [ship]
+    attack_value = {} # Calculate per-fleet attack value
+    defence_value = {} # Calculate per-fleet defence
+    
+    destroyed_ships = [] # Place ships to be killed here.
+    
+    for (faction,fleet) in fleets.items(): # Calculate per-fleet values
+        fleet_attack = 0
+        fleet_defence = 0
+        for ship in fleet:
+            fleet_attack += ship.attack
+            fleet_defence += ship.defence
+        attack_value[faction] = fleet_attack
+        defence_value[faction] = fleet_defence
+    
+    for attacker in fleets.keys(): # Resolve your attack.
+        for defender in fleets.keys():
+            if attacker == defender:
+                continue # Don't attack yourself.
+            
+            kill_chance = attack_value[attacker] / defence_value[faction]
+            for ship in fleets[defender]:
+                if random.random() < kill_chance: # A hit is scored
+                    log.debug("A hit is scored on the "+ship.name+" ("+ship.faction.name+")")
+                    if random.random() < 0.5: # Destroyed?
+                        log.debug("----She is destroyed.")
+                        destroyed_ships.append(ship)
+                    else:
+                        log.debug("----She is damaged.")
+                        ship.damaged = True
+                        
+    for ship in destroyed_ships: # Remove destroyed ships from play.
+        try:
+            game.ships[ship.position].remove(ship)
+        except:
+            pass
+                    
+                
+    
+        
+
+
 def process_ship_turn(ships):
         """Takes a list of ships and iterates over them to produce the new ship state."""
         # Get the top speed to determine how many microticks there will be.
@@ -103,6 +170,7 @@ def process_ship_turn(ships):
             fastest = 0
             for ship in sum(ships.values(),[]):
                 ship.micro_movement = 0 # prepare them for the next step.
+                ship.end_of_turn = False
                 ship.path = [] # Force repopulation in the next step.
                 if ship.speed > fastest:
                     fastest = ship.speed
@@ -117,8 +185,17 @@ def process_ship_turn(ships):
                 if ship.micro_movement < 1:
                     continue # Skip the rest of this function if the ship isn't
                     # fast enough
+                if ship.end_of_turn:
+                    continue # Skip the rest of this function if
+                    # the ship engaged in combat.
                 ship.micro_movement -= 1
                 
+                # Check tactics and combat
+                (x,y) = ship.position
+                if check_for_combat(x,y):
+                    resolve_combat(x,y)
+                
+                # Perform orders
                 if ship.orders != []:
                     try:
                         (order, target) = ship.orders[0]
@@ -196,3 +273,11 @@ class ColonyTransport(Ship):
     
     def __init__(self,faction,position):
         super(ColonyTransport,self).__init__(faction,position)
+
+if __name__ == '__main__': # Test combat resolution.
+    print "Test combat resolution."
+    logging.basicConfig(level=logging.DEBUG)
+    game.init()
+    Cruiser(Faction(),(0,0))
+    Cruiser(Faction(),(0,0))
+    resolve_combat(0,0)
