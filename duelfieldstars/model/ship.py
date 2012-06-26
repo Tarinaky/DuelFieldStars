@@ -211,6 +211,7 @@ def resolve_ground_attack(ship):
         
 
 
+
 def process_ship_turn(ships):
         """Takes a list of ships and iterates over them to produce the new ship state."""
         # Get the top speed to determine how many microticks there will be.
@@ -282,6 +283,16 @@ def process_ship_turn(ships):
                             ships[ship.position].remove(ship)
                             continue
                         ship.orders.pop(0) # If all else fails, skip the order.
+                    if order == "assault planet": # Space Marine attack
+                        if game.galaxy.at(*target).realisation == 0:
+                            log.debug("Planet at "+str(target)+" seems to have been glassed.")
+                            ship.orders.pop(0) # If colony destroyed then cycle to
+                            # next order.
+                            continue
+                        resolve_ground_attack(ship)
+                        if game.galaxy.at(*target).faction == ship.faction: # Were we successful?
+                            ship.orders.pop(0) # End the attack once we have won.
+                        
                             
                     
                     
