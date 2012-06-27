@@ -180,7 +180,7 @@ def resolve_combat(x, y):
     for ship in destroyed_ships: # Remove destroyed ships from play.
         try:
             game.ships[ship.position].remove(ship)
-            event_log.add(event_log.Event(ship.name+" destroyed."))
+            event_log.add(event_log.Event(ship.name+" destroyed.", (x,y)))
         except:
             pass
     # Report event
