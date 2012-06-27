@@ -79,9 +79,11 @@ def _do_end_of_turn():
         for a in ships[planet.position]:
             if a.faction != planet.owner and a.attack >0:
                 # This planet is blockaded
-                planet.blockaded = True
-                event_log.add(event_log.Event(planet.name+str(" blockaded"),
+                if planet.blockaded == False:
+                    event_log.add(event_log.Event(planet.name+str(" blockaded"),
                                               planet.position))
+                planet.blockaded = True
+                
     
     event = pygame.event.Event(pygame.USEREVENT, action="End of Turn")
     pygame.event.post(event)

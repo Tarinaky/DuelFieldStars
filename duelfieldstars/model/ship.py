@@ -174,14 +174,18 @@ def resolve_combat(x, y):
                         damaged_ships.append(ship)
                         log.debug("----She is damaged.")
                         
+    # Report event
+    string = "Battle at "+str((x,y))
+    event_log.add(event_log.Event(string, (x,y)))
     for ship in destroyed_ships: # Remove destroyed ships from play.
         try:
             game.ships[ship.position].remove(ship)
+            event_log.add(event_log.Event(ship.name+" destroyed."))
         except:
             pass
     # Report event
-    string = str(len(destroyed_ships))+" ships destroyed, "+str(len(damaged_ships))+" ships damaged by fighting."
-    event_log.add(event_log.Event(string, (x,y)))
+    #string = str(len(destroyed_ships))+" ships destroyed, "+str(len(damaged_ships))+" ships damaged by fighting."
+    #event_log.add(event_log.Event(string, (x,y)))
                     
 def resolve_ground_attack(ship):
     ship.end_of_turn = True # Attacking ends your movement.
