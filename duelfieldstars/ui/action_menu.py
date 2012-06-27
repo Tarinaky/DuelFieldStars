@@ -28,11 +28,14 @@ class ActionMenu (DefaultMenu):
                 self.showCancel = True
                 
         self.showAssault = False
-        if ship_list != None:
-            for ship in ship_list.selected:
-                if ship.marines and game.galaxy.at(*destination).owner != ship.faction:
-                    self.showAssault = True
-        
+        try:
+            if ship_list != None:
+                for ship in ship_list.selected:
+                    if ship.marines and game.galaxy.at(*destination).owner != ship.faction:
+                        self.showAssault = True
+        except:
+            pass
+                
         self.show_colonisation = False
         if ship_list is not None and game.galaxy.at(*destination) != None:
             for ship in ship_list.selected:
