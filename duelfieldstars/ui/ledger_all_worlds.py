@@ -8,6 +8,9 @@ import pygame
 from color import COLORS
 from model import game
 from ui import texture_cache
+from assets.png import PNG
+import assets
+from ui.ui_abstract.image import Image
 
 class LedgerAllWorlds(Widget):
     ALL = object()
@@ -19,6 +22,7 @@ class LedgerAllWorlds(Widget):
         
         self.tile_height = 1
         self.list_start = 0
+        self.scroll = 0
         
         self.all_worlds_button = None
         self.friend_worlds_button = None
@@ -55,6 +59,7 @@ class LedgerAllWorlds(Widget):
                           "ALL")
             def clicked():
                 self.show = self.ALL
+                self.scroll = 0
                 self.update()
             widget.rect.w = widget.surface.get_width()
             widget.rect.h = widget.surface.get_height()
@@ -69,6 +74,7 @@ class LedgerAllWorlds(Widget):
                           "FRIEND")
             def clicked():
                 self.show = self.FRIEND
+                self.scroll = 0
                 self.update()
             widget.rect.w = widget.surface.get_width()
             widget.rect.h = widget.surface.get_height()
@@ -103,18 +109,51 @@ class LedgerAllWorlds(Widget):
             if widget.rect.collidepoint(x, y) and button == 1:
                 method(*args)
                 return True
-            
+        try:
+            if self.scroll_up_button.rect.collidepoint(x, y) and button == 1:
+                if self.scroll > 0:
+                    self.scroll -= 1
+                    self.update()
+                    return True
+        except:
+            pass
+        try:
+            if self.scroll_down_button.rect.collidepoint(x,y) and button ==1:
+                self.scroll += 1
+                self.update()
+                return True
+        except:
+            pass    
     
         
     def on_draw(self):
         self.surface.fill((0x0,0x0,0x0))
+        
+        self.scroll_up_button = None
+        self.scroll_down_button = None
         
         for (widget,_,_) in self.elements:
             self.surface.blit(widget.surface, widget.rect)
         
         # Draw list.
         y = self.list_start
+        if self.scroll > 0: # Scroll up button?
+            asset = assets.get(PNG,"up_16")
+            widget = Image(pygame.Rect(self.width-16,y,0,0),asset)
+            self.scroll_up_button = widget
+            self.surface.blit(widget.surface,widget.rect)
+        
+        i = self.scroll
         for world in game.galaxy.planets.values():
+            if y +self.tile_height > self.height:
+                # Draw button to scroll list down.
+                asset = assets.get(PNG,"down_16")
+                widget = Image(pygame.Rect(self.width-16,self.height-16,0,0), asset)
+                self.scroll_down_button = widget
+                self.surface.blit(widget.surface,widget.rect)
+                break
+                
+            
             if self.show == self.FOE and world.owner == game.factions[0]:
                 # Hide friends when filtering for foes.
                 continue
@@ -123,6 +162,11 @@ class LedgerAllWorlds(Widget):
                 continue
             if self.show != self.ALL and world.owner == None:
                 continue
+            
+            if i > 0:
+                i -= 1
+                continue # Skip the first few elements if there's a scroll.
+            
             dy = 0
             # Planet name
             if world.owner == None:
