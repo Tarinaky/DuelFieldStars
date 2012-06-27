@@ -31,7 +31,9 @@ class ActionMenu (DefaultMenu):
         try:
             if ship_list != None:
                 for ship in ship_list.selected:
-                    if ship.marines and game.galaxy.at(*destination).owner != ship.faction:
+                    if ship.marines \
+                    and game.galaxy.at(*destination).owner != ship.faction \
+                    and game.galaxy.at(*destination).owner != None:
                         self.showAssault = True
         except:
             pass
