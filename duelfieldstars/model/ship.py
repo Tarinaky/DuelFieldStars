@@ -95,7 +95,7 @@ class Ship(object):
     @property
     def speed(self): 
         """Speed in pc, modified by tech levels."""
-        return 2 + math.sqrt(self.faction.tech["Engine Technology"])
+        return 2 + self.faction.tech["Engine Technology"]
     
     @property
     def ground_combat_value(self):
