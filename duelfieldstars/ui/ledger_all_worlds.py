@@ -30,6 +30,8 @@ class LedgerAllWorlds(Widget):
         self.scroll_up_button = None
         self.scroll_down_button = None
         
+        self.displayed = []
+        
         self.show = self.ALL
     
         self.elements = [] # List of (Widget, Method, [args]) 3-tuples.
@@ -124,6 +126,16 @@ class LedgerAllWorlds(Widget):
                 return True
         except:
             pass    
+        
+        try:
+            y -= self.list_start
+            y = int(y/self.tile_height)
+            world = self.displayed[y]
+            event = pygame.event.Event(pygame.USEREVENT,action="go to",goto=world.position)
+            pygame.event.post(event)
+        except:
+            pass
+            
     
         
     def on_draw(self):
@@ -131,6 +143,8 @@ class LedgerAllWorlds(Widget):
         
         self.scroll_up_button = None
         self.scroll_down_button = None
+        
+        self.displayed = []
         
         for (widget,_,_) in self.elements:
             self.surface.blit(widget.surface, widget.rect)
@@ -197,6 +211,9 @@ class LedgerAllWorlds(Widget):
             texture = texture_cache.text(None,12,COLORS["white"],string)
             self.surface.blit(texture,(0,y+dy))
             dy += texture.get_height()
+            
+            # Add entry to self.displayed for clicking on.
+            self.displayed.append(world)
             
             # Next entry
             y += dy
