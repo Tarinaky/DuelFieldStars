@@ -107,6 +107,23 @@ class Ship(object):
         """Process a turn."""
         return
     
+    def beligerant(self):
+        """Returns true if the ship is not trying to 'flee'.
+        This is determined by the top order in the queue
+        being "move to" or some similar instruction.
+        Bombard, Assault and similar 'beligerant' actions cannot
+        be taken if enemy ships are in system.
+        """
+        if self.orders == [] and self.attack >0:
+            return True # Ships with no orders, and positive attack
+        # are beligerant.
+        
+        if self.attack == 0:
+            return False # Noncombatants are never beligerant.
+        (order,_) = self.orders[0]
+        if order == "move to":
+            return False # Moving ships are 'evasive'.
+    
 
 def check_for_combat(x, y):
     ships = game.ships[(x,y)]
@@ -293,8 +310,8 @@ def process_ship_turn(ships):
                 # Check tactics and combat
                 (x,y) = ship.position
                 if check_for_combat(x,y):
-                    if ship.attack == 0:
-                        pass # Colony ships escape.
+                    if not ship.beligerant:
+                        pass # Ships with certain orders escape.
                     else:
                         resolve_combat(x,y)
                         continue # Forfeit rest of turn.
