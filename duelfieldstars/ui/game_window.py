@@ -11,7 +11,7 @@ from ui.action_menu import ActionMenu
 from ui.ui_abstract.button import Button
 
 from model import game
-from ui import texture_cache, event_list, ledger_all_worlds
+from ui import texture_cache, event_list, ledger_all_worlds, ledger_all_ships
 from color import COLORS
 from ui.build_menu import BuildMenu
 from ui.insufficient_rez import InsufficientRezMenu, TooMuchUpkeep
@@ -244,7 +244,16 @@ class GameWindow(Window):
         if open_world_list(event):
             return True
             
-                        
+        # Open ship list
+        def open_ship_list(event):
+            if event.type == pygame.USEREVENT and event.action == "open ship list":
+                if self.detailsPanel != None:
+                    self.remove_widget(self.detailsPanel)
+                self.detailsPanel = ledger_all_ships.LedgerAllShips(pygame.Rect(self.width-174, 0, 174, self.height-32))
+                self.add_widget(self.detailsPanel, False)
+                return True
+        if open_ship_list(event):
+            return True 
         
     def end_turn(self):
             """

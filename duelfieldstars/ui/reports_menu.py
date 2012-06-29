@@ -44,3 +44,14 @@ class ReportsMenu(DefaultMenu):
             pygame.event.post(event)
         self.add_option(widget, open_world_list)
         dy += widget.height
+        
+        # Ship List
+        widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
+                      "        Ship List    ")
+        def open_ship_list():
+            event = pygame.event.Event(pygame.USEREVENT, action="open ship list")
+            pygame.event.post(event)
+            event = pygame.event.Event(pygame.USEREVENT, action="close menu")
+            pygame.event.post(event)
+        self.add_option(widget, open_ship_list)
+        dy += widget.height
