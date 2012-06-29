@@ -13,7 +13,7 @@ import assets
 from ui.ui_abstract.image import Image
 
 class LedgerAllWorlds(Widget):
-    ALL = object()
+    COLONY = object()
     FRIEND = object()
     FOE = object()
     
@@ -32,7 +32,7 @@ class LedgerAllWorlds(Widget):
         
         self.displayed = []
         
-        self.show = self.ALL
+        self.show = self.FRIEND
     
         self.elements = [] # List of (Widget, Method, [args]) 3-tuples.
         
@@ -40,12 +40,7 @@ class LedgerAllWorlds(Widget):
         font = pygame.font.Font(pygame.font.get_default_font(), 14)
         # Title
         def show_title(x,y):
-            if self.show == self.ALL:
-                string = "All worlds"
-            elif self.show == self.FRIEND:
-                string = "Your worlds"
-            else:
-                string = "Your rivals' worlds"
+            string = "All worlds"
             widget = Text(pygame.Rect(x,y,0,0), font, COLORS["white"],
                           string)
             def nop():
@@ -58,9 +53,9 @@ class LedgerAllWorlds(Widget):
         # Show all worlds
         def all_worlds_button(x,y):
             widget = Text(pygame.Rect(x,y,0,0), font, COLORS["white"],
-                          "ALL")
+                          "COLONY")
             def clicked():
-                self.show = self.ALL
+                self.show = self.COLONY
                 self.scroll = 0
                 self.update()
             widget.rect.w = widget.surface.get_width()
@@ -68,7 +63,7 @@ class LedgerAllWorlds(Widget):
             self.elements.append((widget,clicked,[]))
             return (widget.width, widget.height)
         (dx,dy) = all_worlds_button(x,y)
-        x += dx *1.5
+        x += dx *1.2
         
         # Filter friendly worlds
         def friend_worlds_button(x,y):
@@ -83,7 +78,7 @@ class LedgerAllWorlds(Widget):
             self.elements.append((widget,clicked,[]))
             return (widget.width, widget.height)
         (dx,dy) = friend_worlds_button(x,y)
-        x += dx *1.5
+        x += dx *1.2
         
         # Filter enemy worlds
         def foe_worlds_button(x,y):
@@ -174,8 +169,12 @@ class LedgerAllWorlds(Widget):
             if self.show == self.FRIEND and world.owner != game.factions[0]:
                 # Hide foes when filtering for friends.
                 continue
-            if self.show != self.ALL and world.owner == None:
+            if self.show != self.COLONY and world.owner == None:
                 continue
+            if self.show == self.COLONY and world.owner != None:
+                continue # Hide occupied worlds.
+            if self.show == self.COLONY and world.type_ not in game.factions[0].colony_types:
+                continue # Hide worlds you can't colonise.
             
             if i > 0:
                 i -= 1
