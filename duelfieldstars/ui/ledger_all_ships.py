@@ -13,7 +13,7 @@ import assets
 from ui.ui_abstract.image import Image
 
 class LedgerAllShips(Widget):
-    COLONY = object()
+    IDLE = object()
     FRIEND = object()
     FOE = object()
     
@@ -24,9 +24,9 @@ class LedgerAllShips(Widget):
         self.list_start = 0
         self.scroll = 0
         
-        self.all_worlds_button = None
-        self.friend_worlds_button = None
-        self.foe_worlds_button = None
+        self.idle_ship_button = None
+        self.friend_ship_button = None
+        self.foe_ship_button = None
         self.scroll_up_button = None
         self.scroll_down_button = None
         
@@ -40,7 +40,7 @@ class LedgerAllShips(Widget):
         font = pygame.font.Font(pygame.font.get_default_font(), 14)
         # Title
         def show_title(x,y):
-            string = "All worlds"
+            string = "All ships"
             widget = Text(pygame.Rect(x,y,0,0), font, COLORS["white"],
                           string)
             def nop():
@@ -50,12 +50,12 @@ class LedgerAllShips(Widget):
         (dx,dy) = show_title(x,y)
         y += dy *1.5
         
-        # Show all worlds
+        # Show idle ships
         def all_worlds_button(x,y):
             widget = Text(pygame.Rect(x,y,0,0), font, COLORS["white"],
-                          "COLONY")
+                          "IDLE")
             def clicked():
-                self.show = self.COLONY
+                self.show = self.IDLE
                 self.scroll = 0
                 self.update()
             widget.rect.w = widget.surface.get_width()
@@ -65,7 +65,7 @@ class LedgerAllShips(Widget):
         (dx,dy) = all_worlds_button(x,y)
         x += dx *1.2
         
-        # Filter friendly worlds
+        # Filter friendly ships
         def friend_worlds_button(x,y):
             widget = Text(pygame.Rect(x,y,0,0), font, COLORS["green"],
                           "FRIEND")
@@ -80,7 +80,7 @@ class LedgerAllShips(Widget):
         (dx,dy) = friend_worlds_button(x,y)
         x += dx *1.2
         
-        # Filter enemy worlds
+        # Filter enemy ships
         def foe_worlds_button(x,y):
             widget = Text(pygame.Rect(x,y,0,0), font, COLORS["red"],
                           "FOE")
@@ -125,8 +125,8 @@ class LedgerAllShips(Widget):
         try:
             y -= self.list_start
             y = int(y/self.tile_height)
-            world = self.displayed[y]
-            event = pygame.event.Event(pygame.USEREVENT,action="go to",goto=world.position)
+            ship = self.displayed[y]
+            event = pygame.event.Event(pygame.USEREVENT,action="go to",goto=ship.position)
             pygame.event.post(event)
         except:
             pass
@@ -153,7 +153,7 @@ class LedgerAllShips(Widget):
             self.surface.blit(widget.surface,widget.rect)
         
         i = self.scroll
-        for world in game.galaxy.planets.values():
+        for ship in sum(game.ships.values(),[]):
             if y +self.tile_height > self.height:
                 # Draw button to scroll list down.
                 asset = assets.get(PNG,"down_16")
@@ -163,56 +163,38 @@ class LedgerAllShips(Widget):
                 break
                 
             
-            if self.show == self.FOE and world.owner == game.factions[0]:
+            if self.show == self.FOE and ship.faction == game.factions[0]:
                 # Hide friends when filtering for foes.
                 continue
-            if self.show == self.FRIEND and world.owner != game.factions[0]:
+            if (self.show == self.FRIEND or self.show == self.IDLE) and ship.faction != game.factions[0]:
                 # Hide foes when filtering for friends.
                 continue
-            if self.show != self.COLONY and world.owner == None:
+            if self.show == self.IDLE and ship.orders != []:
                 continue
-            if self.show == self.COLONY and world.owner != None:
-                continue # Hide occupied worlds.
-            if self.show == self.COLONY and world.type_ not in game.factions[0].colony_types:
-                continue # Hide worlds you can't colonise.
             
             if i > 0:
                 i -= 1
                 continue # Skip the first few elements if there's a scroll.
             
             dy = 0
-            # Planet name
-            if world.owner == None:
-                color = COLORS["white"]
-            elif world.owner == game.factions[0]:
+            # Ship name
+            if ship.faction == game.factions[0]:
                 color = COLORS["green"]
             else:
                 color = COLORS["red"]
-            string = world.name+" "+str(world.position)
-            texture = texture_cache.text(None, 12, color, string)
+            string = ship.name+" "+str(ship.position)
+            texture = texture_cache.text(None, 14, color, string)
             self.surface.blit(texture,(0,y+dy))
             dy += texture.get_height()
             
-            # Income
-            try:
-                string = "    Income: "+str(world.income)+" rez/turn"
-            except:
-                string = "    No owner"
-            texture = texture_cache.text(None,12,COLORS["white"],string)
-            self.surface.blit(texture,(0,y+dy))
-            dy += texture.get_height()
-            
-            # Construction
-            if world.owner == game.factions[0]:
-                string = "    Building: "+str(world.construction)
-            else:
-                string = "    Base Value "+str(world.baseValue)
-            texture = texture_cache.text(None,12,COLORS["white"],string)
+            # Type
+            string = "    "+ship.type_
+            texture = texture_cache.text(None, 14, color, string)
             self.surface.blit(texture,(0,y+dy))
             dy += texture.get_height()
             
             # Add entry to self.displayed for clicking on.
-            self.displayed.append(world)
+            self.displayed.append(ship)
             
             # Next entry
             y += dy
