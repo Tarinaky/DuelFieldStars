@@ -189,7 +189,7 @@ class LedgerAllWorlds(Widget):
             else:
                 color = COLORS["red"]
             string = world.name+" "+str(world.position)
-            texture = texture_cache.text(None, 12, color, string)
+            texture = texture_cache.text(None, 14, color, string)
             self.surface.blit(texture,(0,y+dy))
             dy += texture.get_height()
             
@@ -198,7 +198,7 @@ class LedgerAllWorlds(Widget):
                 string = "    Income: "+str(world.income)+" rez/turn"
             except:
                 string = "    No owner"
-            texture = texture_cache.text(None,12,COLORS["white"],string)
+            texture = texture_cache.text(None,14,COLORS["white"],string)
             self.surface.blit(texture,(0,y+dy))
             dy += texture.get_height()
             
@@ -207,7 +207,7 @@ class LedgerAllWorlds(Widget):
                 string = "    Building: "+str(world.construction)
             else:
                 string = "    Base Value "+str(world.baseValue)
-            texture = texture_cache.text(None,12,COLORS["white"],string)
+            texture = texture_cache.text(None,14,COLORS["white"],string)
             self.surface.blit(texture,(0,y+dy))
             dy += texture.get_height()
             
