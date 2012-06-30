@@ -58,6 +58,6 @@ if __name__ == '__main__':
     
     game.init()
     print game.factions[0].name
-    save("save/test.json")
-    load("save/test.json")
+    save("test.json")
+    load("test.json")
     print game.factions[0].name
