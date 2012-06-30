@@ -193,11 +193,11 @@ def resolve_combat(x, y):
                         
     # Report event
     string = "Battle at "+str((x,y))
-    event_log.add(event_log.Event(string, (x,y)))
+    event_log.add(event_log.Event(string, (x,y), None))
     for ship in destroyed_ships: # Remove destroyed ships from play.
         try:
             game.ships[ship.position].remove(ship)
-            event_log.add(event_log.Event(ship.name+" destroyed.", (x,y)))
+            event_log.add(event_log.Event(ship.name+" destroyed.", (x,y), ship.faction))
         except:
             pass
     # Report event
@@ -235,9 +235,11 @@ def resolve_ground_attack(ship):
     
     if attacker == planet.owner:
         string = "Planet "+planet.name+" was captured by marines."
+        faction = ship.faction
     else:
         string = "Garrison on "+planet.name+" resisted enemy marines."
-    event_log.add(event_log.Event(string, planet.position))
+        faction = planet.owner
+    event_log.add(event_log.Event(string, planet.position, faction))
                 
     
     
@@ -277,7 +279,7 @@ def bombard(ship):
         log.debug("----An ecological disaster caused it to change to type "+planet.type+" permanently.")
     
     string = planet.name+" was bombarded from space."
-    event_log.add(event_log.Event(string, planet.position))
+    event_log.add(event_log.Event(string, planet.position, ship.owner))
 
 
 def process_ship_turn(ships):
@@ -350,7 +352,7 @@ def process_ship_turn(ships):
                             game.galaxy.at(*target).name = ship.name.split(' ',1)[1]
                             ships[ship.position].remove(ship)
                             string = "Planet at "+str(target)+" colonised."
-                            event_log.add(event_log.Event(string,target))
+                            event_log.add(event_log.Event(string,target,ship.faction))
                             continue
                         ship.orders.pop(0) # If all else fails, skip the order.
                     if order == "assault planet": # Space Marine attack

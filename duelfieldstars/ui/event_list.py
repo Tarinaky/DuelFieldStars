@@ -43,7 +43,13 @@ class EventList(Widget):
         
         for event in self.events:
             dy = 0
-            texture = texture_cache.text(None,16,COLORS["white"],
+            if event.faction == game.factions[0]:
+                color = COLORS["green"]
+            elif event.faction == None:
+                color = COLORS["white"]
+            else:
+                color = COLORS["red"]
+            texture = texture_cache.text(None,16,color,
                                          event.description)
             self.surface.blit(texture, (0,y+dy))
             dy += texture.get_height()

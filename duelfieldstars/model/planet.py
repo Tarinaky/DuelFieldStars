@@ -98,7 +98,9 @@ class Planet(object):
             if self.realisedImprovement < improvement:
                 if improvement <= self.owner.tech["Mining Enhancement Technology"]:
                     self.realisedImprovement = improvement
-                    event_log.add(event_log.Event(self.name+" built a Mining Enhancement.", self.position))
+                    event_log.add(event_log.Event(self.name+" built a Mining Enhancement.", 
+                                                  self.position,
+                                                  self.owner))
                     return
                 else:
                     return
@@ -117,7 +119,9 @@ class Planet(object):
         if self.construction != None:
             self.construction(self.owner, self.position)
             self.construction = None
-            event_log.add(event_log.Event("Ship built at "+self.name,self.position))
+            event_log.add(event_log.Event("Ship built at "+self.name,
+                                          self.position,
+                                          self.owner))
         "Regenerate marines."
         if not self.sieged and self.marines < self.realisedValue/10:
             self.marines += 1 # When not under ground attack
