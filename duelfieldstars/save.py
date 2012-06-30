@@ -26,11 +26,11 @@ def pack():
             
 def save(filename):
     # Check if dir exists
-    if not os.path.exists(os.path.expanduser(save_path)):
-        os.makedirs(os.path.expanduser(save_path))
+    if not os.path.exists(os.path.expanduser(save_path+game.game_mode)):
+        os.makedirs(os.path.expanduser(save_path+game.game_mode))
     
     
-    filename = os.path.expanduser(save_path + filename)
+    filename = os.path.expanduser(save_path + game.game_mode +"/" +filename)
     data = pack()
     data = jsonpickle.encode(data)
     f = open(filename,"w")

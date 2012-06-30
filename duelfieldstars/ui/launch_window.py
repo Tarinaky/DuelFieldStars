@@ -54,7 +54,6 @@ class LaunchMenu(DefaultMenu):
                     game.factions.append(previous_player)
                     
         self.add_option(widget, new_hotseat)
-        dy += widget.height
         
         
 
