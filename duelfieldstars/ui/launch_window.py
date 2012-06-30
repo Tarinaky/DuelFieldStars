@@ -54,7 +54,16 @@ class LaunchMenu(DefaultMenu):
                     game.factions.append(previous_player)
                     
         self.add_option(widget, new_hotseat)
+        dy += widget.height
         
+        # Load existing game.
+        widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
+                      "    Load Game    ")
+        def load_game():
+            # Ask the user for the save file.
+            pass
+        self.add_option(widget, load_game)
+        dy += widget.height
         
 
 class LaunchWindow(Window):
