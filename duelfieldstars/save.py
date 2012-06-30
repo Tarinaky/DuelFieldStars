@@ -1,63 +1,221 @@
 """
-Utility methods for writing game state and reading
-it back.
+Utility methods for saving and loading game state.
 """
-
-import jsonpickle
 from model import game
-from logging import getLogger
 import os
+import json
+from logging import getLogger
+from model.faction import Faction
+from model.planet import Planet
+from model.ship import Cruiser, MarineTransport, ColonyTransport
 
 log = getLogger(__name__)
 
+version = 1.0
 save_path = "~/.duelfieldstars/save/"
 
 class SaveFormat(object):
     def __init__(self):
-        self.factions = game.factions
-        self.ships = game.ships
-        self.galaxy = game.galaxy
-        self.turn_count = game.turn_count
-        self.game_mode = game.game_mode
-
-def pack():
+        pass
     
-    return SaveFormat()
+    def pack(self):
+        self.state = {
+                      'version': version,
+                      'turn_count': game.turn_count,
+                      'game_mode': game.game_mode,
+                      'width': game.galaxy.width,
+                      'height': game.galaxy.height
+                      }
+        self._pack_factions()
+        self._pack_ships()
+        self._pack_worlds()
+        return self.state
+    
+    def unpack(self,state):
+        self.state = state
+        game.turn_count = self.state["turn_count"]
+        game.game_mode = self.state["game_mode"]
+        game.galaxy.width = self.state["width"]
+        game.galaxy.height = self.state["height"]
+        # Reset data structures
+        game.galaxy.planets.clear()
+        game.factions = []
+        game.ships = {}
+        for y in xrange(game.galaxy.height):
+            for x in xrange(game.galaxy.width):
+                game.ships[(x,y)] = []
+        # Unpack.
+        self._unpack_factions(self.state["factions"])
+        self._unpack_worlds(self.state["worlds"])
+        self._unpack_ships(self.state["ships"])
+        
+    def _unpack_ships(self,ships):
+        for ship in ships:
+            self._unpack_ship(ship)
+        
+    def _unpack_factions(self,factions):
+        unpacked = []
+        for faction in factions:
+            unpacked.append(self._unpack_faction(faction))
+        game.factions = unpacked
+        
+    def _unpack_faction(self,faction):
+        unpacked = Faction()
+        unpacked.unique_id = faction["ID"]
+        unpacked.name = faction["name"]
+        unpacked.flag = faction["flag"]
+        unpacked.type = faction["type"]
+        unpacked.rez = faction["rez"]
+        unpacked.ready = faction["ready"]
+        unpacked.tech = faction["tech"]
+        unpacked.research = faction["research"]
+        unpacked.special_choice = faction["special choice"]
+        unpacked.colony_types = faction["colony types"]
+        return unpacked
+        
+    def _unpack_worlds(self,worlds):
+        for world in worlds:
+            self._unpack_world(world)
+        
+    def _faction_id(self, faction):
+        if faction is None:
+            return 0
+        if faction is False:
+            return 0
+        return faction.unique_id
+    
+    def _pack_faction(self, faction):
+        self._faction_index += 1
+        faction.unique_id = self._faction_index
+        
+        return {
+                "ID": faction.unique_id,
+                "name": faction.name,
+                "flag": faction.flag,
+                "type": faction.type,
+                "rez": faction.rez,
+                "ready": faction.ready,
+                "tech": faction.tech,
+                "research": faction.research,
+                "special choice": faction.special_choice,
+                "colony types": faction.colony_types
+                }
+        
+    def _pack_factions(self):
+        self._faction_index = 0
+        self.state["factions"] = []
+        for faction in game.factions:
+            self.state["factions"].append(self._pack_faction(faction))
+    
+    def _unpack_ship(self, ship):
+        position = ship["position"]
+        faction = self._get_faction_by_id(ship["faction"])
+        type = ship["type"]
+        if type == "Cruiser":
+            unpacked = Cruiser
+        if type == "Marine Transport":
+            unpacked = MarineTransport
+        if type == "Colony Transport":
+            unpacked = ColonyTransport
+        unpacked = unpacked(faction,position)
+        unpacked.name = ship["name"]
+        unpacked.damaged = ship["damaged"]
+        unpacked.orders = ship["orders"]
+        
+        game.ships[unpacked.position].append(unpacked)
+    
+    def _pack_ship(self, ship):
+        return {
+                "faction": self._faction_id(ship.faction),
+                "type": ship.type_,
+                "position": ship.position,
+                "name": ship.name,
+                "damaged": ship.damaged,
+                "orders": ship.orders,
+                }
+        
+    def _pack_ships(self):
+        self.state["ships"] = [
+                               self._pack_ship(ship)
+                               for ship in sum(game.ships.values(), [])
+                               ]
+    
+    def _unpack_world(self,world):
+        position = world["position"]
+        unpacked = Planet(*position)
+        unpacked.owner = self._get_faction_by_id(world["faction"])
+        unpacked.name = world["name"]
+        homeworld = self._get_faction_by_id(world["homeworld"])
+        if homeworld:
+            unpacked.is_homeworld = homeworld
+        else:
+            unpacked.is_homeworld = False
+        unpacked.baseValue = world["base value"]
+        unpacked.currentValue = world["current value"]
+        unpacked.realisedValue = world["realised value"]
+        unpacked.marines = world["marines"]
+        unpacked.sieged = world["sieged"]
+        unpacked.blockaded = world["blockaded"]
+        unpacked.improvementLevels = world["improvement levels"]
+        unpacked.realisedImprovement = world["realised improvement"]
+        unpacked.type_ = world["type"]
+        
+        game.galaxy.planets[unpacked.position] = unpacked
+            
+        
+    def _get_faction_by_id(self,id):
+        for faction in game.factions:
+            if faction.unique_id == id:
+                return faction
+        return None
+    
+    def _pack_world(self, world):
+        return {
+                "faction": self._faction_id(world.owner),
+                "name": world.name,
+                "homeworld": self._faction_id(world.is_homeworld),
+                "base value": world.baseValue,
+                "current value": world.currentValue,
+                "realised value": world.realisedValue,
+                "marines": world.marines,
+                "sieged": world.sieged,
+                "blockaded": world.blockaded,
+                "improvement levels": world.improvementLevels,
+                "realised improvement": world.realisedImprovement,
+                "type": world.type_,
+                "position": world.position
+                }
+        
+    def _pack_worlds(self):
+        self.state["worlds"] = []
+        for world in game.galaxy.planets.values():
+            self.state["worlds"].append(self._pack_world(world))
             
 def save(filename):
-    # Check if dir exists
-    if not os.path.exists(os.path.expanduser(save_path+game.game_mode)):
-        os.makedirs(os.path.expanduser(save_path+game.game_mode))
+    path = os.path.expanduser(save_path + str(game.game_mode))
+    if not os.path.exists(path):
+        os.makedirs(path)
     
+    path = path + "/" + filename
     
-    filename = os.path.expanduser(save_path + game.game_mode +"/" +filename)
-    data = pack()
-    data = jsonpickle.encode(data)
-    f = open(filename,"w")
-    f.write(data)
-    log.debug("State written to "+filename)
+    data = SaveFormat()
+    data = data.pack()
     
-def unpack(data):
-    game.factions = data.factions
-    game.ships = data.ships
-    game.galaxy = data.galaxy
-    game.turn_count = data.turn_count
-    game.game_mode = data.game_mode
+    f = open(path,"w")
     
-def load(filename):
-    filename = os.path.expanduser(save_path + filename)
-    f = open(filename,"r")
-    data = f.read()
-    data = jsonpickle.decode(data)
-    unpack(data)
-    log.debug("State read from "+filename)
+    json.dump(data,f)
+    log.debug("Game state written to "+path)
     
-if __name__ == '__main__':
-    os.chdir("..")
-
+def load(folder,filename):
+    path = os.path.expanduser(save_path + folder +"/" + filename)
+    f = open(path,"r")
+    data = json.load(f)
+    SaveFormat().unpack(data)
+    log.debug("Game state read from "+path)
     
+if __name__ == "__main__":
     game.init()
     print game.factions[0].name
     save("test.json")
-    load("test.json")
+    load("None","test.json")
     print game.factions[0].name
