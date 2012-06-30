@@ -29,7 +29,40 @@ class SaveFormat(object):
         self._pack_factions()
         self._pack_ships()
         self._pack_worlds()
+        self._pack_events()
         return self.state
+    
+    def _pack_events(self):
+        self.state["event log"] = []
+        for faction in game.factions:
+            self._pack_event_log(game.event_log.get_list(faction),self._faction_id(faction))
+    
+    def _pack_event_log(self,event_list,faction_id):
+        for event in event_list:
+            self.state["event log"].append(self._pack_event(event,faction_id))
+    
+    def _pack_event(self,event,faction_id):
+        return {
+                "description": event.description,
+                "location": event.location,
+                "emitter faction": self._faction_id(event.faction),
+                "receiver faction": faction_id
+                }
+        
+    def _unpack_events(self):
+        for faction in game.factions:
+            game.event_log.by_faction[faction] = []
+        for event in self.state["event log"]:
+            self._unpack_event(event)
+    
+    def _unpack_event(self,event):
+        receiver = self._get_faction_by_id(event["receiver faction"])
+        unpacked = game.event_log.Event(event["description"],
+                             event["location"],
+                             self._get_faction_by_id(event["emitter faction"]))
+        
+        game.event_log.by_faction[receiver].append(unpacked)
+        
     
     def unpack(self,state):
         self.state = state
@@ -41,6 +74,7 @@ class SaveFormat(object):
         game.galaxy.planets.clear()
         game.factions = []
         game.ships = {}
+        game.event_log.by_faction = {}
         for y in xrange(game.galaxy.height):
             for x in xrange(game.galaxy.width):
                 game.ships[(x,y)] = []
@@ -48,6 +82,7 @@ class SaveFormat(object):
         self._unpack_factions(self.state["factions"])
         self._unpack_worlds(self.state["worlds"])
         self._unpack_ships(self.state["ships"])
+        self._unpack_events()
         
     def _unpack_ships(self,ships):
         for ship in ships:
