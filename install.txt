@@ -4,7 +4,8 @@ Installation Instructions for DuelFieldStars
 Requirements:
 	* Python 2.7
 	* Pygame
-	* Inkscape
+	* Inkscape (export_svg.py only)
+	* jsonpickle
 
 Steps:
 	1) Download source and place in a directory (Extract if needed)
