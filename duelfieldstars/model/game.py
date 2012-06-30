@@ -81,7 +81,7 @@ def _do_end_of_turn():
                 # This planet is blockaded
                 if planet.blockaded == False:
                     event_log.add(event_log.Event(planet.name+str(" blockaded"),
-                                              planet.position))
+                                              planet.position,a.faction))
                 planet.blockaded = True
                 
     
