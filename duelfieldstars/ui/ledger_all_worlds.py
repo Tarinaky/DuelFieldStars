@@ -204,7 +204,10 @@ class LedgerAllWorlds(Widget):
             
             # Construction
             if world.owner == game.factions[0]:
-                string = "    Building: "+str(world.construction)
+                if world.construction == None:
+                    string = "    Building: None"
+                else:
+                    string = "    Building: "+world.construction.type_
             else:
                 string = "    Base Value "+str(world.baseValue)
             texture = texture_cache.text(None,14,COLORS["white"],string)
