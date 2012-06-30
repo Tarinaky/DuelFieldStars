@@ -193,6 +193,25 @@ class LedgerAllShips(Widget):
             self.surface.blit(texture,(0,y+dy))
             dy += texture.get_height()
             
+            # Show orders
+            if ship.faction == game.factions[0]:
+                string = "    "+str(len(ship.orders))+" orders"
+                color = COLORS["green"]
+                texture = texture_cache.text(None,14, color,
+                                         string)
+                self.surface.blit(texture,(0,dy+y))
+                if ship.orders != [] and ship.faction == game.factions[0]:
+                    try:
+                        (order,coordinate) = ship.orders[0]
+                    except ValueError:
+                        (order) = ship.orders[0]
+                        coordinate = ""
+                    dx = texture.get_width()
+                    texture = texture_cache.text(None, 14, COLORS["green"],
+                                             "    "+order+" "+str(coordinate))
+                    self.surface.blit(texture,(dx,dy+y))
+                dy += texture.get_height()
+            
             # Add entry to self.displayed for clicking on.
             self.displayed.append(ship)
             
