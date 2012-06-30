@@ -10,6 +10,7 @@ import pygame
 from ui.ui_abstract.text import Text
 from model import game
 from ui.ParametersSetWindow import ParametersSetWindow
+from save import save
 
 class LaunchMenu(DefaultMenu):
     """Menu of options to be displayed in the launcher."""
@@ -19,7 +20,7 @@ class LaunchMenu(DefaultMenu):
         # Add options to the menu.
         font = pygame.font.Font(pygame.font.get_default_font(), 18)
         dx = dy = 0
-        
+        """
         # Open new Sandbox game.
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
                       "    Single Player Sandbox    ")
@@ -30,7 +31,7 @@ class LaunchMenu(DefaultMenu):
                 pass
         self.add_option(widget, new_sandbox)
         dy += widget.height
-        
+        """
         # Start new Hotseat game.
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
                       "    Hotseat Multiplayer    ")
@@ -39,8 +40,12 @@ class LaunchMenu(DefaultMenu):
             window = ParametersSetWindow()
             if window.run():
                 game.init() # Initialise galaxy.
+                game.game_mode = "hotseat"
                 runControl = True
                 while runControl:
+                    # Autosave
+                    save("autosave.json")
+                    # Play turn.
                     window = GameWindow()
                     runControl = window.run()
                     # Cycle to next player

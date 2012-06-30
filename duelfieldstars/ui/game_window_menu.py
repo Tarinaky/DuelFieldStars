@@ -35,7 +35,7 @@ class GameWindowMenu(DefaultMenu):
         widget = Text(pygame.Rect(0,dy,0,0), font,COLORS["light blue"],
                       "        Save    ")
         def save_method():
-            filename = "save/" + game.factions[0].name + "_" + str(game.turn_count) + ".json"
+            filename = game.factions[0].name + "_Turn" + str(game.turn_count) + ".json"
             save(filename)
             self.close = True
         self.add_option(widget, save_method)

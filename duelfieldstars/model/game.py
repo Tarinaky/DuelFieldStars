@@ -14,6 +14,7 @@ factions = []
 ships = {}
 galaxy = Galaxy()
 turn_count = 1
+game_mode = None
 
 # Generation parameters.
 galaxy_size = (50,50)

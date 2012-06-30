@@ -10,17 +10,27 @@ import os
 
 log = getLogger(__name__)
 
+save_path = "~/.duelfieldstars/save/"
+
 class SaveFormat(object):
     def __init__(self):
         self.factions = game.factions
         self.ships = game.ships
         self.galaxy = game.galaxy
+        self.turn_count = game.turn_count
+        self.game_mode = game.game_mode
 
 def pack():
     
     return SaveFormat()
             
 def save(filename):
+    # Check if dir exists
+    if not os.path.exists(os.path.expanduser(save_path)):
+        os.makedirs(os.path.expanduser(save_path))
+    
+    
+    filename = os.path.expanduser(save_path + filename)
     data = pack()
     data = jsonpickle.encode(data)
     f = open(filename,"w")
@@ -31,8 +41,11 @@ def unpack(data):
     game.factions = data.factions
     game.ships = data.ships
     game.galaxy = data.galaxy
+    game.turn_count = data.turn_count
+    game.game_mode = data.game_mode
     
 def load(filename):
+    filename = os.path.expanduser(save_path + filename)
     f = open(filename,"r")
     data = f.read()
     data = jsonpickle.decode(data)
@@ -41,9 +54,7 @@ def load(filename):
     
 if __name__ == '__main__':
     os.chdir("..")
-    # Check folder exists
-    if not os.path.exists("save"):
-        os.mkdir("save")
+
     
     game.init()
     print game.factions[0].name
