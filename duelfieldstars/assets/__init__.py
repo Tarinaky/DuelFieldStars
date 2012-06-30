@@ -10,7 +10,7 @@ import sys
 
 log = logging.getLogger(__name__)
 
-asset_path = "../asset"
+asset_path = "asset"
 
 _cache = {} # A dictionary of assets sorted by a (type,filename) tuple.
 _types = [] # A list of all types of asset

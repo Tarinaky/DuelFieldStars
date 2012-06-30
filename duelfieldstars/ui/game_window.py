@@ -11,7 +11,8 @@ from ui.action_menu import ActionMenu
 from ui.ui_abstract.button import Button
 
 from model import game
-from ui import texture_cache, event_list, ledger_all_worlds, ledger_all_ships
+from ui import texture_cache, event_list, ledger_all_worlds, ledger_all_ships,\
+    game_window_menu
 from color import COLORS
 from ui.build_menu import BuildMenu
 from ui.insufficient_rez import InsufficientRezMenu, TooMuchUpkeep
@@ -31,6 +32,8 @@ class GameWindow(Window):
         
         #game.init()
         self.player = game.factions[0]
+        
+        self.quit_menu = False
         
         (width,height) = pygame.display.get_surface().get_size()
         self.viewport = ViewportWidget(pygame.Rect(0,14,width-174,height), game.galaxy, self)
@@ -65,6 +68,16 @@ class GameWindow(Window):
         
         
         return
+
+    def on_tick(self,deltaTime):
+        try:
+            if self.menu.close:
+                self.remove_widget(self.menu)
+                self.menu = None
+                self.quit_menu = False
+                self.update()
+        except:
+            pass
     
     def on_event(self, event):
         
@@ -77,6 +90,15 @@ class GameWindow(Window):
             for widget in self.widgets:
                 widget.update()
             return True
+        
+        # If the quit menu is open, only the quitmenu can
+        # take events.
+        if self.quit_menu:
+            if event.type == pygame.KEYDOWN:
+                return self.menu._keyboard(event)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                return self.menu._mouse(event)
+            return False
         
         # Action Menus
         if self.menu != None:
@@ -264,4 +286,14 @@ class GameWindow(Window):
             self.runControl = False
             return
   
+    def on_quit(self):
+        """Call the menu."""
+        if self.quit_menu:
+            self.runControl = False
         
+        if self.menu != None:
+            self.remove_widget(self.menu)
+        self.menu = game_window_menu.GameWindowMenu(pygame.Rect(self.width/3,self.height/3,0,0))
+        self.add_widget(self.menu, True)
+        self.quit_menu = True
+            
