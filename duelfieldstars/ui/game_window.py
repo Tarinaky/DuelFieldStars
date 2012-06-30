@@ -67,6 +67,7 @@ class GameWindow(Window):
         pygame.event.post(event) # Start with event list open.
         
         
+        
         return
 
     def on_tick(self,deltaTime):
@@ -95,10 +96,22 @@ class GameWindow(Window):
         # take events.
         if self.quit_menu:
             if event.type == pygame.KEYDOWN:
+                # Escape closes the menu.
+                if event.key == pygame.K_ESCAPE:
+                    self.menu.close = True
+                    return True
+                # Else pass to the menu.
                 return self.menu._keyboard(event)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 return self.menu._mouse(event)
             return False
+        
+        # Pressing escape opens the quit menu.
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                event = pygame.event.Event(pygame.QUIT)
+                pygame.event.post(event)
+                return True
         
         # Action Menus
         if self.menu != None:
