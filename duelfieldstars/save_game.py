@@ -254,3 +254,7 @@ if __name__ == "__main__":
     save("test.json")
     load("None","test.json")
     print game.factions[0].name
+    
+def list(folder):
+    path = os.path.expanduser(save_path+folder)
+    return os.listdir(path)

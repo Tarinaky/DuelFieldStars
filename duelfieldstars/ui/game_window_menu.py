@@ -9,7 +9,7 @@ import pygame
 from color import COLORS
 from ui.default_menu import DefaultMenu
 from model import game
-from save import save
+from save_game import save
 
 class GameWindowMenu(DefaultMenu):
     def __init__(self,rect):
