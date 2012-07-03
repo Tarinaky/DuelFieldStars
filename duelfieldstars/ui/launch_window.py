@@ -83,7 +83,7 @@ class LoadMenu(DefaultMenu):
         font = pygame.font.Font(pygame.font.get_default_font(),16)
         
         # Up to parent.
-        widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
+        widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["white"],
                           "    Back    ")
         if self.path == "":
             def back():
@@ -128,9 +128,15 @@ class LaunchWindow(Window):
         
     def on_event(self,event):
         
+        # Open folder
         if event.type == pygame.USEREVENT and event.action == "open folder":
             self.remove_widget(self.menu)
             self.menu = LoadMenu(self.menu.rect, event.file)
             self.add_widget(self.menu, True)
         
+        # Return to launch menu
+        if event.type == pygame.USEREVENT and event.action == "back":
+            self.remove_widget(self.menu)
+            self.menu = LaunchMenu(self.menu.rect)
+            self.add_widget(self.menu, True)
         
