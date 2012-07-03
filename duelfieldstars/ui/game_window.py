@@ -71,7 +71,11 @@ class GameWindow(Window):
         return
 
     def on_tick(self,deltaTime):
-        try:
+        pass
+    
+    def on_event(self, event):
+
+        try: # Close quit menu if marked for close.
             if self.menu.close:
                 self.remove_widget(self.menu)
                 self.menu = None
@@ -79,8 +83,7 @@ class GameWindow(Window):
                 self.update()
         except:
             pass
-    
-    def on_event(self, event):
+
         
         # Do not log or handle events of type USEREVENT+1
         if event.type == pygame.USEREVENT+1:

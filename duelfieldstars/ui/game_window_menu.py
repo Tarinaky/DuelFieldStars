@@ -38,6 +38,8 @@ class GameWindowMenu(DefaultMenu):
             filename = game.factions[0].name + "_Turn" + str(game.turn_count) + ".json"
             save(filename)
             self.close = True
+            event = pygame.event.Event(pygame.USEREVENT+2) # Redraw
+            pygame.event.post(event)
         self.add_option(widget, save_method)
         dy += widget.height
         
