@@ -27,7 +27,10 @@ a = [
                     Technology("Terraforming Technology","Allows all worlds to slowly exceed their base value, increasing Rez income.",40),
                     Technology("Mining Enhancement Technology","Allows planets to unlock Mining Enhancements - increasing income by 1 rez each.", 100),
                     Technology("Colony Technology", "Allows a new type of world to be colonised at 4, 9, 16 and 25.",25, is_square),
-                    Technology("Engine Technology", "Increases the speed and reaction of your ships.")
+                    Technology("Engine Technology", "Increases the speed and reaction of your ships."),
+                    Technology("Sensor Technology", "Increases the distance at which you can sense enemy ships."),
+                    Technology("Stealth Technology", "Decreases the distance at which your ships can be sensed.")
+                    
                     
                     
                     ]
