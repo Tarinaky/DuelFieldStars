@@ -41,12 +41,29 @@ class ViewportWidget(Widget):
         self.add_keyboard_handler(self.zoom, pygame.KEYDOWN, pygame.K_PAGEUP, 0, "in")
         self.add_keyboard_handler(self.zoom, pygame.KEYDOWN, pygame.K_PAGEDOWN, 0, "out")
         self.add_keyboard_handler(self.open_build_menu, pygame.KEYDOWN, pygame.K_b, 0)
+        
+        # Accelerators for openning ledgers
+        self.add_keyboard_handler(self.open_event_list, pygame.KEYDOWN, pygame.K_e, pygame.KMOD_LALT)
+        self.add_keyboard_handler(self.open_ship_list, pygame.KEYDOWN, pygame.K_s, pygame.KMOD_LALT)
+        self.add_keyboard_handler(self.open_world_list, pygame.KEYDOWN, pygame.K_w, pygame.KMOD_LALT)
+    
+        
         # Mouse button handlers
         self.add_mouse_handler(self.click_left_mouse_button, pygame.MOUSEBUTTONDOWN, 1)
         self.add_mouse_handler(self.click_right_mouse_button, pygame.MOUSEBUTTONDOWN, 3)
         self.add_mouse_handler(self.zoom, pygame.MOUSEBUTTONDOWN, 4, "in") # Zoom in
         self.add_mouse_handler(self.zoom, pygame.MOUSEBUTTONDOWN, 5, "out") # Zoom out
         return
+    
+    def open_event_list(self):
+        event = pygame.event.Event(pygame.USEREVENT, action="open event list")
+        pygame.event.post(event)
+    def open_world_list(self):
+        event = pygame.event.Event(pygame.USEREVENT, action="open world list")
+        pygame.event.post(event)
+    def open_ship_list(self):
+        event= pygame.event.Event(pygame.USEREVENT, action="open ship list")
+        pygame.event.post(event)
             
     def on_draw(self):
         self.surface.fill((0,0,0))
@@ -335,15 +352,18 @@ class ViewportWidget(Widget):
         self.update()    
     
     def open_build_menu(self):
-        if game.galaxy.at(*self.selected).owner != game.factions[0]:
+        try:
+            if game.galaxy.at(*self.selected).owner != game.factions[0]:
+                return True
+            
+            event = pygame.event.Event(pygame.USEREVENT, 
+                                       destination=self.selected, 
+                                       action="open build menu" 
+                                       )
+            pygame.event.post(event)
             return True
-        
-        event = pygame.event.Event(pygame.USEREVENT, 
-                                   destination=self.selected, 
-                                   action="open build menu" 
-                                   )
-        pygame.event.post(event)
-        return True
+        except:
+            return True
                 
             
         
