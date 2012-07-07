@@ -172,6 +172,9 @@ class LedgerAllShips(Widget):
             if self.show == self.IDLE and ship.orders != []:
                 continue
             
+            if ship.invisible(game.factions[0]):
+                continue # Skip ships that cannot be seen.
+            
             if i > 0:
                 i -= 1
                 continue # Skip the first few elements if there's a scroll.

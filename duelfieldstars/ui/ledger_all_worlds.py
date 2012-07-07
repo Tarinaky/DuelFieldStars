@@ -11,6 +11,7 @@ from ui import texture_cache
 from assets.png import PNG
 import assets
 from ui.ui_abstract.image import Image
+import model.ship
 
 class LedgerAllWorlds(Widget):
     COLONY = object()
@@ -175,6 +176,10 @@ class LedgerAllWorlds(Widget):
                 continue # Hide occupied worlds.
             if self.show == self.COLONY and world.type_ not in game.factions[0].colony_types:
                 continue # Hide worlds you can't colonise.
+            
+            scanning = model.ship.get_sensor_value(game.factions[0], world.position)
+            if scanning < 1:
+                continue # Skip worlds you can't see.
             
             if i > 0:
                 i -= 1

@@ -167,6 +167,8 @@ class Ship(object):
         """Can this ship be seen by scanning_faction?
         Cache indicates whether to optimise this search with
         a map."""
+        if scanning_faction == self.faction:
+            return False # You can always see yourself.
         sensor_value = get_sensor_value(scanning_faction,self.position,cache)
         if self.stealth > sensor_value + 1:
             return True

@@ -99,6 +99,8 @@ class ShipList(Widget):
             ship_list = []
         scroll = self.scroll
         for ship in ship_list:
+            if ship.invisible(game.factions[0]):
+                continue # If the ship cannot be seen, skip it.
             if scroll > 0:
                 scroll -= 1
                 continue # Skip down the list if there's an offset.

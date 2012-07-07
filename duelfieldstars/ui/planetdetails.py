@@ -190,9 +190,9 @@ class PlanetDetails(Widget):
         # Ships in tile
         if game.ships[self.planet.position] != []:
             # Number of ships
-            texture = texture_cache.text(None, fontSize, COLORS["black"],
-                                          str(len(game.ships[self.planet.position]))+" ship(s) in orbit")
-            self.surface.blit(texture, (0,y))
+            #texture = texture_cache.text(None, fontSize, COLORS["black"],
+            #                              str(len(game.ships[self.planet.position]))+" ship(s) in orbit")
+            #self.surface.blit(texture, (0,y))
             y += 14
             shiplist_y = y
             (shiplist_x,_,_,_) = self.rect
