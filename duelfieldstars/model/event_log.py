@@ -3,6 +3,7 @@ Each faction has a list of events that they have seen during
 the last resolution phase.
 """
 import logging
+import model
 
 log = logging.getLogger(__name__)
 
@@ -21,9 +22,13 @@ def reset():
 def add(event):
     """Add an event of type Event to any faction who can see the event."""
     for faction in by_faction.keys():
-        by_faction[faction].append(event)
+        location = event.location
+        sensing = model.ship.get_sensor_value(faction, location, False)
+        if sensing > 0:
+            by_faction[faction].append(event)
+            log.debug(event.description+" "+str(event.location)+" "+str(event.faction))
         
-    log.debug(event.description+" "+str(event.location)+" "+str(event.faction))
+    
         
 def get_list(faction):
     """Get a particular faction's 'list'."""
