@@ -9,6 +9,63 @@ from model import event_log
 
 log = logging.getLogger(__name__)
 
+sensor_map = (None,{}) # ( faction, map ) tuple.
+# Faction is the current faction being controlled.
+def get_euclidian_range(x0,y0,x1,y1):
+    """Return the euclidian distance between two points.
+    Note, this does not use pythagorean threorum and a
+    diagonal is simple worth 1 (not sqrt(2))."""
+    dx = dy = 0
+    dx = abs(x0-x1)
+    dy = abs(y0-y1)
+    if dx > dy:
+        return dx
+    else:
+        return dy
+    
+sensor_map = (None, {})
+def get_sensor_value(faction, (x,y), cache = True):
+    global sensor_map
+    (map_faction, map) = sensor_map
+    if map_faction == faction and cache: # Does the map need updating?
+        return map[(x,y)]
+    # Build a list of 'sensors'.
+    sensors = [] # A list of (position, level) tuples.
+    for ship in sum(game.ships.values(),[]): # Ships
+        if ship.faction == faction:
+            sensors.append((ship.position,ship.sensor))
+    for world in game.galaxy.planets.values():
+        if world.owner == faction: # Worlds
+            sensors.append((world.position, faction.tech["Sensor Technology"]))
+    
+    # If not cached, just get the value at the interesting location
+    def find_closest_sensor(x,y):
+        i = None
+        for (position,sensor) in sensors:
+            if i == None:
+                i = sensor - get_euclidian_range(x,y,*position)
+            else:
+                new = sensor - get_euclidian_range(x,y,*position)
+                if new > i:
+                    i = new
+        return i
+    if not cache:
+        return find_closest_sensor(x,y)
+    else:
+        def build_map():
+            for x in xrange (game.galaxy.width):
+                for y in xrange (game.galaxy.height):
+                    i = find_closest_sensor(x,y)
+                    map[(x,y)] = i
+        build_map()
+        sensor_map = (faction,map)
+        return map[(x,y)]
+                
+            
+        
+    
+    
+
 def get_path(source,destination):
     """
     Obtain and return a list of the coordinates of all tiles between two points.
@@ -96,6 +153,24 @@ class Ship(object):
     def speed(self): 
         """Speed in pc, modified by tech levels."""
         return 2 + self.faction.tech["Engine Technology"]
+    
+    @property
+    def sensor(self):
+        """Sensor range."""
+        return self.faction.tech["Sensor Technology"]
+    @property
+    def stealth(self):
+        """Stealth capability"""
+        return self.faction.tech["Stealth Technology"]
+    
+    def invisible(self,scanning_faction,cache=True):
+        """Can this ship be seen by scanning_faction?
+        Cache indicates whether to optimise this search with
+        a map."""
+        sensor_value = get_sensor_value(scanning_faction,self.position,cache)
+        if self.stealth > sensor_value + 1:
+            return True
+        return False
     
     @property
     def ground_combat_value(self):

@@ -119,6 +119,7 @@ class ViewportWidget(Widget):
                         last_point_y = grid_y
             except ValueError:
                 pass
+            
                             
         # Draw ships in deep space.
         def draw_ships(x0, y0):
@@ -147,6 +148,15 @@ class ViewportWidget(Widget):
                             if ship.service:
                                 service = True
                         else:
+                            # Skip if outside sensor range.
+                            friendly_in_space = False
+                            if friends > 0:
+                                friendly_in_space = True
+                            if (x,y) in game.galaxy.planets:
+                                if game.galaxy.at(x,y).owner == game.factions[0]:
+                                    friendly_in_space = True
+                            if ship.invisible(game.factions[0]) and not friendly_in_space:
+                                continue # This ship cannot be seen.
                             foes += 1
                             enemy_flag = ship.faction.flag
                             if ship.marines:
