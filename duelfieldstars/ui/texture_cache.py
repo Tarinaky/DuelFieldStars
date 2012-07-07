@@ -113,5 +113,5 @@ def ship_token(size, colors, friend, colony=False, marine=False, missile=False, 
         cache[key] = texture
         return texture
         
-    
+
         
