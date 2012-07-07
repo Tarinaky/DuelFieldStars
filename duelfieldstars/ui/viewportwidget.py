@@ -8,6 +8,8 @@ import texture_cache
 from color import COLORS
 import model
 from model import game
+import assets
+from assets.png import PNG
 
 log = logging.getLogger(__name__)
 
@@ -229,7 +231,7 @@ class ViewportWidget(Widget):
                     # self.surface.fill(color,rect)
                     
                     "Draw the owner's flair"
-                    if planet.owner is not None:
+                    if planet.owner is not None and model.ship.get_sensor_value(game.factions[0],planet.position) > -1:
                         (forgroundColor,backgroundColor) = planet.owner.flag
                         
                         texture = texture_cache.flag((self.scale,self.scale),forgroundColor,backgroundColor)
@@ -243,6 +245,18 @@ class ViewportWidget(Widget):
                     label = font.render(planet.type_, True, textColor)
                     (labelWidth,labelHeight) = font.size(planet.type_)
                     self.surface.blit(label, (drawX-labelWidth/2, drawY-labelHeight/2))
+                    
+        "Blit fog of war"
+        for y in range ( (y0/self.scale)*self.scale, self.height+y0+self.scale, self.scale):
+            for x in range ( (x0/self.scale)*self.scale, self.width+x0+self.scale, self.scale):
+                (drawX, drawY) = (x-x0, y-y0) # x,y in SDL space.
+                (tileX,tileY) = (x/self.scale, y/self.scale) # x,y in game space. 
+                if tileX < 0 or tileY < 0 or tileX > game.galaxy.width-1 or tileY > game.galaxy.height-1:
+                    continue # Bounds checking.    
+                if model.ship.get_sensor_value(game.factions[0], (tileX,tileY)) < 0:
+                    texture = assets.get(PNG, "fog_"+str(self.scale))
+                    texture.set_alpha(128)
+                    self.surface.blit(texture, (drawX - self.scale/2, drawY - self.scale/2))
                     
         "Draw selection box"
         if self.selected is not None:
