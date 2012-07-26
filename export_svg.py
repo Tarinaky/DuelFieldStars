@@ -9,7 +9,8 @@ def export_svg():
     
     for file in os.listdir("svg"):
         if os.name == 'nt':
-            command = '"c:\Program Files\Inkscape\Inkscape.exe"'
+            command = '"c:\Program Files (x86)\Inkscape\Inkscape.exe"'
+            #command = '"c:\Program Files\Inkscape\Inkscape.exe"'
         else:
             command = "inkscape"
         for i in [2**a for a in range(3,8)]:
