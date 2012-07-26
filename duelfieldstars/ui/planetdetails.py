@@ -8,6 +8,7 @@ from ui.ui_abstract.button import Button
 from model import game
 from assets.png import PNG
 import assets
+from model.ship import get_sensor_value
 
 fontSize = 16
 
@@ -34,8 +35,8 @@ class PlanetDetails(Widget):
         self.surface.blit(texture,(0,y))
         y += 14
         
-        if self.planet.owner == None:
-            texture = texture_cache.text(None, fontSize, COLORS["blue"],
+        if get_sensor_value(game.factions[0], self.planet.position) <= 0:
+            texture = texture_cache.text(None, fontSize, COLORS["black"],
                                          self.planet.starname)
             self.surface.blit(texture, (0,y))
             y += 14
@@ -194,7 +195,8 @@ class PlanetDetails(Widget):
         y += 14
         
         # Ships in tile
-        if game.ships[self.planet.position] != []:
+        #if game.ships[self.planet.position] != []:
+        if True:
             # Number of ships
             #texture = texture_cache.text(None, fontSize, COLORS["black"],
             #                              str(len(game.ships[self.planet.position]))+" ship(s) in orbit")
