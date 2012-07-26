@@ -34,10 +34,16 @@ class PlanetDetails(Widget):
         self.surface.blit(texture,(0,y))
         y += 14
         
-        texture = texture_cache.text(None, fontSize, COLORS["blue"], 
-                                     self.planet.name)
-        self.surface.blit(texture, (0,y))
-        y += 14
+        if self.planet.owner == None:
+            texture = texture_cache.text(None, fontSize, COLORS["blue"],
+                                         self.planet.starname)
+            self.surface.blit(texture, (0,y))
+            y += 14
+        else:
+            texture = texture_cache.text(None, fontSize, COLORS["blue"], 
+                                         self.planet.name)
+            self.surface.blit(texture, (0,y))
+            y += 14
 
         # Owner
         if self.planet.owner != None:

@@ -12,6 +12,7 @@ from model import event_log
 class Planet(object):
     def __init__(self, *position):
         self.name = name.planet_name()
+        self.starname = self.name # Store the star's name seperately to the colony name.
         self.owner = None
         self.is_homeworld = False
 
