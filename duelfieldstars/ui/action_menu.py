@@ -32,8 +32,7 @@ class ActionMenu (DefaultMenu):
             if ship_list != None:
                 for ship in ship_list.selected:
                     if ship.marines \
-                    and game.galaxy.at(*destination).owner != ship.faction \
-                    and game.galaxy.at(*destination).owner != None:
+                    and game.galaxy.at(*destination).owner != ship.faction:
                         self.showAssault = True
         except:
             pass
@@ -41,7 +40,7 @@ class ActionMenu (DefaultMenu):
         self.show_colonisation = False
         if ship_list is not None and game.galaxy.at(*destination) != None:
             for ship in ship_list.selected:
-                if ship.colony and game.galaxy.at(*destination).owner == None:
+                if ship.colony and game.galaxy.at(*destination).owner != ship.faction:
                     if game.galaxy.at(*destination).type_ in ship.faction.colony_types:
                         self.show_colonisation = True
                         break
