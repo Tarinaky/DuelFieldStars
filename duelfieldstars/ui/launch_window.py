@@ -14,6 +14,29 @@ from save_game import save
 import save_game
 import os
 
+def run_hotseat():
+                runControl = True
+                while runControl:
+                    # Autosave
+                    save("autosave.json")
+                    # Play turn.
+                    window = GameWindow()
+                    runControl = window.run()
+                    # Cycle to next player
+                    previous_player = game.factions[0]
+                    game.factions.remove(previous_player)
+                    game.factions.append(previous_player)
+
+
+def new_hotseat():
+            # Ask for game parameters
+            window = ParametersSetWindow()
+            if window.run():
+                game.init() # Initialise galaxy.
+                game.game_mode = "hotseat"
+                run_hotseat()    
+
+
 class LaunchMenu(DefaultMenu):
     """Menu of options to be displayed in the launcher."""
     def __init__(self,rect):
@@ -37,23 +60,7 @@ class LaunchMenu(DefaultMenu):
         # Start new Hotseat game.
         widget = Text(pygame.Rect(dx,dy,0,0), font, COLORS["light blue"],
                       "    Hotseat Multiplayer    ")
-        def new_hotseat():
-            # Ask for game parameters
-            window = ParametersSetWindow()
-            if window.run():
-                game.init() # Initialise galaxy.
-                game.game_mode = "hotseat"
-                runControl = True
-                while runControl:
-                    # Autosave
-                    save("autosave.json")
-                    # Play turn.
-                    window = GameWindow()
-                    runControl = window.run()
-                    # Cycle to next player
-                    previous_player = game.factions[0]
-                    game.factions.remove(previous_player)
-                    game.factions.append(previous_player)
+        
                     
         self.add_option(widget, new_hotseat)
         dy += widget.height
@@ -139,4 +146,10 @@ class LaunchWindow(Window):
             self.remove_widget(self.menu)
             self.menu = LaunchMenu(self.menu.rect)
             self.add_widget(self.menu, True)
+            
+        # Load a save file
+        if event.type == pygame.USEREVENT and event.action == "load":
+            file = event.file
+            save_game.load(file)
+            run_hotseat()
         

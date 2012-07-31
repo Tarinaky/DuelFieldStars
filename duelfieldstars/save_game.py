@@ -243,8 +243,8 @@ def save(filename):
     json.dump(data,f)
     log.debug("Game state written to "+path)
     
-def load(folder,filename):
-    path = os.path.expanduser(save_path + folder +"/" + filename)
+def load(filename):
+    path = os.path.expanduser(save_path + "/" + filename)
     f = open(path,"r")
     data = json.load(f)
     SaveFormat().unpack(data)
