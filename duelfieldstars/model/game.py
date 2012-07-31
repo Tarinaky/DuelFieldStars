@@ -95,6 +95,9 @@ def end_of_turn(faction):
     Mark a given faction's turn as complete.
     When all factions are marked as complete process the turn and resume.
     """
+    
+    ship.sensor_map_dirty = True
+    
     faction.ready = True
     log.debug(faction.name+" marked ready.")
     

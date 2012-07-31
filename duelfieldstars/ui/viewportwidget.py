@@ -19,6 +19,8 @@ class ViewportWidget(Widget):
         self.galaxy = galaxy
         self.window = window
         
+        # model.ship.init_sensor_map() # Empty sensor map.
+        
         # Jump to the player's homeworld on creation.
         event = pygame.event.Event(pygame.USEREVENT,action="go to homeworld")
         pygame.event.post(event)

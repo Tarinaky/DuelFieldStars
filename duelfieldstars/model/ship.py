@@ -24,12 +24,15 @@ def get_euclidian_range(x0,y0,x1,y1):
         return dy
     
 sensor_map = (None, {})
+sensor_map_dirty = True
+
 def get_sensor_value(faction, (x,y), cache = True):
-    global sensor_map
+    global sensor_map, sensor_map_dirty
     (map_faction, map) = sensor_map
-    if map_faction == faction and cache: # Does the map need updating?
+    if map_faction == faction and cache and not sensor_map_dirty: # Does the map need updating?
         return map[(x,y)]
     # Build a list of 'sensors'.
+    sensor_map_dirty = False
     sensors = [] # A list of (position, level) tuples.
     for ship in sum(game.ships.values(),[]): # Ships
         if ship.faction == faction:
@@ -37,6 +40,7 @@ def get_sensor_value(faction, (x,y), cache = True):
     for world in game.galaxy.planets.values():
         if world.owner == faction: # Worlds
             sensors.append((world.position, faction.tech["Sensor Technology"]))
+            
     
     # If not cached, just get the value at the interesting location
     def find_closest_sensor(x,y):
