@@ -27,6 +27,8 @@ class PlanetDetails(Widget):
     def on_draw(self):
         self.surface.fill((205,205,193))
         
+        detected = get_sensor_value(game.factions[0], self.planet.position) > 0
+        
         y = 0
         
         # Header
@@ -35,7 +37,7 @@ class PlanetDetails(Widget):
         self.surface.blit(texture,(0,y))
         y += 14
         
-        if get_sensor_value(game.factions[0], self.planet.position) <= 0:
+        if not detected:
             texture = texture_cache.text(None, fontSize, COLORS["black"],
                                          self.planet.starname)
             self.surface.blit(texture, (0,y))
@@ -47,7 +49,7 @@ class PlanetDetails(Widget):
             y += 14
 
         # Owner
-        if self.planet.owner != None:
+        if self.planet.owner != None and detected:
             texture = texture_cache.text(None, fontSize, COLORS["black"],
                                          "Faction: ")
             self.surface.blit(texture, (0,y))
@@ -71,16 +73,17 @@ class PlanetDetails(Widget):
         texture = texture_cache.text(None, fontSize, COLORS["black"],
                                      "Value, ")
         self.surface.blit(texture, (20,y))
-        
-        color = COLORS["black"]
-        if self.planet.currentValue < 75:
-            color = COLORS["red"]
-        if self.planet.currentValue > 125:
-            color = COLORS["blue"]
-        
-        texture = texture_cache.text(None, fontSize, color,
-                                     str(self.planet.currentValue)+"%")
-        self.surface.blit(texture, (self.width-100,y,0,0))
+        if detected:
+         
+            color = COLORS["black"]
+            if self.planet.currentValue < 75:
+                color = COLORS["red"]
+            if self.planet.currentValue > 125:
+                color = COLORS["blue"]
+            
+            texture = texture_cache.text(None, fontSize, color,
+                                         str(self.planet.currentValue)+"%")
+            self.surface.blit(texture, (self.width-100,y,0,0))
         
         color = COLORS["black"]
         if self.planet.baseValue < 75:
@@ -94,7 +97,7 @@ class PlanetDetails(Widget):
         y += 14
         
         # Realisation
-        if self.planet.owner != None:
+        if self.planet.owner != None and detected:
             
             texture = texture_cache.text(None, fontSize, COLORS["black"],
                                          "Realisation, ")
@@ -114,7 +117,7 @@ class PlanetDetails(Widget):
         
         
         
-        if self.planet.owner != None:
+        if self.planet.owner != None and detected:
             
             texture = texture_cache.text(None, fontSize, COLORS["black"],
                                      "Growth, ")
@@ -127,7 +130,7 @@ class PlanetDetails(Widget):
         y += 14
         
         # Income
-        if self.planet.owner != None:
+        if self.planet.owner != None and detected:
             
             texture = texture_cache.text(None, fontSize, COLORS["black"],
                                          "Income, ")
@@ -174,21 +177,22 @@ class PlanetDetails(Widget):
         y += 14
                 
         # Improvement Levels
-        texture = texture_cache.text(None, fontSize, COLORS["black"],
-                                     "Mining Improvement Levels")
-        self.surface.blit(texture, (0,y))
-        y += 14
-        x = 14
-        for level in self.planet.improvementLevels:
-            if level <= self.planet.realisedImprovement:
-                color = COLORS["blue"]
-            else:
-                color = COLORS["red"]
-                
-            texture = texture_cache.text(None, fontSize, color,
-                                         str(level) )
-            self.surface.blit(texture, (x,y))
-            x += 28
+        if self.planet.owner == game.factions[0]:
+            texture = texture_cache.text(None, fontSize, COLORS["black"],
+                                         "Mining Improvement Levels")
+            self.surface.blit(texture, (0,y))
+            y += 14
+            x = 14
+            for level in self.planet.improvementLevels:
+                if level <= self.planet.realisedImprovement:
+                    color = COLORS["blue"]
+                else:
+                    color = COLORS["red"]
+                    
+                texture = texture_cache.text(None, fontSize, color,
+                                             str(level) )
+                self.surface.blit(texture, (x,y))
+                x += 28
         y += 14
         
         # Space
