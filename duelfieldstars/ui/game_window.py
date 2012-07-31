@@ -33,6 +33,8 @@ class GameWindow(Window):
         #game.init()
         self.player = game.factions[0]
         
+        self.has_viewed_research = False
+        
         self.quit_menu = False
         
         (width,height) = pygame.display.get_surface().get_size()
@@ -245,6 +247,7 @@ class GameWindow(Window):
                 pygame.event.post(event) # Redraw.
                 return True
         if open_research(event):
+            self.has_viewed_research = True
             return True
         
         # Open reports menu
@@ -297,10 +300,16 @@ class GameWindow(Window):
             """
             Called to signify the end of a player's turn. Any processing is performed.
             """
-            game.end_of_turn(self.player)
-            self.return_value = 1
-            self.runControl = False
-            return
+            if self.has_viewed_research == False:
+                event = pygame.event.Event(pygame.USEREVENT)
+                event.action = "open research"
+                pygame.event.post(event)
+                return
+            else:
+                game.end_of_turn(self.player)
+                self.return_value = 1
+                self.runControl = False
+                return
   
     def on_quit(self):
         """Call the menu."""
