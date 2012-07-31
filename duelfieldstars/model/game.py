@@ -78,7 +78,7 @@ def _do_end_of_turn():
     # Blockades
     for planet in galaxy.planets.values():
         for a in ships[planet.position]:
-            if a.faction != planet.owner and a.attack >0:
+            if a.faction != planet.owner and a.attack >0 and planet.owner != None:
                 # This planet is blockaded
                 if planet.blockaded == False:
                     event_log.add(event_log.Event(planet.name+str(" blockaded"),
