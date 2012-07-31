@@ -110,6 +110,8 @@ class Planet(object):
 
     def tick(self):
         """Update the planet by 1 turn."""
+        if self.realisedValue <= 0:
+            self.owner = None # If realisation becomes 0, owner is no-one.
         if self.owner != None:
             self.mining_enhancement()
             self.terraforming()

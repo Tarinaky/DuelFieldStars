@@ -426,6 +426,7 @@ def process_ship_turn(ships):
                             return game.galaxy.at(*target).type_ in ship.owner.colony_types
                         if target == ship.position and colonisable(ship,target):
                             game.galaxy.at(*target).set_owner(ship.faction)
+                            game.galaxy.at(*target).realisedValue = 1
                             game.galaxy.at(*target).name = ship.name.split(' ',1)[1]
                             ships[ship.position].remove(ship)
                             string = "Planet at "+str(target)+" colonised."
