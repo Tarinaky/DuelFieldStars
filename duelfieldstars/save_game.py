@@ -98,7 +98,7 @@ class SaveFormat(object):
         unpacked = Faction()
         unpacked.unique_id = faction["ID"]
         unpacked.name = faction["name"]
-        unpacked.flag = faction["flag"]
+        unpacked.flag = tuple(tuple(x) for x in faction["flag"])
         unpacked.type = faction["type"]
         unpacked.rez = faction["rez"]
         unpacked.ready = faction["ready"]
