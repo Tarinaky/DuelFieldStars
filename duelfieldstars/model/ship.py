@@ -336,6 +336,9 @@ def bombard(ship):
     
     ship.end_of_turn = True # Bombarding ends your turn.
     
+    string = planet.name+" was bombarded from space."
+    event_log.add(event_log.Event(string, planet.position, ship.owner))
+    
     if planet.owner != None:
         defence = math.sqrt(planet.owner.tech["Space Defence Technology"])
     else:
@@ -350,8 +353,11 @@ def bombard(ship):
     if planet.currentValue < 1:
         planet.currentValue = 1
     planet.realisedValue -= 5*damage
-    if planet.realisedValue <0:
+    if planet.realisedValue <=0:
         planet.realisedValue = 0
+        planet.owner = None
+        string = "Colony "+planet.name+" was destroyed."
+        event_log.add(event_log.Event(string, planet.position, ship.owner))
     
     log.debug("Planet "+planet.name+" ("+str(planet.position)+") took "+str(damage)+" damage.")
     
@@ -359,8 +365,7 @@ def bombard(ship):
         planet.type = random.choice(['A','B','C','D','E'])
         log.debug("----An ecological disaster caused it to change to type "+planet.type+" permanently.")
     
-    string = planet.name+" was bombarded from space."
-    event_log.add(event_log.Event(string, planet.position, ship.owner))
+    
 
 
 def process_ship_turn(ships):

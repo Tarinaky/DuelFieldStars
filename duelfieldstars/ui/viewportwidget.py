@@ -19,6 +19,8 @@ class ViewportWidget(Widget):
         self.galaxy = galaxy
         self.window = window
         
+        model.ship.sensor_map_dirty = True # Set sensor map for redraw.
+        
         # model.ship.init_sensor_map() # Empty sensor map.
         
         # Jump to the player's homeworld on creation.
