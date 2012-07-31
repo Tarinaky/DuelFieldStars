@@ -180,6 +180,7 @@ class SaveFormat(object):
         unpacked = Planet(*position)
         unpacked.owner = self._get_faction_by_id(world["faction"])
         unpacked.name = world["name"]
+        unpacked.starname = world["starname"]
         homeworld = self._get_faction_by_id(world["homeworld"])
         if homeworld:
             unpacked.is_homeworld = homeworld
@@ -207,6 +208,7 @@ class SaveFormat(object):
     def _pack_world(self, world):
         return {
                 "faction": self._faction_id(world.owner),
+                "starname": world.starname,
                 "name": world.name,
                 "homeworld": self._faction_id(world.is_homeworld),
                 "base value": world.baseValue,
