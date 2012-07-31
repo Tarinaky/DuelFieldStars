@@ -151,5 +151,9 @@ class LaunchWindow(Window):
         if event.type == pygame.USEREVENT and event.action == "load":
             file = event.file
             save_game.load(file)
+            self.remove_widget(self.menu) # Replace menu
+            self.menu = LaunchMenu(self.menu.rect)
+            self.add_widget(self.menu,True)
+            # Run the game.
             run_hotseat()
         
