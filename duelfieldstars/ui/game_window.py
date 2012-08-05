@@ -76,6 +76,8 @@ class GameWindow(Window):
         pass
     
     def on_event(self, event):
+        if event.type == pygame.USEREVENT and event.action == "End of Game":
+            self.runControl = False
 
         try: # Close quit menu if marked for close.
             if self.menu.close:
