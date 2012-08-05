@@ -13,7 +13,7 @@ screenResolution = (640,480)
 if __name__ == '__main__':
     os.chdir("..")
     
-    logging.basicConfig(level=logging.DEBUG)
+    #logging.basicConfig(level=logging.DEBUG)
     pygame.init()
     pygame.display.set_mode(screenResolution)
     window = LaunchWindow()

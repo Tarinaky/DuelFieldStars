@@ -6,6 +6,8 @@ import name
 import model
 from model import tech
 import logging
+import event_log
+import game
 
 log = logging.getLogger(__name__)
 
@@ -104,6 +106,13 @@ class Faction(object):
         #a["Mining Enhancement Technology"] = 20
         #a["Production Technology"] = 100
         return a
+    
+    def eliminate(self):
+        event_log.add(event_log.Event(self.name+" eliminated.",None,None))
+        for ship in sum(game.ships.values(),[]): # Remove all ships.
+            game.ships[ship.position].remove(ship)
+        
+        game.factions.remove(self) # Remove the faction.
 
 
 # PLAYERFACTION = None

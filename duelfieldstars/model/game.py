@@ -16,11 +16,22 @@ galaxy = Galaxy()
 turn_count = 1
 game_mode = None
 
+def check_elimination():
+    accumulators = {}
+    for faction in factions:
+        accumulators[faction] = 0
+    for world in galaxy.planets.values():
+        if world.owner != None:
+            accumulators[world.owner] += 1
+    for faction in accumulators.keys():
+        if accumulators[faction] < 1: # Eliminate factions with no worlds.
+            faction.eliminate() 
+
 # Generation parameters.
 galaxy_size = (50,50)
 world_density = float(1)/25
 generation_seed = None
-number_of_initial_factions = 1 
+number_of_initial_factions = 2 
 
 def set_galaxy_size(size):
     """Set the size of the game's galaxy."""
@@ -86,8 +97,15 @@ def _do_end_of_turn():
                 planet.blockaded = True
                 
     
+    check_elimination()
+    
+    if len(factions) < 2:
+        event = pygame.event.Event(pygame.USEREVENT,action="End of Game")
+        pygame.event.post(event)
+    
     event = pygame.event.Event(pygame.USEREVENT, action="End of Turn")
     pygame.event.post(event)
+    
 
 
 def end_of_turn(faction):

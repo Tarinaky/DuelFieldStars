@@ -10,7 +10,6 @@ log = logging.getLogger(__name__)
 by_faction = {}
 
 
-
 def reset():
     """Reset the log before the resolution phase."""
     from model import game
@@ -23,7 +22,10 @@ def add(event):
     """Add an event of type Event to any faction who can see the event."""
     for faction in by_faction.keys():
         location = event.location
-        sensing = model.ship.get_sensor_value(faction, location, False)
+        if location == None:
+            sensing = 1
+        else:
+            sensing = model.ship.get_sensor_value(faction, location, False)
         if sensing > 0:
             by_faction[faction].append(event)
             log.debug(event.description+" "+str(event.location)+" "+str(event.faction))

@@ -148,7 +148,7 @@ class ParametersSetWindow(Window):
         dx += widget.width +8
         
         def decrease_faction_num():
-            if self.faction_num > 1:
+            if self.faction_num > 2:
                 self.faction_num -= 1
         asset = assets.get(PNG,"left_16")
         widget = Image(pygame.Rect(dx,dy,0,0), asset)

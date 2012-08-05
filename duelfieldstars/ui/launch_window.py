@@ -22,6 +22,9 @@ def run_hotseat():
                     # Play turn.
                     window = GameWindow()
                     runControl = window.run()
+                    # Check end of game
+                    if len(game.factions) < 2:
+                        break
                     # Cycle to next player
                     previous_player = game.factions[0]
                     game.factions.remove(previous_player)
