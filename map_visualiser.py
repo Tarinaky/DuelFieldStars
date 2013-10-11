@@ -12,9 +12,14 @@ from loadform import load_form
 class ViewWidget(QGLWidget):
     def __init__(self):
         super(ViewWidget, self).__init__()
+        self.setMouseTracking(True)
+
         self.field = {}
 
         self.rotation = (0,0)
+
+    def mouseMoveEvent(self, event):
+        print event
 
     def resizeGL(self, w,h):
         glMatrixMode(GL_PROJECTION)
