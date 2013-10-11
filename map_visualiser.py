@@ -18,7 +18,7 @@ class ViewWidget(QGLWidget):
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
         glViewport(0, 0, w, h)
-        gluPerspective(90, float(w)/h, 0.1, 1000)
+        gluPerspective(90, float(w)/h, 0.1, 100)
 
     def loadHabHYG(self):
         with open("./data/HabHYG.csv", "rb") as csvfile:
@@ -32,6 +32,7 @@ class ViewWidget(QGLWidget):
                     self.field[(x,y,z)] = name
                 except:
                     print "Not a valid row: "+str(row)
+            print str(len(self.field))+" star positions read in."
 
 
     def paintGL(self):
@@ -39,11 +40,11 @@ class ViewWidget(QGLWidget):
 
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
-        gluLookAt(0, 0, 10**(self.zoom.value() ),
+        gluLookAt(0, 0, (self.zoom.value()+1 ),
                 0,0,0,
                 0,1,0)
 
-        print "Zoom: "+str(10**(self.zoom.value() ) )
+        print "Zoom: "+str((self.zoom.value() ) )
 
         glColor(1,1,1)
         glPointSize(1)
@@ -63,7 +64,7 @@ class MapVisualiser(object):
         self.ui.loadHabHYG()
 
         self.ui.zoom = QtGui.QSlider(QtCore.Qt.Orientation.Vertical, parent=self.ui)
-        self.ui.zoom.valueChanged.connect(self.ui.paintGL)
+        self.ui.zoom.valueChanged.connect(self.ui.update)
 
     def publish(self):
         self.ui.show()
