@@ -14,6 +14,8 @@ class ViewWidget(QGLWidget):
         super(ViewWidget, self).__init__()
         self.field = {}
 
+        self.rotation = (0,0)
+
     def resizeGL(self, w,h):
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
@@ -40,9 +42,12 @@ class ViewWidget(QGLWidget):
 
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
-        gluLookAt(0, 0, (self.zoom.value()+1 ),
-                0,0,0,
-                0,1,0)
+        #Rotate
+        (azimuth, elevation) = self.rotation
+        glRotate(-azimuth, 0, float(1), 0)
+        glRotate(-elevation, float(1), 0, 0)
+        #Zoom out
+        glTranslate(0,0,-self.zoom.value()-1)
 
         print "Zoom: "+str((self.zoom.value() ) )
 
