@@ -17,9 +17,29 @@ class ViewWidget(QGLWidget):
         self.field = {}
 
         self.rotation = (0,0)
+        self.relative_motion = None
+
+    def mousePressEvent(self, event):
+        if event.button() == QtCore.Qt.MouseButton.RightButton:
+            self.relative_motion = (event.x(), event.y() )
 
     def mouseMoveEvent(self, event):
-        print event
+        if self.relative_motion != None:
+            (x,y) = (event.x(), event.y() )
+            (x0,y0) = self.relative_motion
+            (dx,dy) = (x - x0, y - y0)
+
+            (azimuth, elevation) = self.rotation
+            self.rotation = (azimuth + dx, elevation + dy)
+
+            self.relative_motion = (x,y)
+            self.update()
+
+    def mouseReleaseEvent(self, event):
+        if event.button() == QtCore.Qt.MouseButton.RightButton:
+            self.relative_motion = None
+
+
 
     def resizeGL(self, w,h):
         glMatrixMode(GL_PROJECTION)
@@ -30,6 +50,7 @@ class ViewWidget(QGLWidget):
     def loadHabHYG(self):
         with open("./data/HabHYG.csv", "rb") as csvfile:
             reader = csv.reader(csvfile)
+            cap = 1000
             for row in reader:
                 try:
                     x = float(row[13])
@@ -37,6 +58,9 @@ class ViewWidget(QGLWidget):
                     z = float(row[15])
                     name = row[3]
                     self.field[(x,y,z)] = name
+                    cap -= 1
+                    if cap < 0:
+                        break
                 except:
                     print "Not a valid row: "+str(row)
             print str(len(self.field))+" star positions read in."
