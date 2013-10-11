@@ -50,7 +50,7 @@ class ViewWidget(QGLWidget):
     def loadHabHYG(self):
         with open("./data/HabHYG.csv", "rb") as csvfile:
             reader = csv.reader(csvfile)
-            cap = 1000
+            cap = 5000
             for row in reader:
                 try:
                     x = float(row[13])
@@ -71,14 +71,13 @@ class ViewWidget(QGLWidget):
 
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
+        #Zoom out
+        glTranslate(0,0,-self.zoom.value()-1)
         #Rotate
         (azimuth, elevation) = self.rotation
         glRotate(-azimuth, 0, float(1), 0)
         glRotate(-elevation, float(1), 0, 0)
-        #Zoom out
-        glTranslate(0,0,-self.zoom.value()-1)
 
-        print "Zoom: "+str((self.zoom.value() ) )
 
         glColor(1,1,1)
         glPointSize(1)
