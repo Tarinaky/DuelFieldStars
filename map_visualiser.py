@@ -6,6 +6,7 @@ from OpenGL.GLUT import *
 from OpenGL.GLU import *
 
 import csv
+import math
 
 from loadform import load_form
 
@@ -30,7 +31,7 @@ class ViewWidget(QGLWidget):
             (dx,dy) = (x - x0, y - y0)
 
             (azimuth, elevation) = self.rotation
-            self.rotation = (azimuth + dx, elevation + dy)
+            self.rotation = (azimuth + dx, min(90,max(-90,elevation + dy)))
 
             self.relative_motion = (x,y)
             self.update()
@@ -58,8 +59,7 @@ class ViewWidget(QGLWidget):
                     z = float(row[15])
                     name = row[3]
                     self.field[(x,y,z)] = name
-                    cap -= 1
-                    if cap < 0:
+                    if len(self.field) >= cap:
                         break
                 except:
                     print "Not a valid row: "+str(row)
@@ -75,8 +75,8 @@ class ViewWidget(QGLWidget):
         glTranslate(0,0,-self.zoom.value()-1)
         #Rotate
         (azimuth, elevation) = self.rotation
-        glRotate(-azimuth, 0, float(1), 0)
         glRotate(-elevation, float(1), 0, 0)
+        glRotate(-azimuth, 0, float(1), 0)
 
 
         glColor(1,1,1)
