@@ -48,6 +48,8 @@ class ViewWidget(QGLWidget):
         glViewport(0, 0, w, h)
         gluPerspective(90, float(w)/h, 0.1, 100)
 
+        print "OpenGL Version: "+str(glGetString(GL_VERSION) )
+
     def loadHabHYG(self):
         with open("./data/HabHYG.csv", "rb") as csvfile:
             reader = csv.reader(csvfile)
