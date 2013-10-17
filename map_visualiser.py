@@ -20,7 +20,32 @@ class ViewWidget(QGLWidget):
         self.rotation = (0,0)
         self.relative_motion = None
 
+    def leftClick(self, mouseX, mouseY):
+        #Get Matrices
+        viewport = glGetIntegerv(GL_VIEWPORT)
+        modelview = glGetDoublev(GL_MODELVIEW_MATRIX)
+        projection = glGetDoublev(GL_PROJECTION_MATRIX)
+
+        closest_match = None
+
+        mouseY = self.height - mouseY
+        for (x,y,z) in self.field: 
+            (screenX,screenY, screenZ) = gluProject(x,y,z,
+                    modelview, projection, viewport)
+            #print str((screenX,screenY,screenZ))+str((x,y,z))
+            (dx,dy) = (screenX - mouseX, screenY - mouseY)
+            if dx > -4 and dx < 4 and dy > -4 and dy < 4:
+                if closest_match == None:
+                    closest_match = (x,y,z)
+                else:
+                    (_,_,z0) = closest_match
+                    if screenZ < z0:
+                        closest_match = (x,y,z)
+        print str(closest_match)+str((mouseX,mouseY))
+
     def mousePressEvent(self, event):
+        if event.button() == QtCore.Qt.MouseButton.LeftButton:
+            self.leftClick(event.x(), event.y() )
         if event.button() == QtCore.Qt.MouseButton.RightButton:
             self.relative_motion = (event.x(), event.y() )
 
@@ -43,17 +68,21 @@ class ViewWidget(QGLWidget):
 
 
     def resizeGL(self, w,h):
+        self.width = w
+        self.height = h
+        self.nearZ = 1
+        self.farZ = 1000
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
         glViewport(0, 0, w, h)
-        gluPerspective(90, float(w)/h, 0.1, 100)
+        gluPerspective(90, float(w)/h, self.nearZ, self.farZ)
 
         print "OpenGL Version: "+str(glGetString(GL_VERSION) )
 
     def loadHabHYG(self):
         with open("./data/HabHYG.csv", "rb") as csvfile:
             reader = csv.reader(csvfile)
-            cap = 5000
+            cap = 500
             for row in reader:
                 try:
                     x = float(row[13])
