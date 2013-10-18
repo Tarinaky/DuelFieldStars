@@ -1,0 +1,3 @@
+Name,Type,"radius (Mm)","density (g/m^3)",parent,eccentricity,"semi-major axis (Au)",inclination,"ascending node","atmospheric pressure (atm)","atmospheric elements"
+Sun,"Star G2V 4.83",696.3,1.4,None,0,0,0,0,247000000000,"H2 73.5% He 24.6%"
+Earth,Terrestrial,6.378,5.5,Sun,0.0167,1,7.16,349,1,"N2 78% O2 21% H2O 1%"
