@@ -28,7 +28,7 @@ class OrbitalPath(object):
         week_length = self.period/weeks
         samples = []
         
-        n = sqrt(self.gravitational_parameter / self.semimajor_axis)
+        n = sqrt(self.gravitational_parameter / self.semimajor_axis**3)
         for i in range (weeks):
             mean_anomaly = i * week_length * n
             eccentric_anomaly = mean_anomaly
