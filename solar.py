@@ -28,9 +28,10 @@ class OrbitalPath(object):
         week_length = self.period/weeks
         samples = []
         
-        n = sqrt(self.gravitational_parameter / self.semimajor_axis**3)
+        n = 1.0/self.period
+        #print (n,self.period,week_length,weeks,week_length*weeks)
         for i in range (weeks):
-            mean_anomaly = i * week_length * n
+            mean_anomaly = float(2*pi*i * week_length * n)
             eccentric_anomaly = mean_anomaly
             for _ in range (4):
                 eccentric_anomaly = eccentric_anomaly - (mean_anomaly - eccentric_anomaly + self.eccentricity*sin(eccentric_anomaly) ) / (-1 + self.eccentricity * cos(eccentric_anomaly) )
@@ -65,7 +66,7 @@ class SolarWidget(QGLWidget):
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
 
-        glTranslate(0,0,-1)
+        glTranslate(0,0,-2)
 
         glColor(1,1,1)
         glBegin(GL_LINE_LOOP)
