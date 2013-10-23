@@ -23,6 +23,7 @@ class OrbitalPath(object):
 
         self.sample_orbit()
 
+
     def true_anomaly(self, time):
         n = 1.0/self.period
         mean_anomaly = float(2*pi*time*n)
@@ -57,7 +58,7 @@ class OrbitalPath(object):
         return (x,y,z)
 
     def sample_orbit(self):
-        weeks = min(100,max(1,int(floor(self.period /(3600*168))) ) )
+        weeks = min(100,max(25,int(floor(self.period /(3600*168))) ) )
         week_length = self.period/weeks
         samples = []
         
@@ -75,22 +76,24 @@ earth = OrbitalPath(1.33e20, 1, 1.67e-2, 7.16, 349, 114)
 mars = OrbitalPath(1.33e20, 1.523, 0.09, 5.65, 49.6, 286.5)
 jupiter = OrbitalPath(1.33e20, 5.20, 0.05, 6.09, 100.5, 275.1)
 saturn = OrbitalPath(1.33e20, 9.58, 0.06, 5.51, 113.6, 336.0)
-neptune = OrbitalPath(1.33e20, 30.10, 0.01, 6.43, 131.8, 265.6)
 uranus = OrbitalPath(1.33e20, 19.229, 0.04, 6.48, 74.0, 96.5)
+neptune = OrbitalPath(1.33e20, 30.10, 0.01, 6.43, 131.8, 265.6)
 pluto = OrbitalPath(1.33e20, 39.264, 0.24, 11.88, 110.3, 113.8)
 
-planets = [mercury, venus, earth, mars, jupiter, saturn, neptune, uranus, pluto]
+planets = [mercury, venus, earth, mars, jupiter, saturn, uranus, neptune, pluto]
 
 class SolarWidget(RotatingField):
     def __init__(self):
         super(SolarWidget, self).__init__()
         self.setMouseTracking(True)
         
-        self.field = []
+        self.zoom = QtGui.QSlider(QtCore.Qt.Orientation.Vertical, parent=self)
+        self.zoom.valueChanged.connect(self.update)
 
-        self.rotation = (0,0)
-        self.displacement = (0,0)
-        self.mousePosition = None
+        self.resize(640,480)
+        
+        self.field_rotation.rotation = (0,-90)
+        
 
     def publish(self):
         self.show()
@@ -102,21 +105,20 @@ class SolarWidget(RotatingField):
         glLoadIdentity()
 
 
-        glTranslate(0,0,-2)
+        glTranslate(0,0,-self.zoom.value()-0.2)
         #Rotation
         (azimuth, elevation) = self.field_rotation.rotation
-        glRotate(-elevation, float(1), 0, 0)
-        glRotate(-azimuth, 0, float(1), 0)
+        glRotate(-elevation-90, float(1), 0, 0)
+        glRotate(azimuth, 0, 0, float(1))
 
         for planet in planets:
             glColor(1,1,1)
             glBegin(GL_LINE_LOOP)
             for (anomaly, r) in planet.orbital_samples:
-                (x,y,z) = earth.cartesian(anomaly,r)
+                (x,y,z) = planet.cartesian(anomaly,r)
                 glVertex(x,y,z)
             glEnd()
             
-
 
 
     def resizeGL(self, w, h):
@@ -134,6 +136,5 @@ if __name__ == '__main__':
     import sys
     app = QtGui.QApplication(sys.argv)
     a = SolarWidget().publish()
-    print earth.orbital_samples
     sys.exit(app.exec_() )
 
