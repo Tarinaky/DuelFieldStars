@@ -16,8 +16,8 @@ class OrbitalPath(object):
         self.gravitational_parameter = float(gravitational_parameter) # In m^3/s^2
         self.semimajor_axis = float(semimajor_axis) # In Au, or 150e9m
         self.eccentricity = float(eccentricity) # Less than 1.
-        self.inclination = float(inclination) # Not implemented. Degrees from sun's equator
-        self.longtitude_of_ascending_node = float(longtitude_of_ascending_node) # Not implemented. Degrees
+        self.inclination = float(inclination) # Degrees from sun's equator
+        self.longtitude_of_ascending_node = float(longtitude_of_ascending_node) # Degrees
         self.argument_of_periapsis = float(argument_of_periapsis) # Not implemented. Degrees
         self.period = 2.0*pi*sqrt((150e9 * self.semimajor_axis)**3 / self.gravitational_parameter)
 
@@ -39,9 +39,21 @@ class OrbitalPath(object):
         return self.semimajor_axis * (1 - e**2) / (1 + e*cos(true_anomaly) )
 
     def cartesian(self, true_anomaly, r):
-        x = r * cos(true_anomaly)
-        y = r * sin(true_anomaly)
-        z = 0 # TODO
+        x = r * cos(true_anomaly+self.argument_of_periapsis)
+        y = r * sin(true_anomaly+self.argument_of_periapsis)
+        z = 0
+        
+        #Inclination / rotation about x-axis
+        inclination = self.inclination/180*pi
+        (x,y,z) = (x,
+                y*cos(inclination) - z*sin(inclination),
+                y*sin(inclination) + z*cos(inclination) )
+        #longitude of ascending node / rotation about z-axis
+        node = self.longtitude_of_ascending_node/180*pi
+        (x,y,z) = (x*cos(node) - y*sin(node),
+                x*sin(node) + y*cos(node),
+                z)
+
         return (x,y,z)
 
     def sample_orbit(self):
