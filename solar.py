@@ -57,7 +57,7 @@ class OrbitalPath(object):
         return (x,y,z)
 
     def sample_orbit(self):
-        weeks = max(1,int(floor(self.period /(3600*168))) )
+        weeks = min(100,max(1,int(floor(self.period /(3600*168))) ) )
         week_length = self.period/weeks
         samples = []
         
@@ -69,7 +69,17 @@ class OrbitalPath(object):
             samples.append((true_anomaly, radius))
         self.orbital_samples = samples
 
+mercury = OrbitalPath(1.33e20, 0.387, 0.205, 3.38, 48.3, 29.1)
+venus = OrbitalPath(1.33e20, 0.723, 0, 3.86, 76.7, 55)
 earth = OrbitalPath(1.33e20, 1, 1.67e-2, 7.16, 349, 114)
+mars = OrbitalPath(1.33e20, 1.523, 0.09, 5.65, 49.6, 286.5)
+jupiter = OrbitalPath(1.33e20, 5.20, 0.05, 6.09, 100.5, 275.1)
+saturn = OrbitalPath(1.33e20, 9.58, 0.06, 5.51, 113.6, 336.0)
+neptune = OrbitalPath(1.33e20, 30.10, 0.01, 6.43, 131.8, 265.6)
+uranus = OrbitalPath(1.33e20, 19.229, 0.04, 6.48, 74.0, 96.5)
+pluto = OrbitalPath(1.33e20, 39.264, 0.24, 11.88, 110.3, 113.8)
+
+planets = [mercury, venus, earth, mars, jupiter, saturn, neptune, uranus, pluto]
 
 class SolarWidget(RotatingField):
     def __init__(self):
@@ -98,13 +108,13 @@ class SolarWidget(RotatingField):
         glRotate(-elevation, float(1), 0, 0)
         glRotate(-azimuth, 0, float(1), 0)
 
-        
-        glColor(1,1,1)
-        glBegin(GL_LINE_LOOP)
-        for (anomaly, r) in earth.orbital_samples:
-            (x,y,z) = earth.cartesian(anomaly,r)
-            glVertex(x,y,z)
-        glEnd()
+        for planet in planets:
+            glColor(1,1,1)
+            glBegin(GL_LINE_LOOP)
+            for (anomaly, r) in planet.orbital_samples:
+                (x,y,z) = earth.cartesian(anomaly,r)
+                glVertex(x,y,z)
+            glEnd()
             
 
 
